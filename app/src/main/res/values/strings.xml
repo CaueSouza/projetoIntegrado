@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">projetoIntegrado</string>
+    <string name="app_name">Pill Helper</string>
+
+    <string name="login_title_text">Pill Helper</string>
+    <string name="login_enter_text">Entrar</string>
+    <string name="login_sign_in_text">Criar Cadastro</string>
 </resources>
