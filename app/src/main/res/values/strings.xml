@@ -1,7 +1,16 @@
 <resources>
     <string name="app_name">Pill Helper</string>
 
+    <!--Main activity-->
     <string name="login_title_text">Pill Helper</string>
     <string name="login_enter_text">Entrar</string>
     <string name="login_sign_in_text">Criar Cadastro</string>
+
+    <!--Cadastro activity-->
+    <string name="info_cadatro_text">Informe os seus dados</string>
+    <string name="nome_cadastro_text">Nome:</string>
+    <string name="email_cadastro_text">Email:</string>
+    <string name="celular_cadastro_text">Celular:</string>
+    <string name="senha_cadastro_text">Senha:</string>
+    <string name="opcoes_cadastro_text">Quem é você?</string>
 </resources>
