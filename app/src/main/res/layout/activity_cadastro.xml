@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:inputType="text" />
+                android:inputType="text"/>
         </LinearLayout>
 
         <LinearLayout
@@ -130,7 +130,7 @@
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal">
 
@@ -139,14 +139,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:text="Idoso"/>
+                    android:text="@string/radio_button_idoso_text"/>
 
                 <RadioButton
                     android:id="@+id/radio_button_cuidador"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="Cuidador"/>
+                    android:text="@string/radio_button_cuidador_text"/>
             </RadioGroup>
 
         </LinearLayout>
@@ -156,7 +156,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/MainButton"
-            android:text="Voltar"
+            android:text="@string/back_button_text"
             android:layout_marginStart="55dp"
             android:layout_marginTop="50dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +167,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/MainButton"
-            android:text="Cadastrar"
+            android:text="@string/sign_in_button_text"
             android:layout_marginEnd="55dp"
             android:layout_marginTop="50dp"
             app:layout_constraintEnd_toEndOf="parent"
