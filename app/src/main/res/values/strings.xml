@@ -13,4 +13,8 @@
     <string name="celular_cadastro_text">Celular:</string>
     <string name="senha_cadastro_text">Senha:</string>
     <string name="opcoes_cadastro_text">Quem é você?</string>
+    <string name="radio_button_idoso_text">Idoso</string>
+    <string name="radio_button_cuidador_text">Cuidador</string>
+    <string name="back_button_text">Voltar</string>
+    <string name="sign_in_button_text">Cadastrar</string>
 </resources>
