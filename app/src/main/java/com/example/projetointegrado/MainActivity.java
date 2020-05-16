@@ -1,9 +1,10 @@
 package com.example.projetointegrado;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetointegrado.databinding.ActivityMainBinding;
 
@@ -19,6 +20,11 @@ public class MainActivity extends AppCompatActivity {
 
         binding.signInButton.setOnClickListener((View v) -> {
             Intent intent = new Intent(this, CadastroActivity.class);
+            startActivity(intent);
+        });
+
+        binding.loginButton.setOnClickListener((View v) -> {
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         });
     }
