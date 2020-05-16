@@ -10,11 +10,15 @@
     <string name="info_cadatro_text">Informe os seus dados</string>
     <string name="nome_cadastro_text">Nome:</string>
     <string name="email_cadastro_text">Email:</string>
-    <string name="celular_cadastro_text">Celular:</string>
+    <string name="telefone_cadastro_text">Telefone:</string>
     <string name="senha_cadastro_text">Senha:</string>
     <string name="opcoes_cadastro_text">Quem é você?</string>
     <string name="radio_button_idoso_text">Idoso</string>
     <string name="radio_button_cuidador_text">Cuidador</string>
     <string name="back_button_text">Voltar</string>
     <string name="sign_in_button_text">Cadastrar</string>
+    <string name="login_button_text">Login</string>
+    <string name="login_screen_title">Informe o tipo de login</string>
+    <string name="login_type_email">Email</string>
+    <string name="login_type_phone">Telefone</string>
 </resources>
