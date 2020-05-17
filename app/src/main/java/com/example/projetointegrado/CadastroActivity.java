@@ -22,7 +22,7 @@ public class CadastroActivity extends AppCompatActivity {
         });
 
         binding.signInButton.setOnClickListener((View v) -> {
-            Intent intent = new Intent(this, AlarmesActivity.class);
+            Intent intent = new Intent(this, PrincipalActivity.class);
             startActivity(intent);
         });
     }
