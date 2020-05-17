@@ -1,30 +1,27 @@
 package com.example.projetointegrado;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-import com.example.projetointegrado.databinding.ActivityAlarmesBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class AlarmesActivity extends AppCompatActivity {
+public class FragmentAlarms extends Fragment {
 
-    ActivityAlarmesBinding binding;
-    private static final String TAG = "AlarmeActivity";
-
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        binding = ActivityAlarmesBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        ListView mListView = (ListView) binding.listView;
+        View mainView = inflater.inflate(R.layout.fragment_alarmes, container, false);
 
         AlarmeItem alarme1 = new AlarmeItem("Dipirona", R.drawable.ic_alarm_on_black_24dp,"12:00");
         AlarmeItem alarme2 = new AlarmeItem("Epocler", R.drawable.ic_alarm_on_black_24dp, "9:50");
@@ -33,7 +30,8 @@ public class AlarmesActivity extends AppCompatActivity {
         alarmes.add(alarme1);
         alarmes.add(alarme2);
 
-        AlarmeListAdapter adapter = new AlarmeListAdapter(this, R.layout.adapter_view_layout, alarmes);
+        ListView mListView = (ListView) mainView.findViewById(R.id.list_view);
+        AlarmeListAdapter adapter = new AlarmeListAdapter(getContext(), R.layout.adapter_view_layout, alarmes);
         mListView.setAdapter(adapter);
 
         mListView.setOnItemClickListener((parent, view, position, id) -> {
@@ -41,12 +39,13 @@ public class AlarmesActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         });
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) mainView.findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
             AlarmeItem alarme = new AlarmeItem("Dipirona", R.drawable.ic_alarm_on_black_24dp,"12:00");
             alarmes.add(alarme);
             adapter.notifyDataSetChanged();
         });
+        return mainView;
     }
 
     private void changeListItemImage(ArrayList<AlarmeItem> alarmes, int position){
