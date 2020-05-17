@@ -1,5 +1,6 @@
 package com.example.projetointegrado;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -30,6 +31,11 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.backButton.setOnClickListener((View v) -> {
             finish();
+        });
+
+        binding.loginButton.setOnClickListener((View v) -> {
+            Intent intent = new Intent(this, AlarmesActivity.class);
+            startActivity(intent);
         });
     }
 }

@@ -1,5 +1,6 @@
 package com.example.projetointegrado;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,9 +17,13 @@ public class CadastroActivity extends AppCompatActivity {
         binding = ActivityCadastroBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         binding.backButton.setOnClickListener((View v) -> {
             finish();
+        });
+
+        binding.signInButton.setOnClickListener((View v) -> {
+            Intent intent = new Intent(this, AlarmesActivity.class);
+            startActivity(intent);
         });
     }
 }
