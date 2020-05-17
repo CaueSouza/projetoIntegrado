@@ -8,6 +8,7 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetointegrado.databinding.ActivityAlarmesBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,13 @@ public class AlarmesActivity extends AppCompatActivity {
 
         mListView.setOnItemClickListener((parent, view, position, id) -> {
             changeListItemImage(alarmes, position);
+            adapter.notifyDataSetChanged();
+        });
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> {
+            AlarmeItem alarme = new AlarmeItem("Dipirona", R.drawable.ic_alarm_on_black_24dp,"12:00");
+            alarmes.add(alarme);
             adapter.notifyDataSetChanged();
         });
     }
