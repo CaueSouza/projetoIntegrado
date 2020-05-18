@@ -19,8 +19,8 @@
     <string name="sign_in_button_text">Cadastrar</string>
     <string name="login_button_text">Login</string>
     <string name="login_screen_title">Informe o tipo de login</string>
-    <string name="login_type_email">Email</string>
-    <string name="login_type_phone">Telefone</string>
+    <string name="login_type_email">Email:</string>
+    <string name="login_type_phone">Telefone:</string>
     <string name="menu_alarme">Alarmes</string>
     <string name="menu_caixas">Caixas</string>
 </resources>
