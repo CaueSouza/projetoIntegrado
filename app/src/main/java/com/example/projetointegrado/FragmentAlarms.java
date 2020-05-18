@@ -23,8 +23,8 @@ public class FragmentAlarms extends Fragment {
 
         View mainView = inflater.inflate(R.layout.fragment_alarmes, container, false);
 
-        AlarmeItem alarme1 = new AlarmeItem("Dipirona", R.drawable.ic_alarm_on_black_24dp,"12:00");
-        AlarmeItem alarme2 = new AlarmeItem("Epocler", R.drawable.ic_alarm_on_black_24dp, "9:50");
+        AlarmeItem alarme1 = new AlarmeItem("Dipirona", R.drawable.ic_alarm_on_white_24dp,"12:00");
+        AlarmeItem alarme2 = new AlarmeItem("Epocler", R.drawable.ic_alarm_on_white_24dp, "9:50");
 
         ArrayList<AlarmeItem> alarmes = new ArrayList<>();
         alarmes.add(alarme1);
@@ -41,7 +41,7 @@ public class FragmentAlarms extends Fragment {
 
         FloatingActionButton fab = (FloatingActionButton) mainView.findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
-            AlarmeItem alarme = new AlarmeItem("Dipirona", R.drawable.ic_alarm_on_black_24dp,"12:00");
+            AlarmeItem alarme = new AlarmeItem("Dipirona", R.drawable.ic_alarm_on_white_24dp,"12:00");
             alarmes.add(alarme);
             adapter.notifyDataSetChanged();
         });
@@ -49,7 +49,7 @@ public class FragmentAlarms extends Fragment {
     }
 
     private void changeListItemImage(ArrayList<AlarmeItem> alarmes, int position){
-        int image = alarmes.get(position).getImagem() == R.drawable.ic_alarm_on_black_24dp ? R.drawable.ic_alarm_off_black_24dp : R.drawable.ic_alarm_on_black_24dp;
+        int image = alarmes.get(position).getImagem() == R.drawable.ic_alarm_on_white_24dp ? R.drawable.ic_alarm_off_white_24dp : R.drawable.ic_alarm_on_white_24dp;
         AlarmeItem alarmeItem = new AlarmeItem(alarmes.get(position).getNome(), image, alarmes.get(position).getHorario());
         alarmes.remove(position);
         alarmes.add(position, alarmeItem);
