@@ -20,105 +20,72 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
+
+        <EditText
             android:id="@+id/nome_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="35dp"
-            android:orientation="vertical"
+            android:autofillHints=""
+            android:inputType="text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/info_text_view">
+            app:layout_constraintTop_toBottomOf="@id/info_text_view"
+            tools:ignore="LabelFor"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_account_circle_black_24dp"
+            android:hint="@string/nome_cadastro_text"/>
 
-            <TextView
-                style="@style/CadastroText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nome_cadastro_text" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:autofillHints=""
-                tools:ignore="LabelFor" />
-        </LinearLayout>
-
-        <LinearLayout
+        <EditText
             android:id="@+id/senha_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="35dp"
-            android:orientation="vertical"
+            android:autofillHints=""
+            android:inputType="textPassword"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nome_layout">
+            app:layout_constraintTop_toBottomOf="@id/nome_layout"
+            tools:ignore="LabelFor"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_lock_outline_black_24dp"
+            android:hint="@string/senha_cadastro_text"/>
 
-            <TextView
-                style="@style/CadastroText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/senha_cadastro_text" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:autofillHints=""
-                tools:ignore="LabelFor" />
-        </LinearLayout>
-
-        <LinearLayout
+        <EditText
             android:id="@+id/email_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="35dp"
-            android:orientation="vertical"
+            android:autofillHints=""
+            android:inputType="textEmailAddress"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/senha_layout">
+            app:layout_constraintTop_toBottomOf="@id/senha_layout"
+            android:hint="@string/email_cadastro_text"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_email_black_24dp"
+            tools:ignore="LabelFor" />
 
-            <TextView
-                style="@style/CadastroText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/email_cadastro_text" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:autofillHints=""
-                tools:ignore="LabelFor" />
-        </LinearLayout>
-
-        <LinearLayout
+        <EditText
             android:id="@+id/celular_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="35dp"
-            android:orientation="vertical"
+            android:autofillHints=""
+            android:inputType="phone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_layout">
-
-            <TextView
-                style="@style/CadastroText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/telefone_cadastro_text" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:autofillHints=""
-                tools:ignore="LabelFor" />
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/email_layout"
+            tools:ignore="LabelFor"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_local_phone_black_24dp"
+            android:hint="@string/telefone_cadastro_text"/>
 
         <LinearLayout
             android:id="@+id/radio_buttons_layout"
@@ -147,7 +114,6 @@
                     android:id="@+id/radio_button_idoso"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/main_button_background_color"
                     android:layout_marginEnd="10dp"
                     android:text="@string/radio_button_idoso_text" />
 
@@ -155,7 +121,6 @@
                     android:id="@+id/radio_button_cuidador"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/main_button_background_color"
                     android:layout_marginStart="10dp"
                     android:text="@string/radio_button_cuidador_text" />
             </RadioGroup>
@@ -165,8 +130,8 @@
         <Button
             android:id="@+id/back_button"
             style="@style/MainButton"
-            android:background="@drawable/button_background"
             android:layout_marginTop="50dp"
+            android:background="@drawable/button_background"
             android:text="@string/back_button_text"
             app:layout_constraintEnd_toStartOf="@id/sign_in_button"
             app:layout_constraintStart_toStartOf="parent"
@@ -175,8 +140,8 @@
         <Button
             android:id="@+id/sign_in_button"
             style="@style/MainButton"
-            android:background="@drawable/button_background"
             android:layout_marginTop="50dp"
+            android:background="@drawable/button_background"
             android:text="@string/sign_in_button_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/back_button"
