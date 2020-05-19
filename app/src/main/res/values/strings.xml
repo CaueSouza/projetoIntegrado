@@ -34,10 +34,13 @@
     <string name="medicine_name">Nome do medicamento:</string>
     <string name="dosage">Dosagem:</string>
     <string name="quantity">Quantidade:</string>
-    <string name="time">Perioticidade</string>
+    <string name="time">Perioticidade:</string>
     <string name="back_register_alarm">Voltar</string>
     <string name="next_register_alarm">Próximo</string>
-    <string name="regiter_alarm">Cadastrar Alarme</string>
+    <string name="register_alarm_title">Cadastrar Alarme</string>
+    <string name="informar_dados_remedio">Informações do remédio</string>
+    <string name="action_button_interval">Intervalo</string>
+    <string name="action_button_fix_time">Horário fixo</string>
 
 
     <string name="login_radio_email_text">Email</string>
