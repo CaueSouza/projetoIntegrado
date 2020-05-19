@@ -23,4 +23,21 @@
     <string name="login_type_phone">Telefone:</string>
     <string name="menu_alarme">Alarmes</string>
     <string name="menu_caixas">Caixas</string>
+
+    <!--Box founded activity-->
+    <string name="option_agree_box_text">Confirmar</string>
+    <string name="register_text_box">Caixa reconhecida</string>
+    <string name="register_box_title">Cadastrar caixa</string>
+
+    <!-- Cadastro alarme activity-->
+
+    <string name="medicine_name">Nome do medicamento:</string>
+    <string name="dosage">Dosagem:</string>
+    <string name="quantity">Quantidade:</string>
+    <string name="time">Perioticidade</string>
+    <string name="back_register_alarm">Voltar</string>
+    <string name="next_register_alarm">Próximo</string>
+    <string name="regiter_alarm">Cadastrar Alarme</string>
+
+
 </resources>
