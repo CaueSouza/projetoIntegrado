@@ -40,4 +40,6 @@
     <string name="regiter_alarm">Cadastrar Alarme</string>
 
 
+    <string name="login_radio_email_text">Email</string>
+    <string name="login_radio_telefone_text">Telefone</string>
 </resources>
