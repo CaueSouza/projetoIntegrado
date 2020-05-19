@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -25,21 +26,23 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:layout_marginTop="50dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="35dp"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/info_text_view">
 
             <TextView
                 style="@style/CadastroText"
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nome_cadastro_text" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:inputType="text" />
+                android:inputType="text"
+                android:autofillHints=""
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -47,22 +50,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="35dp"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nome_layout">
 
             <TextView
                 style="@style/CadastroText"
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/senha_cadastro_text" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:autofillHints=""
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,22 +75,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="35dp"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/senha_layout">
 
             <TextView
                 style="@style/CadastroText"
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email_cadastro_text" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:autofillHints=""
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -93,22 +100,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="35dp"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/email_layout">
 
             <TextView
                 style="@style/CadastroText"
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/telefone_cadastro_text" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:autofillHints=""
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -116,8 +125,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="35dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/celular_layout">
 
@@ -174,4 +183,4 @@
             app:layout_constraintTop_toBottomOf="@id/radio_buttons_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
