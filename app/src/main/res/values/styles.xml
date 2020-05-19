@@ -15,7 +15,8 @@
     </style>
 
     <style name="MainButton">
-        <item name="backgroundTint">@color/main_button_background_color</item>
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 

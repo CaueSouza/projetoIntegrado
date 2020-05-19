@@ -33,14 +33,16 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:checked="true"
-            android:text="@string/login_type_email" />
+            android:buttonTint="@color/main_button_background_color"
+            android:text="@string/login_radio_email_text" />
 
         <RadioButton
             android:id="@+id/telefone_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="@string/login_type_phone" />
+            android:buttonTint="@color/main_button_background_color"
+            android:text="@string/login_radio_telefone_text" />
     </RadioGroup>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -100,8 +102,7 @@
     <Button
         android:id="@+id/back_button"
         style="@style/MainButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/button_background"
         android:layout_marginTop="50dp"
         android:text="@string/back_button_text"
         app:layout_constraintEnd_toStartOf="@id/login_button"
@@ -111,8 +112,7 @@
     <Button
         android:id="@+id/login_button"
         style="@style/MainButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/button_background"
         android:layout_marginTop="50dp"
         android:text="@string/login_button_text"
         app:layout_constraintEnd_toEndOf="parent"
