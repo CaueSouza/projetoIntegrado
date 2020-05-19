@@ -19,9 +19,8 @@
 
     <Button
         android:id="@+id/login_button"
+        android:background="@drawable/button_background"
         style="@style/MainButton"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="@string/login_enter_text"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -30,9 +29,8 @@
 
     <Button
         android:id="@+id/sign_in_button"
+        android:background="@drawable/button_background"
         style="@style/MainButton"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/login_sign_in_text"
         app:layout_constraintLeft_toLeftOf="parent"

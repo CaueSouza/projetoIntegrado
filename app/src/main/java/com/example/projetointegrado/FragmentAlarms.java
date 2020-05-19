@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -30,8 +29,8 @@ public class FragmentAlarms extends Fragment {
         alarmes.add(alarme1);
         alarmes.add(alarme2);
 
-        ListView mListView = (ListView) mainView.findViewById(R.id.list_view);
-        AlarmeListAdapter adapter = new AlarmeListAdapter(getContext(), R.layout.adapter_view_layout, alarmes);
+        ListView mListView = (ListView) mainView.findViewById(R.id.alarmes_list_view);
+        AlarmeListAdapter adapter = new AlarmeListAdapter(getContext(), R.layout.alarmes_list_item, alarmes);
         mListView.setAdapter(adapter);
 
         mListView.setOnItemClickListener((parent, view, position, id) -> {
@@ -39,7 +38,7 @@ public class FragmentAlarms extends Fragment {
             adapter.notifyDataSetChanged();
         });
 
-        FloatingActionButton fab = (FloatingActionButton) mainView.findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) mainView.findViewById(R.id.fab_alarmes_fragment);
         fab.setOnClickListener(view -> {
             AlarmeItem alarme = new AlarmeItem("Dipirona", R.drawable.ic_alarm_on_white_24dp,"12:00");
             alarmes.add(alarme);

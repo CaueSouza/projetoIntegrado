@@ -1,8 +1,10 @@
 package com.example.projetointegrado;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,7 +22,8 @@ public class PrincipalActivity extends AppCompatActivity {
         binding = ActivityPrincipalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        loadFragment(new FragmentAlarms());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -34,12 +37,24 @@ public class PrincipalActivity extends AppCompatActivity {
 
             return true;
         });
+
+        binding.bottomNavigation.setSelectedItemId(R.id.nav_alarmes);
+        binding.bottomNavigation.performClick();
     }
 
     public void loadFragment(Fragment fragment) {
+        if (fragment instanceof FragmentAlarms) getSupportActionBar().setTitle(R.string.menu_alarme);
+        else getSupportActionBar().setTitle(R.string.menu_caixas);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout, fragment);
         transaction.commit();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
