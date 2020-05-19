@@ -19,76 +19,49 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <LinearLayout
-        android:id="@+id/name_inf_medicine"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="35dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/info_text_medicine">
-
-        <TextView
-            style="@style/CadastroText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/medicine_name" />
-
         <EditText
+            android:id="@+id/name_inf_medicine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="35dp"
+            android:drawablePadding="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/info_text_medicine"
+            android:drawableStart="@drawable/ic_pills"
+            android:hint="@string/medicine_name"
             android:inputType="text" />
-    </LinearLayout>
 
-
-    <LinearLayout
-        android:id="@+id/inf_dosage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="35dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name_inf_medicine">
-
-        <TextView
-            style="@style/CadastroText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/dosage" />
 
         <EditText
+            android:id="@+id/inf_dosage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text" />
-    </LinearLayout>
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="35dp"
+            android:drawablePadding="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_inf_medicine"
+            android:drawableStart="@drawable/ic_dosage"
+            android:hint="@string/dosage"
+            android:inputType="number" />
 
-
-    <LinearLayout
-        android:id="@+id/inf_quantity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="35dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inf_dosage">
-
-        <TextView
-            style="@style/CadastroText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/quantity" />
 
         <EditText
+            android:id="@+id/inf_quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text" />
-    </LinearLayout>
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="35dp"
+            android:drawablePadding="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inf_dosage"
+            android:drawableStart="@drawable/ic_quantity"
+            android:hint="@string/quantity"
+            android:inputType="number" />
 
     <LinearLayout
         android:id="@+id/radio_buttons_register_medicine"
@@ -117,7 +90,6 @@
                 android:id="@+id/radio_button_register_medicine_interval"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/main_button_background_color"
                 android:layout_marginEnd="0dp"
                 android:text="@string/action_button_interval" />
 
@@ -125,7 +97,6 @@
                 android:id="@+id/radio_button_register_medicine_fixtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/main_button_background_color"
                 android:layout_marginStart="10dp"
                 android:text="@string/action_button_fix_time" />
         </RadioGroup>
