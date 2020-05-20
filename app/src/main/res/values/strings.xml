@@ -48,4 +48,10 @@
     <string name="login_radio_telefone_text">Telefone</string>
     <string name="remember_me_message">Lembrar de mim</string>
     <string name="forgot_password_text">Esqueceu sua senha?</string>
+
+
+    <!-- Relógio Colocar hoários-->
+    
+    <string name="button_back_schedule">Voltar</string>
+    <string name="button_confirm_schedule">Confirmar</string>
 </resources>

@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CadastrarAlarmeActivity"></activity>
+        <activity android:name=".HorarioFixActivity"></activity>
+        <activity android:name=".CadastrarAlarmeActivity" />
         <activity android:name=".ReconhecimentoCaixaActivity" />
         <activity android:name=".PrincipalActivity" />
         <activity android:name=".MainActivity">
