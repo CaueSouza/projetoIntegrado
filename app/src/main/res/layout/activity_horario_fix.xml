@@ -45,8 +45,11 @@
                 android:id="@+id/next_button_register_medicine"
                 style="@style/MainButton"
                 android:background="@drawable/button_background"
-                android:text="@string/next_register_alarm"/>
+                android:text="@string/button_confirm_clock_interval"/>
         </LinearLayout>
     </LinearLayout>
+
+
+
     
 </androidx.constraintlayout.widget.ConstraintLayout>
