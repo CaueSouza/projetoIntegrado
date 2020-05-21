@@ -8,18 +8,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.projetointegrado.databinding.ActivityPrincipalBinding;
+import com.example.projetointegrado.databinding.ActivityFragmentsBinding;
 
-public class PrincipalActivity extends AppCompatActivity {
+public class FragmentsActivity extends AppCompatActivity {
 
-    private ActivityPrincipalBinding binding;
+    private ActivityFragmentsBinding binding;
     private static final String TAG = "AlarmeActivity";
     private Fragment actualFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityPrincipalBinding.inflate(getLayoutInflater());
+        binding = ActivityFragmentsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

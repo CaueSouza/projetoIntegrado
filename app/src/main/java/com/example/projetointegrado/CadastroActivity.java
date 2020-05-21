@@ -1,8 +1,9 @@
 package com.example.projetointegrado;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +12,7 @@ import com.example.projetointegrado.databinding.ActivityCadastroBinding;
 public class CadastroActivity extends AppCompatActivity {
 
     private ActivityCadastroBinding binding;
+    DataBaseUserHelper mDataBaseUserHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,13 +20,47 @@ public class CadastroActivity extends AppCompatActivity {
         binding = ActivityCadastroBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.backButton.setOnClickListener((View v) -> {
-            finish();
-        });
+        mDataBaseUserHelper = new DataBaseUserHelper(this);
 
-        binding.signInButton.setOnClickListener((View v) -> {
-            Intent intent = new Intent(this, PrincipalActivity.class);
-            startActivity(intent);
-        });
+        binding.signInButton.setOnClickListener(v -> addDataDB());
+        binding.backButton.setOnClickListener(v -> finish());
     }
+
+    private void addDataDB(){
+        String nome = binding.nomeLayout.getText().toString();
+        String fone = binding.celularLayout.getText().toString();
+        String email = binding.emailLayout.getText().toString();
+        String senha = binding.senhaLayout.getText().toString();
+        int tipo = binding.radioButtonCuidador.isChecked() ? 1 : binding.radioButtonIdoso.isChecked() ? 2 : 0;
+
+        if (nome.isEmpty() || fone.isEmpty() || email.isEmpty() || senha.isEmpty() || tipo == 0) Toast.makeText(this, "Dados incompletos", Toast.LENGTH_SHORT).show();
+        else {
+            //verifica se a string do telefone possui somente numeros
+            if (!fone.matches("[0-9]+") || fone.length() <= 2) return;
+
+            Cursor data = mDataBaseUserHelper.getData();
+
+            while (data.moveToNext()){
+                if (data.getString(4).equals(email)) {
+                    Toast.makeText(this, "E-mail ja utilizado", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (data.getString(3).equals(fone)) {
+                    Toast.makeText(this, "Telefone ja utilizado", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+
+            boolean insertData = mDataBaseUserHelper.addData(tipo, nome, fone, email, senha);
+
+            if (insertData) {
+                Toast.makeText(this, "Conta Criada com Sucesso", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, FragmentsActivity.class);
+                startActivity(intent);
+            }
+            else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 }

@@ -7,8 +7,8 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class TimePickerActivity extends Activity implements
-        TimePicker.OnTimeChangedListener {
+public class TimePickerActivity extends Activity implements TimePicker.OnTimeChangedListener {
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
