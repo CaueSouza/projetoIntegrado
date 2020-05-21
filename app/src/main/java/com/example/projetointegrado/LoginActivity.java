@@ -59,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
             Cursor data = mDataBaseUserHelper.getData();
 
             while (data.moveToNext()){
-                String teste = data.getString(column);
                 if (data.getString(column).equals(mainChoiceString)) {
                     if (data.getString(5).equals(senha)) {
                         Toast.makeText(this, "Login Efetuado", Toast.LENGTH_SHORT).show();
