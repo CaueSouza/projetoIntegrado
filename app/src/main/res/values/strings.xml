@@ -51,7 +51,15 @@
 
 
     <!-- Relógio Colocar hoários-->
-    
+
     <string name="button_back_schedule">Voltar</string>
     <string name="button_confirm_schedule">Confirmar</string>
+
+    <string name="start_time_clock_interval">Hora início</string>
+    <string name="how_many_times">Quantas vezes ao dia</string>
+    <string name="time_clock_interval">Período</string>
+    <string name="button_back_clock_interval">Voltar</string>
+    <string name="button_confirm_clock_interval">Confirmar</string>
+    <string name="inf_interval_clock">Digite as informações</string>
+
 </resources>
