@@ -26,21 +26,22 @@ public class CadastroActivity extends AppCompatActivity {
         binding.backButton.setOnClickListener(v -> finish());
     }
 
-    private void addDataDB(){
+    private void addDataDB() {
         String nome = binding.nomeLayout.getText().toString();
         String fone = binding.celularLayout.getText().toString();
         String email = binding.emailLayout.getText().toString();
         String senha = binding.senhaLayout.getText().toString();
         int tipo = binding.radioButtonCuidador.isChecked() ? 1 : binding.radioButtonIdoso.isChecked() ? 2 : 0;
 
-        if (nome.isEmpty() || fone.isEmpty() || email.isEmpty() || senha.isEmpty() || tipo == 0) Toast.makeText(this, "Dados incompletos", Toast.LENGTH_SHORT).show();
+        if (nome.isEmpty() || fone.isEmpty() || email.isEmpty() || senha.isEmpty() || tipo == 0)
+            Toast.makeText(this, "Dados incompletos", Toast.LENGTH_SHORT).show();
         else {
             //verifica se a string do telefone possui somente numeros
-            if (!fone.matches("[0-9]+") || fone.length() <= 2) return;
+            if (!fone.matches("\\d+") || fone.length() <= 2) return;
 
             Cursor data = mDataBaseUserHelper.getData();
 
-            while (data.moveToNext()){
+            while (data.moveToNext()) {
                 if (data.getString(4).equals(email)) {
                     Toast.makeText(this, "E-mail ja utilizado", Toast.LENGTH_LONG).show();
                     return;
@@ -57,8 +58,7 @@ public class CadastroActivity extends AppCompatActivity {
                 Toast.makeText(this, "Conta Criada com Sucesso", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(this, FragmentsActivity.class);
                 startActivity(intent);
-            }
-            else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
+            } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
         }
     }
 
