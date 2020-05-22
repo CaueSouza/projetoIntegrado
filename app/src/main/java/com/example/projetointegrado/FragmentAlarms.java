@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class FragmentAlarms extends Fragment {
 
     private FragmentAlarmesBinding binding;
-    DataBaseAlarmsHelper mDataBaseAlarmsHelper;
+    private DataBaseAlarmsHelper mDataBaseAlarmsHelper;
 
     @Nullable
     @Override
@@ -49,7 +49,7 @@ public class FragmentAlarms extends Fragment {
         binding.alarmesListView.setAdapter(adapter);
 
         binding.alarmesListView.setOnItemClickListener((parent, view, position, id) -> {
-            Toast.makeText(getContext(), "Abrir editorn", Toast.LENGTH_LONG).show();
+            //TODO OPEN EDITOR TO EDIT ALARM
         });
 
         return binding.getRoot();

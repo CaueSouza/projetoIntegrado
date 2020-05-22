@@ -55,7 +55,6 @@ public class CadastroActivity extends AppCompatActivity {
             boolean insertData = mDataBaseUserHelper.addData(tipo, nome, fone, email, senha);
 
             if (insertData) {
-                Toast.makeText(this, "Conta Criada com Sucesso", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(this, FragmentsActivity.class);
                 startActivity(intent);
             } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();

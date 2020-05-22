@@ -37,8 +37,8 @@ public class HorarioFixActivity extends AppCompatActivity {
         boolean insertData = mDataBaseAlarmsHelper.addData(1, nome, dosagem, horas, minutos);
 
         if (insertData) {
-            Toast.makeText(this, "Alarme Criado com Sucesso", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, FragmentsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
     }

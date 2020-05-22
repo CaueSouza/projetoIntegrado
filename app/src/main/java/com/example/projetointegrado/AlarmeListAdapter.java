@@ -1,5 +1,6 @@
 package com.example.projetointegrado;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,27 +20,27 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
 
     private Context mContext;
     private int mResource;
-    DataBaseAlarmsHelper mDataBaseAlarmsHelper;
+    private DataBaseAlarmsHelper mDataBaseAlarmsHelper;
 
-    /**
-     * Default constructor for the AlarmeListAdapter
-     *
-     * @param context
-     * @param resource
-     * @param objects
-     */
-    public AlarmeListAdapter(Context context, int resource, ArrayList<AlarmeFixItem> objects) {
+    AlarmeListAdapter(Context context, int resource, ArrayList<AlarmeFixItem> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
-
         mDataBaseAlarmsHelper = new DataBaseAlarmsHelper(context);
     }
 
+    @SuppressLint("ViewHolder")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        AlarmeFixItem item = getItem(position);
+        Object itemObj = getItem(position);
+        AlarmeFixItem item;
+
+        if (itemObj instanceof AlarmeFixItem) {
+            item = (AlarmeFixItem) itemObj;
+        } else {
+            item = (AlarmeFixItem) itemObj;
+        }
 
         String name = item.getNome();
         int type = item instanceof AlarmeFixItem ? 1 : 2;
@@ -56,9 +57,9 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.adapter_image);
-        TextView timeView = (TextView) convertView.findViewById(R.id.adapter_time);
-        TextView textView = (TextView) convertView.findViewById(R.id.adapter_text);
+        ImageView imageView = convertView.findViewById(R.id.adapter_image);
+        TextView timeView = convertView.findViewById(R.id.adapter_time);
+        TextView textView = convertView.findViewById(R.id.adapter_text);
 
         imageView.setImageResource(isActive == 1 ? R.drawable.ic_alarm_on_white_24dp : R.drawable.ic_alarm_off_white_24dp);
         timeView.setText(horaTotal);

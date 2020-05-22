@@ -14,7 +14,7 @@ public class TimePickerActivity extends Activity implements TimePicker.OnTimeCha
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_horario_fix);
 
-        TimePicker picker=(TimePicker)findViewById(R.id.id_clock_schedule);
+        TimePicker picker = findViewById(R.id.id_clock_schedule);
 
         picker.setOnTimeChangedListener(this);
     }
@@ -27,7 +27,6 @@ public class TimePickerActivity extends Activity implements TimePicker.OnTimeCha
         then.set(Calendar.MINUTE, minute);
         then.set(Calendar.SECOND, 0);
 
-        Toast.makeText(this, then.getTime().toString(), Toast.LENGTH_SHORT)
-                .show();
+        Toast.makeText(this, then.getTime().toString(), Toast.LENGTH_SHORT).show();
     }
 }

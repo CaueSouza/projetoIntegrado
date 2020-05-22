@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
             while (data.moveToNext()){
                 if (data.getString(column).equals(mainChoiceString)) {
                     if (data.getString(5).equals(senha)) {
-                        Toast.makeText(this, "Login Efetuado", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(this, FragmentsActivity.class);
                         startActivity(intent);
                         return;
@@ -70,6 +69,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-        Toast.makeText(this, "Email e/ou Senha incorretos", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Dados incorretos", Toast.LENGTH_LONG).show();
     }
 }

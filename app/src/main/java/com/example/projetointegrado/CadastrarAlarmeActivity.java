@@ -22,16 +22,12 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle(R.string.register_alarm_title);
 
-        binding.backButtonRegisterMedicine.setOnClickListener(v -> {
-            finish();
-        });
+        binding.backButtonRegisterMedicine.setOnClickListener(v -> finish());
 
         binding.nextButtonRegisterMedicine.setOnClickListener(v -> {
             Class activity = binding.radioButtonRegisterMedicineFixtime.isChecked() ? HorarioFixActivity.class : binding.radioButtonRegisterMedicineInterval.isChecked() ? IntervaloHorarioActivity.class : null;
 
             if (activity != null) callNextScreen(activity);
-
-            Toast.makeText(this, "Escolha o tipo de remédio", Toast.LENGTH_LONG).show();
         });
     }
 
