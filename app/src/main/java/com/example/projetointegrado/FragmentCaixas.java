@@ -1,5 +1,6 @@
 package com.example.projetointegrado;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 public class FragmentCaixas extends Fragment {
 
     private FragmentCaixasBinding binding;
+    private DataBaseBoxHelper mDataBaseBoxHelper;
 
     @Nullable
     @Override
@@ -23,12 +25,18 @@ public class FragmentCaixas extends Fragment {
 
         binding = FragmentCaixasBinding.inflate(getLayoutInflater());
 
-        CaixaItem caixa1 = new CaixaItem("Caixa um", "192.168.0.1");
-        CaixaItem caixa2 = new CaixaItem("Caixa dois", "192.168.0.2");
+        mDataBaseBoxHelper = new DataBaseBoxHelper(getContext());
 
+        Cursor data = mDataBaseBoxHelper.getData();
         ArrayList<CaixaItem> caixas = new ArrayList<>();
-        caixas.add(caixa1);
-        caixas.add(caixa2);
+
+        while (data.moveToNext()) {
+            String nome = data.getString(1);
+            String IP = data.getString(2);
+
+            CaixaItem caixa = new CaixaItem(nome, IP);
+            caixas.add(caixa);
+        }
 
         CaixaListAdapter adapter = new CaixaListAdapter(getContext(), R.layout.caixas_list_item, caixas);
         binding.caixasListView.setAdapter(adapter);

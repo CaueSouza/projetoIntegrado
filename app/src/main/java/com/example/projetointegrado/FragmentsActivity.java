@@ -2,25 +2,32 @@ package com.example.projetointegrado;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.projetointegrado.databinding.ActivityPrincipalBinding;
+import com.example.projetointegrado.databinding.ActivityFragmentsBinding;
 
-public class PrincipalActivity extends AppCompatActivity {
+public class FragmentsActivity extends AppCompatActivity {
 
-    private ActivityPrincipalBinding binding;
+    private ActivityFragmentsBinding binding;
     private static final String TAG = "AlarmeActivity";
     private Fragment actualFragment;
+
+    //TODO REMOVE AFTER CREATING ACTIVITY TO REGISTER A NEW BOX
+    DataBaseBoxHelper mDataBaseBoxHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityPrincipalBinding.inflate(getLayoutInflater());
+        binding = ActivityFragmentsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        //TODO REMOVE AFTER CREATING ACTIVITY TO REGISTER A NEW BOX
+        mDataBaseBoxHelper = new DataBaseBoxHelper(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -47,6 +54,20 @@ public class PrincipalActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, CadastrarAlarmeActivity.class);
                 startActivity(intent);
             }
+
+            if (actualFragment instanceof FragmentCaixas) {
+                //TODO CALL ACTIVITY TO REGISTER A NEW BOX
+//                Intent intent = new Intent(this, CadastrarAlarmeActivity.class);
+//                startActivity(intent);
+                 boolean insertData = mDataBaseBoxHelper.addData("Caixa x", "192.168.1.x");
+
+                 if (insertData) {
+                     Toast.makeText(this, "Caixa Registrada com Sucesso", Toast.LENGTH_LONG).show();
+                     reloadFragment(actualFragment);
+                 } else {
+                     Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
+                 }
+            }
         });
 
         binding.bottomNavigation.setSelectedItemId(R.id.nav_alarmes);
@@ -61,6 +82,14 @@ public class PrincipalActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout, fragment);
+        transaction.commit();
+    }
+
+    public void reloadFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.detach(fragment);
+        transaction.attach(fragment);
         transaction.commit();
     }
 

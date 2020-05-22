@@ -13,7 +13,7 @@
         <activity android:name=".HorarioFixActivity" />
         <activity android:name=".CadastrarAlarmeActivity" />
         <activity android:name=".ReconhecimentoCaixaActivity" />
-        <activity android:name=".PrincipalActivity" />
+        <activity android:name=".FragmentsActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".CadastroActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".TimePickerActivity" />
     </application>
 
 </manifest>

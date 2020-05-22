@@ -7,14 +7,14 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class TimePickerActivity extends Activity implements
-        TimePicker.OnTimeChangedListener {
+public class TimePickerActivity extends Activity implements TimePicker.OnTimeChangedListener {
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_horario_fix);
 
-        TimePicker picker=(TimePicker)findViewById(R.id.id_clock_schedule);
+        TimePicker picker = findViewById(R.id.id_clock_schedule);
 
         picker.setOnTimeChangedListener(this);
     }
@@ -27,7 +27,6 @@ public class TimePickerActivity extends Activity implements
         then.set(Calendar.MINUTE, minute);
         then.set(Calendar.SECOND, 0);
 
-        Toast.makeText(this, then.getTime().toString(), Toast.LENGTH_SHORT)
-                .show();
+        Toast.makeText(this, then.getTime().toString(), Toast.LENGTH_SHORT).show();
     }
 }

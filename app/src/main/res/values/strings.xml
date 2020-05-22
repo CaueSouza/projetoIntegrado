@@ -61,5 +61,6 @@
     <string name="button_back_clock_interval">Voltar</string>
     <string name="button_confirm_clock_interval">Confirmar</string>
     <string name="inf_interval_clock">Digite as informações</string>
+    <string name="box_list_item_image_description">Deletar Caixa</string>
 
 </resources>

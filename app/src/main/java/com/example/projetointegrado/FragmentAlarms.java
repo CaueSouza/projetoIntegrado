@@ -1,9 +1,11 @@
 package com.example.projetointegrado;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,35 +18,40 @@ import java.util.ArrayList;
 public class FragmentAlarms extends Fragment {
 
     private FragmentAlarmesBinding binding;
+    private DataBaseAlarmsHelper mDataBaseAlarmsHelper;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         binding = FragmentAlarmesBinding.inflate(getLayoutInflater());
+        mDataBaseAlarmsHelper = new DataBaseAlarmsHelper(getActivity());
 
-        AlarmeItem alarme1 = new AlarmeItem("Dipirona", R.drawable.ic_alarm_on_white_24dp, "12:00");
-        AlarmeItem alarme2 = new AlarmeItem("Epocler", R.drawable.ic_alarm_on_white_24dp, "9:50");
+        Cursor data = mDataBaseAlarmsHelper.getData();
+        ArrayList<AlarmeFixItem> alarmes = new ArrayList<>();
 
-        ArrayList<AlarmeItem> alarmes = new ArrayList<>();
-        alarmes.add(alarme1);
-        alarmes.add(alarme2);
+        while (data.moveToNext()) {
+            if (data.getInt(1) == 1) { //tipo fixo
+                int status = data.getInt(2);
+                String nome = data.getString(3);
+                int dosagem = data.getInt(4);
+                int horas = data.getInt(5);
+                int minutos = data.getInt(6);
+
+                AlarmeFixItem alarme = new AlarmeFixItem(status, nome, dosagem, horas, minutos);
+                alarmes.add(alarme);
+            } else {
+                //TODO: IMPLEMENTAR TIPO INTERVAL
+            }
+        }
 
         AlarmeListAdapter adapter = new AlarmeListAdapter(getContext(), R.layout.alarmes_list_item, alarmes);
         binding.alarmesListView.setAdapter(adapter);
 
         binding.alarmesListView.setOnItemClickListener((parent, view, position, id) -> {
-            changeListItemImage(alarmes, position);
-            adapter.notifyDataSetChanged();
+            //TODO OPEN EDITOR TO EDIT ALARM
         });
 
         return binding.getRoot();
-    }
-
-    private void changeListItemImage(ArrayList<AlarmeItem> alarmes, int position) {
-        int image = alarmes.get(position).getImagem() == R.drawable.ic_alarm_on_white_24dp ? R.drawable.ic_alarm_off_white_24dp : R.drawable.ic_alarm_on_white_24dp;
-        AlarmeItem alarmeItem = new AlarmeItem(alarmes.get(position).getNome(), image, alarmes.get(position).getHorario());
-        alarmes.remove(position);
-        alarmes.add(position, alarmeItem);
     }
 }
