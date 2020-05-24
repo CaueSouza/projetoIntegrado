@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,26 +58,35 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-        ImageView imageView = convertView.findViewById(R.id.adapter_image);
+        ImageView imageViewStatus = convertView.findViewById(R.id.adapter_image);
         TextView timeView = convertView.findViewById(R.id.adapter_time);
         TextView textView = convertView.findViewById(R.id.adapter_text);
+        ImageView imageViewDelete = convertView.findViewById(R.id.alarm_list_image);
 
-        imageView.setImageResource(isActive == 1 ? R.drawable.ic_alarm_on_white_24dp : R.drawable.ic_alarm_off_white_24dp);
+        imageViewStatus.setImageResource(isActive == 1 ? R.drawable.ic_alarm_on_white_24dp : R.drawable.ic_alarm_off_white_24dp);
         timeView.setText(horaTotal);
         textView.setText(nome);
 
-        imageView.setOnClickListener(v -> {
+        imageViewStatus.setOnClickListener(v -> {
             item.setStatus(item.getStatus() == 1 ? 0 : 1);
             boolean isUpdated = mDataBaseAlarmsHelper.updateData(String.valueOf(position + 1), type, item.getStatus(), nome, dosagem, horas, minutos);
 
             if (isUpdated) {
-                imageView.setImageResource(isActive == 1 ? R.drawable.ic_alarm_on_white_24dp : R.drawable.ic_alarm_off_white_24dp);
+                imageViewStatus.setImageResource(isActive == 1 ? R.drawable.ic_alarm_on_white_24dp : R.drawable.ic_alarm_off_white_24dp);
                 notifyDataSetChanged();
             } else {
                 item.setStatus(item.getStatus() == 1 ? 0 : 1);
             }
         });
 
+        imageViewDelete.setOnClickListener(v -> {
+            int isDeleted = mDataBaseAlarmsHelper.removeData(String.valueOf(position + 1));
+
+            if (isDeleted > 0) {
+                AlarmeListAdapter.this.remove(getItem(position));
+                AlarmeListAdapter.this.notifyDataSetChanged();
+            } else Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
+        });
         return convertView;
     }
 }

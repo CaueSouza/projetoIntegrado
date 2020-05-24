@@ -63,4 +63,10 @@
     <string name="inf_interval_clock">Digite as informações</string>
     <string name="box_list_item_image_description">Deletar Caixa</string>
 
+    <!-- Mensagens gerais para ambos os relógios-->
+
+    <string name="dialog_message">Quer mesmo deletar?</string>
+    <string name="dialog_title">Deletar</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
 </resources>
