@@ -2,7 +2,7 @@ package com.example.projetointegrado;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,12 +50,26 @@ public class CaixaListAdapter extends ArrayAdapter<CaixaItem> {
 
         ImageView imageView = convertView.findViewById(R.id.caixa_list_image);
         imageView.setOnClickListener(v -> {
-            int isDeleted = mDataBaseBoxHelper.removeData(String.valueOf(position + 1));
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setMessage(R.string.dialog_message)
+                    .setTitle(R.string.dialog_title);
 
-            if (isDeleted > 0) {
-                CaixaListAdapter.this.remove(getItem(position));
-                CaixaListAdapter.this.notifyDataSetChanged();
-            } else Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
+            builder.setPositiveButton(R.string.ok, (dialog, id) -> {
+                Cursor data = mDataBaseBoxHelper.getData();
+                data.move(position + 1);
+
+                int isDeleted = mDataBaseBoxHelper.removeData(String.valueOf(data.getInt(0)));
+
+                if (isDeleted != 0) {
+                    CaixaListAdapter.this.remove(getItem(position));
+                    CaixaListAdapter.this.notifyDataSetChanged();
+                } else Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
+            });
+
+            builder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
         return convertView;

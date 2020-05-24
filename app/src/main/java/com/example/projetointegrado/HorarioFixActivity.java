@@ -29,13 +29,15 @@ public class HorarioFixActivity extends AppCompatActivity {
         mDataBaseAlarmsHelper = new DataBaseAlarmsHelper(this);
         data = mDataBaseAlarmsHelper.getData();
 
-        if (isEdit){
+        if (isEdit) {
             alarmEditPosition = getIntent().getIntExtra("POSITION", -1);
             data.move(alarmEditPosition + 1);
 
             binding.idClockSchedule.setHour(data.getInt(5));
             binding.idClockSchedule.setMinute(data.getInt(6));
         }
+
+        binding.backButtonRegisterMedicine.setOnClickListener(v -> finish());
 
         binding.nextButtonRegisterMedicine.setOnClickListener(v -> {
             String nome = getIntent().getStringExtra("MEDICINE_NAME");
@@ -50,7 +52,7 @@ public class HorarioFixActivity extends AppCompatActivity {
         int minutos = binding.idClockSchedule.getMinute();
         boolean confirmation;
 
-        if (isEdit){
+        if (isEdit) {
             int type = data.getInt(1);
             int ativo = data.getInt(2);
 
