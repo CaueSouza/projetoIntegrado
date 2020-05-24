@@ -2,6 +2,7 @@ package com.example.projetointegrado;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
 
@@ -80,12 +82,26 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
         });
 
         imageViewDelete.setOnClickListener(v -> {
-            int isDeleted = mDataBaseAlarmsHelper.removeData(String.valueOf(position + 1));
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setMessage(R.string.dialog_message)
+                    .setTitle(R.string.dialog_title);
 
-            if (isDeleted > 0) {
-                AlarmeListAdapter.this.remove(getItem(position));
-                AlarmeListAdapter.this.notifyDataSetChanged();
-            } else Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
+            builder.setPositiveButton(R.string.ok, (dialog, id) -> {
+                Cursor data = mDataBaseAlarmsHelper.getData();
+                data.move(position + 1);
+
+                int isDeleted = mDataBaseAlarmsHelper.removeData(String.valueOf(data.getInt(0)));
+
+                if (isDeleted > 0) {
+                    AlarmeListAdapter.this.remove(getItem(position));
+                    AlarmeListAdapter.this.notifyDataSetChanged();
+                } else Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
+            });
+
+            builder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
         return convertView;
     }

@@ -32,17 +32,16 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
 
         isEdit = getIntent().getBooleanExtra("IS_EDIT", false);
 
-        if (isEdit){
+        if (isEdit) {
             alarmEditPosition = getIntent().getIntExtra("POSITION", -1);
             data.move(alarmEditPosition + 1);
 
             binding.nameInfMedicine.setText(data.getString(3));
             binding.infDosage.setText(String.valueOf(data.getInt(4)));
-            if(data.getInt(1) == 1) {
+            if (data.getInt(1) == 1) {
                 binding.radioButtonRegisterMedicineFixtime.setChecked(true);
                 binding.radioButtonRegisterMedicineInterval.setChecked(false);
-            }
-            else {
+            } else {
                 binding.radioButtonRegisterMedicineInterval.setChecked(true);
                 binding.radioButtonRegisterMedicineFixtime.setChecked(false);
             }
@@ -52,7 +51,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
         binding.nextButtonRegisterMedicine.setOnClickListener(v -> {
             Class activity = binding.radioButtonRegisterMedicineFixtime.isChecked() ? HorarioFixActivity.class : binding.radioButtonRegisterMedicineInterval.isChecked() ? IntervaloHorarioActivity.class : null;
 
-            if (activity != null){
+            if (activity != null) {
                 if (activity == HorarioFixActivity.class) callHorarioFixActivity(activity);
                 else callIntervaloHorarioActivity(activity);
             }
@@ -65,13 +64,13 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
 
         if (!nome.isEmpty() && !dosagem.isEmpty()) {
             Intent intent = new Intent(this, activity);
-            if (isEdit){
+            if (isEdit) {
                 intent.putExtra("IS_EDIT", true);
                 intent.putExtra("POSITION", alarmEditPosition);
                 intent.putExtra("MEDICINE_HORA", data.getInt(5));
                 intent.putExtra("MEDICINE_MINUTO", data.getInt(6));
             }
-            
+
             intent.putExtra("MEDICINE_NAME", nome);
             intent.putExtra("MEDICINE_DOSAGE", Integer.parseInt(dosagem));
             startActivity(intent);
@@ -80,7 +79,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
         }
     }
 
-    public void callIntervaloHorarioActivity(Class activity){
+    public void callIntervaloHorarioActivity(Class activity) {
 
     }
 

@@ -41,7 +41,7 @@ public class DataBaseUserHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addData(int type, String nome, String fone, String email, String senha){
+    public boolean addData(int type, String nome, String fone, String email, String senha) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL1, type);
@@ -55,7 +55,7 @@ public class DataBaseUserHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public Cursor getData(){
+    public Cursor getData() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME;
         return db.rawQuery(query, null);

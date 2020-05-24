@@ -21,7 +21,7 @@ public class TimePickerActivity extends Activity implements TimePicker.OnTimeCha
 
     @Override
     public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-        Calendar then=Calendar.getInstance();
+        Calendar then = Calendar.getInstance();
 
         then.set(Calendar.HOUR_OF_DAY, hourOfDay);
         then.set(Calendar.MINUTE, minute);
