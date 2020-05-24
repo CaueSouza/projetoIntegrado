@@ -1,5 +1,6 @@
 package com.example.projetointegrado;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -50,6 +51,10 @@ public class FragmentAlarms extends Fragment {
 
         binding.alarmesListView.setOnItemClickListener((parent, view, position, id) -> {
             //TODO OPEN EDITOR TO EDIT ALARM
+            Intent intent = new Intent(getContext(), CadastrarAlarmeActivity.class);
+            intent.putExtra("IS_EDIT", true);
+            intent.putExtra("POSITION", position);
+            startActivity(intent);
         });
 
         return binding.getRoot();

@@ -42,7 +42,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
             item = (AlarmeFixItem) itemObj;
         }
 
-        String name = item.getNome();
+        String nome = item.getNome();
         int type = item instanceof AlarmeFixItem ? 1 : 2;
         int dosagem = item.getDosagem();
         int horas = item.getHora();
@@ -63,11 +63,11 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
 
         imageView.setImageResource(isActive == 1 ? R.drawable.ic_alarm_on_white_24dp : R.drawable.ic_alarm_off_white_24dp);
         timeView.setText(horaTotal);
-        textView.setText(name);
+        textView.setText(nome);
 
         imageView.setOnClickListener(v -> {
             item.setStatus(item.getStatus() == 1 ? 0 : 1);
-            boolean isUpdated = mDataBaseAlarmsHelper.updateData(String.valueOf(position + 1), type, item.getStatus(), name, dosagem, horas, minutos);
+            boolean isUpdated = mDataBaseAlarmsHelper.updateData(String.valueOf(position + 1), type, item.getStatus(), nome, dosagem, horas, minutos);
 
             if (isUpdated) {
                 imageView.setImageResource(isActive == 1 ? R.drawable.ic_alarm_on_white_24dp : R.drawable.ic_alarm_off_white_24dp);
