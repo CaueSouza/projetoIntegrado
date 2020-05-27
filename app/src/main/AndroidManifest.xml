@@ -9,11 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IntervaloHorarioActivity"></activity>
+        <activity android:name=".IntervaloHorarioActivity"/>
         <activity android:name=".HorarioFixActivity" />
         <activity android:name=".CadastrarAlarmeActivity" />
         <activity android:name=".ReconhecimentoCaixaActivity" />
-        <activity android:name=".FragmentsActivity"/>
+        <activity android:name=".FragmentsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,7 +1,10 @@
 package com.example.projetointegrado;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
 
+import static android.content.Context.ALARM_SERVICE;
+
 public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
 
     private static final String TAG = "AlarmListAdapter";
@@ -24,6 +29,8 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
     private Context mContext;
     private int mResource;
     private DataBaseAlarmsHelper mDataBaseAlarmsHelper;
+    AlarmManager alarmManager;
+    PendingIntent pendingIntent;
 
     AlarmeListAdapter(Context context, int resource, ArrayList<AlarmeFixItem> objects) {
         super(context, resource, objects);
@@ -93,6 +100,11 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
                 int isDeleted = mDataBaseAlarmsHelper.removeData(String.valueOf(data.getInt(0)));
 
                 if (isDeleted > 0) {
+                    Intent broadcastIntent = new Intent(getContext(), AlarmReceiver.class);
+                    pendingIntent = PendingIntent.getBroadcast(getContext(), data.getInt(0), broadcastIntent, PendingIntent.FLAG_NO_CREATE);
+                    if (pendingIntent != null)
+                        alarmManager.cancel(pendingIntent);
+
                     AlarmeListAdapter.this.remove(getItem(position));
                     AlarmeListAdapter.this.notifyDataSetChanged();
                 } else Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();

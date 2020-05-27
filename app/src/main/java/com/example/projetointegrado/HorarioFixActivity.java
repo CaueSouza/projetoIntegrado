@@ -1,5 +1,7 @@
 package com.example.projetointegrado;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -8,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetointegrado.databinding.ActivityHorarioFixBinding;
+
+import java.util.Calendar;
 
 public class HorarioFixActivity extends AppCompatActivity {
 
@@ -62,6 +66,17 @@ public class HorarioFixActivity extends AppCompatActivity {
         }
 
         if (confirmation) {
+            AlarmManager alarmManager= (AlarmManager) this.getSystemService(ALARM_SERVICE);
+            Intent broadcastIntent = new Intent(this, AlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, data.getInt(0), broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, horas);
+            calendar.set(Calendar.MINUTE, minutos);
+
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
             Intent intent = new Intent(this, FragmentsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
