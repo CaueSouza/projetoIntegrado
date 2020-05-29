@@ -57,6 +57,7 @@ public class CadastroActivity extends AppCompatActivity {
             if (insertData) {
                 Intent intent = new Intent(this, FragmentsActivity.class);
                 startActivity(intent);
+                finish();
             } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
         }
     }

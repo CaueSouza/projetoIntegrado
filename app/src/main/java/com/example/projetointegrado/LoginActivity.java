@@ -116,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(this, FragmentsActivity.class);
                         startActivity(intent);
+                        finish();
                         return;
                     }
                 }
