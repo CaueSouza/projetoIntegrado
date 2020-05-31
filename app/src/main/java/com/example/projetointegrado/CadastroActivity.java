@@ -31,9 +31,8 @@ public class CadastroActivity extends AppCompatActivity {
         String fone = binding.celularLayout.getText().toString();
         String email = binding.emailLayout.getText().toString();
         String senha = binding.senhaLayout.getText().toString();
-        int tipo = binding.radioButtonCuidador.isChecked() ? 1 : binding.radioButtonIdoso.isChecked() ? 2 : 0;
 
-        if (nome.isEmpty() || fone.isEmpty() || email.isEmpty() || senha.isEmpty() || tipo == 0)
+        if (nome.isEmpty() || fone.isEmpty() || email.isEmpty() || senha.isEmpty())
             Toast.makeText(this, "Dados incompletos", Toast.LENGTH_SHORT).show();
         else {
             //verifica se a string do telefone possui somente numeros
@@ -52,11 +51,12 @@ public class CadastroActivity extends AppCompatActivity {
                 }
             }
 
-            boolean insertData = mDataBaseUserHelper.addData(tipo, nome, fone, email, senha);
+            boolean insertData = mDataBaseUserHelper.addData(nome, fone, email, senha);
 
             if (insertData) {
                 Intent intent = new Intent(this, FragmentsActivity.class);
                 startActivity(intent);
+                finish();
             } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
         }
     }

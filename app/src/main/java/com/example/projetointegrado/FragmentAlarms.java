@@ -32,14 +32,24 @@ public class FragmentAlarms extends Fragment {
 
         while (data.moveToNext()) {
             if (data.getInt(1) == 1) { //tipo fixo
-                int status = data.getInt(2);
-                String nome = data.getString(3);
-                int dosagem = data.getInt(4);
-                int horas = data.getInt(5);
-                int minutos = data.getInt(6);
+                int medTipo = data.getInt(2);
+                int status = data.getInt(3);
+                String nome = data.getString(4);
+                int horas = data.getInt(8);
+                int minutos = data.getInt(9);
 
-                AlarmeFixItem alarme = new AlarmeFixItem(status, nome, dosagem, horas, minutos);
-                alarmes.add(alarme);
+                AlarmeFixItem alarme;
+
+                if (medTipo == 1){
+                    int quantidade = data.getInt(6);
+                    int quantidadeCaixa = data.getInt(7);
+                    alarme = new AlarmeFixItem(status, nome, quantidade, quantidadeCaixa, horas, minutos);
+                    alarmes.add(alarme);
+                } else if (medTipo == 2){
+                    int dosagem = data.getInt(5);
+                    alarme = new AlarmeFixItem(status, nome, dosagem, horas, minutos);
+                    alarmes.add(alarme);
+                }
             } else {
                 //TODO: IMPLEMENTAR TIPO INTERVAL
             }
@@ -49,7 +59,6 @@ public class FragmentAlarms extends Fragment {
         binding.alarmesListView.setAdapter(adapter);
 
         binding.alarmesListView.setOnItemClickListener((parent, view, position, id) -> {
-            //TODO OPEN EDITOR TO EDIT ALARM
             Intent intent = new Intent(getContext(), CadastrarAlarmeActivity.class);
             intent.putExtra("IS_EDIT", true);
             intent.putExtra("POSITION", position);

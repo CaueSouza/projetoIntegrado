@@ -46,8 +46,10 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
         }
 
         String nome = item.getNome();
-        int type = item instanceof AlarmeFixItem ? 1 : 2;
+        //int type = item instanceof AlarmeFixItem ? 1 : 2;
         int dosagem = item.getDosagem();
+        int quantidade = item.getQuantidade();
+        int quantidadeCaixa = item.getQuantidadeCaixa();
         int horas = item.getHora();
         int minutos = item.getMinuto();
         String horaString = horas < 10 ? "0" + horas : String.valueOf(horas);
@@ -71,7 +73,14 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
 
         imageViewStatus.setOnClickListener(v -> {
             item.setStatus(item.getStatus() == 1 ? 0 : 1);
-            boolean isUpdated = mDataBaseAlarmsHelper.updateData(String.valueOf(position + 1), type, item.getStatus(), nome, dosagem, horas, minutos);
+
+            boolean isUpdated = false;
+
+            if (item.getMedTipo() == 1){ //tipo pilula
+                isUpdated = mDataBaseAlarmsHelper.updateData(String.valueOf(position + 1), item.getStatus(), nome, quantidade, quantidadeCaixa, horas, minutos);
+            } else {
+                isUpdated = mDataBaseAlarmsHelper.updateData(String.valueOf(position + 1), item.getStatus(), nome, dosagem, horas, minutos);
+            }
 
             if (isUpdated) {
                 imageViewStatus.setImageResource(isActive == 1 ? R.drawable.ic_alarm_on_white_24dp : R.drawable.ic_alarm_off_white_24dp);

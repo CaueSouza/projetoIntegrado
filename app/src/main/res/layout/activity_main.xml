@@ -1,39 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/pill_image"
-        android:layout_width="wrap_content"
-        android:layout_height="240dp"
-        android:layout_marginBottom="400dp"
-        android:src="@mipmap/pill_helper_logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/pill_image"
+            android:layout_width="wrap_content"
+            android:layout_height="240dp"
+            android:src="@mipmap/pill_helper_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/login_button"
-        android:background="@drawable/button_background"
-        style="@style/MainButton"
-        android:layout_marginTop="30dp"
-        android:text="@string/login_enter_text"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pill_image" />
+        <Button
+            android:id="@+id/login_button"
+            android:background="@drawable/button_background"
+            style="@style/MainButton"
+            android:layout_marginTop="30dp"
+            android:text="@string/login_enter_text"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pill_image" />
 
-    <Button
-        android:id="@+id/sign_in_button"
-        android:background="@drawable/button_background"
-        style="@style/MainButton"
-        android:layout_marginTop="10dp"
-        android:text="@string/login_sign_in_text"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_button" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/sign_in_button"
+            android:background="@drawable/button_background"
+            style="@style/MainButton"
+            android:layout_marginTop="10dp"
+            android:text="@string/login_sign_in_text"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
