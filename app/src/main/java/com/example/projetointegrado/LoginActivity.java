@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-//        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mPreferences = getSharedPreferences("com.example.projetointegrado", Context.MODE_PRIVATE);
         mEditor = mPreferences.edit();
 
@@ -92,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
 
             while (data.moveToNext()) {
                 if (data.getString(column).equals(mainChoiceString)) {
-                    if (data.getString(5).equals(password)) {
+                    if (data.getString(4).equals(password)) {
 
                         if (binding.rememberMeCheckbox.isChecked()) {
                             mEditor.putString(getString(R.string.checkboxKey), "True");

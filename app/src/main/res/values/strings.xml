@@ -37,10 +37,10 @@
     <string name="register_box_title">Cadastrar caixa</string>
 
     <!-- Cadastro alarme activity-->
-
     <string name="medicine_name">Nome do medicamento</string>
     <string name="dosage">Dosagem (mg)</string>
     <string name="quantity">Quantidade</string>
+    <string name="box_quantity">Quantidade na caixa</string>
     <string name="time">Perioticidade:</string>
     <string name="back_register_alarm">Voltar</string>
     <string name="next_register_alarm">Próximo</string>
@@ -75,5 +75,13 @@
     <string name="dialog_title">Deletar</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
+    <string name="select_medicine_type_text">Informe o tipo do remédio:</string>
+    <string name="medicine_type_pill_text">Pílula</string>
+    <string name="medicine_type_liquid_text">Líquido</string>
+    <string name="info_dialog_title_text">Informativo</string>
+    <string name="dialog_text_medicine_name_info">Informe o nome do medicamento</string>
+    <string name="dialog_text_medicine_dosage_info">Informe a quantidade de pílulas a serem tomadas por vez</string>
+    <string name="dialog_text_medicine_quantity_info">Informe a quantidade em miligramas a serem tomadas por vez</string>
+    <string name="dialog_text_medicine_box_quantity_info">Informe a quantidade desse medicamento presente na caixa</string>
 
 </resources>
