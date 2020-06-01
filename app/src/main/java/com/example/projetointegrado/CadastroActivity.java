@@ -3,6 +3,7 @@ package com.example.projetointegrado;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,16 @@ public class CadastroActivity extends AppCompatActivity {
 
         binding.registerButtonConfirm.setOnClickListener(v -> addDataDB());
         binding.backButton.setOnClickListener(v -> finish());
+
+        binding.emailRadioButton.setOnClickListener(v -> {
+            binding.emailLayout.setVisibility(View.VISIBLE);
+            binding.telephoneLayout.setVisibility(View.GONE);
+        });
+
+        binding.telefoneRadioButton.setOnClickListener(v -> {
+            binding.telephoneLayout.setVisibility(View.VISIBLE);
+            binding.emailLayout.setVisibility(View.GONE);
+        });
     }
 
     private void addDataDB() {
