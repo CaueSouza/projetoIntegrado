@@ -37,4 +37,19 @@
         <item name="android:background">@drawable/edittext_background</item>
         <item name="android:padding">10dp</item>
     </style>
+
+    <style name="Button_login_sign_in">
+        <item name="android:layout_width">300dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="GeralText">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#466DA8</item>
+    </style>
+
+
 </resources>

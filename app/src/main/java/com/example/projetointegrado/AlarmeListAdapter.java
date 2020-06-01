@@ -67,7 +67,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
         TextView textView = convertView.findViewById(R.id.adapter_text);
         ImageView imageViewDelete = convertView.findViewById(R.id.alarm_list_image);
 
-        imageViewStatus.setImageResource(isActive == 1 ? R.drawable.ic_alarm_on_white_24dp : R.drawable.ic_alarm_off_white_24dp);
+        imageViewStatus.setImageResource(isActive == 1 ? R.drawable.ic_alarm_on_black_24dp : R.drawable.ic_alarm_off_black_24dp);
         timeView.setText(horaTotal);
         textView.setText(nome);
 
@@ -83,7 +83,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
             }
 
             if (isUpdated) {
-                imageViewStatus.setImageResource(isActive == 1 ? R.drawable.ic_alarm_on_white_24dp : R.drawable.ic_alarm_off_white_24dp);
+                imageViewStatus.setImageResource(isActive == 1 ? R.drawable.ic_alarm_on_black_24dp : R.drawable.ic_alarm_off_black_24dp);
                 notifyDataSetChanged();
             } else {
                 item.setStatus(item.getStatus() == 1 ? 0 : 1);

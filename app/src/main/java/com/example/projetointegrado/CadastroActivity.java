@@ -22,15 +22,15 @@ public class CadastroActivity extends AppCompatActivity {
 
         mDataBaseUserHelper = new DataBaseUserHelper(this);
 
-        binding.celularLayout.addTextChangedListener(MaskEditUtil.mask(binding.celularLayout, MaskEditUtil.FORMAT_FONE));
+        binding.telephoneLayout.addTextChangedListener(MaskEditUtil.mask(binding.telephoneLayout, MaskEditUtil.FORMAT_FONE));
 
-        binding.signInButton.setOnClickListener(v -> addDataDB());
+        binding.registerButtonConfirm.setOnClickListener(v -> addDataDB());
         binding.backButton.setOnClickListener(v -> finish());
     }
 
     private void addDataDB() {
         String nome = binding.nomeLayout.getText().toString();
-        String fone = MaskEditUtil.unmask(binding.celularLayout.getText().toString());
+        String fone = MaskEditUtil.unmask(binding.telephoneLayout.getText().toString());
         String email = binding.emailLayout.getText().toString();
         String senha = binding.senhaLayout.getText().toString();
         int tipo = 0; //1 = login por email  2 = login por telefone

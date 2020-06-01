@@ -5,6 +5,7 @@
     <string name="login_title_text">Pill Helper</string>
     <string name="login_enter_text">Entrar</string>
     <string name="login_sign_in_text">Criar Cadastro</string>
+    <string name="text_welcome_main">Seja bem-vindo</string>
 
     <!--Login Shared Pref keys-->
     <string name="mainValueKey">com.example.projetointegrado.mainValue</string>
@@ -26,10 +27,11 @@
     <string name="login_button_text">Login</string>
     <string name="login_screen_title">Informe o tipo de login</string>
     <string name="login_type_email">E-mail</string>
-    <string name="login_type_phone">Telefone</string>
+    <string name="login_type_phone">Celular</string>
     <string name="login_type_senha">Senha</string>
     <string name="menu_alarme">Alarmes</string>
     <string name="menu_caixas">Caixas</string>
+    <string name="login_back_button">Voltar</string>
 
     <!--Box founded activity-->
     <string name="option_agree_box_text">Confirmar</string>
@@ -51,7 +53,7 @@
 
 
     <string name="login_radio_email_text">Email</string>
-    <string name="login_radio_telefone_text">Telefone</string>
+    <string name="login_radio_telefone_text">Celular</string>
     <string name="remember_me_message">Lembrar de mim</string>
     <string name="forgot_password_text">Esqueceu sua senha?</string>
 

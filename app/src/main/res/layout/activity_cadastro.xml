@@ -9,27 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/info_text_view"
-            style="@style/MainTitle"
+        <ImageView
+            android:id="@+id/pill_image_register_email"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="@string/info_cadatro_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="120dp"
+            android:src="@mipmap/pill_helper_logo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/login_type_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/CadastroText"
-            android:layout_marginTop="50dp"
-            android:text="@string/login_type_intro_txt"
-            app:layout_constraintTop_toBottomOf="@id/info_text_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
 
         <RadioGroup
             android:id="@+id/radio_group"
@@ -37,23 +24,28 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="50dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login_type_text_view">
+            app:layout_constraintTop_toBottomOf="@id/pill_image_register_email">
 
             <RadioButton
                 android:id="@+id/email_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="40dp"
                 android:checked="true"
-                android:text="@string/login_radio_email_text" />
+                android:text="@string/login_radio_email_text"
+                android:textColor="#466DA8"
+                app:buttonTint="#466DA8"/>
 
             <RadioButton
                 android:id="@+id/telefone_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@string/login_radio_telefone_text" />
+                android:layout_marginStart="40dp"
+                android:text="@string/login_radio_telefone_text"
+                android:textColor="#466DA8"
+                app:buttonTint="#466DA8"/>
         </RadioGroup>
 
         <EditText
@@ -105,9 +97,8 @@
             android:drawableStart="@drawable/ic_email_black_24dp"
             tools:ignore="LabelFor" />
 
-
         <EditText
-            android:id="@+id/celular_layout"
+            android:id="@+id/telephone_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
@@ -117,30 +108,33 @@
             android:inputType="phone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/email_layout"
-            tools:ignore="LabelFor"
+            android:hint="@string/telefone_cadastro_text"
             android:drawablePadding="10dp"
             android:drawableStart="@drawable/ic_local_phone_black_24dp"
-            android:hint="@string/telefone_cadastro_text"/>
+            tools:ignore="LabelFor" />
+
+
+        <Button
+            android:id="@+id/register_button_confirm"
+            android:background="@drawable/custom_button_login_register"
+            style="@style/Button_login_sign_in"
+            android:stateListAnimator="@null"
+            android:layout_marginTop="420dp"
+            android:text="@string/sign_in_button_text"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pill_image_register_email" />
 
         <Button
             android:id="@+id/back_button"
-            style="@style/MainButton"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/button_background"
-            android:text="@string/back_button_text"
-            app:layout_constraintEnd_toStartOf="@id/sign_in_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/celular_layout" />
-
-        <Button
-            android:id="@+id/sign_in_button"
-            style="@style/MainButton"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/button_background"
-            android:text="@string/sign_in_button_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/back_button"
-            app:layout_constraintTop_toBottomOf="@id/celular_layout" />
+            android:background="@drawable/custom_button_login_register"
+            style="@style/Button_login_sign_in"
+            android:stateListAnimator="@null"
+            android:layout_marginTop="10dp"
+            android:text="@string/login_back_button"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/register_button_confirm" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
