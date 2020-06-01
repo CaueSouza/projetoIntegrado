@@ -22,43 +22,66 @@ public class CadastroActivity extends AppCompatActivity {
 
         mDataBaseUserHelper = new DataBaseUserHelper(this);
 
+        binding.celularLayout.addTextChangedListener(MaskEditUtil.mask(binding.celularLayout, MaskEditUtil.FORMAT_FONE));
+
         binding.signInButton.setOnClickListener(v -> addDataDB());
         binding.backButton.setOnClickListener(v -> finish());
     }
 
     private void addDataDB() {
         String nome = binding.nomeLayout.getText().toString();
-        String fone = binding.celularLayout.getText().toString();
+        String fone = MaskEditUtil.unmask(binding.celularLayout.getText().toString());
         String email = binding.emailLayout.getText().toString();
         String senha = binding.senhaLayout.getText().toString();
+        int tipo = 0; //1 = login por email  2 = login por telefone
 
-        if (nome.isEmpty() || fone.isEmpty() || email.isEmpty() || senha.isEmpty())
-            Toast.makeText(this, "Dados incompletos", Toast.LENGTH_SHORT).show();
-        else {
+        if (binding.emailRadioButton.isChecked()) {
+            if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
+                Toast.makeText(this, "Dados incompletos", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            tipo = 1;
+        } else if (binding.telefoneRadioButton.isChecked()) {
+            if (nome.isEmpty() || fone.isEmpty() || senha.isEmpty()) {
+                Toast.makeText(this, "Dados incompletos", Toast.LENGTH_SHORT).show();
+                return;
+            }
             //verifica se a string do telefone possui somente numeros
-            if (!fone.matches("\\d+") || fone.length() <= 2) return;
+            if (!fone.matches("\\d+") || fone.length() != 12) return;
 
-            Cursor data = mDataBaseUserHelper.getData();
+            tipo = 2;
+        }
 
-            while (data.moveToNext()) {
-                if (data.getString(4).equals(email)) {
-                    Toast.makeText(this, "E-mail ja utilizado", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if (data.getString(3).equals(fone)) {
-                    Toast.makeText(this, "Telefone ja utilizado", Toast.LENGTH_LONG).show();
-                    return;
+        Cursor data = mDataBaseUserHelper.getData();
+
+        while (data.moveToNext()) {
+            if (data.getString(1).equals(String.valueOf(tipo))) {
+                if (tipo == 1) {
+                    if (data.getString(4).equals(email)) {
+                        Toast.makeText(this, "E-mail ja utilizado", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                } else if (tipo == 2) {
+                    if (data.getString(3).equals(fone)) {
+                        Toast.makeText(this, "Telefone ja utilizado", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                 }
             }
-
-            boolean insertData = mDataBaseUserHelper.addData(nome, fone, email, senha);
-
-            if (insertData) {
-                Intent intent = new Intent(this, FragmentsActivity.class);
-                startActivity(intent);
-                finish();
-            } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
         }
+
+        boolean insertData = false;
+        if (tipo == 1) {
+            insertData = mDataBaseUserHelper.addData(tipo, nome, email, null, senha);
+        } else if (tipo == 2) {
+            insertData = mDataBaseUserHelper.addData(tipo, nome, null, fone, senha);
+        }
+
+        if (insertData) {
+            Intent intent = new Intent(this, FragmentsActivity.class);
+            startActivity(intent);
+            finish();
+        } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
     }
 
 

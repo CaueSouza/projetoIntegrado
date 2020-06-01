@@ -12,10 +12,11 @@ public class DataBaseUserHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_NAME = "users_table";
     private static final String COL0 = "ID";
-    private static final String COL1 = "name";
-    private static final String COL2 = "phone";
-    private static final String COL3 = "email";
-    private static final String COL4 = "password";
+    private static final String COL1 = "type";
+    private static final String COL2 = "name";
+    private static final String COL3 = "phone";
+    private static final String COL4 = "email";
+    private static final String COL5 = "password";
 
     public DataBaseUserHelper(@Nullable Context context) {
         super(context, TABLE_NAME, null, 1);
@@ -25,10 +26,11 @@ public class DataBaseUserHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + TABLE_NAME + " (" +
                 COL0 + " INTEGER PRIMARY KEY," +
-                COL1 + " TEXT," +
+                COL1 + " INTEGER," +
                 COL2 + " TEXT," +
                 COL3 + " TEXT," +
-                COL4 + " TEXT)";
+                COL4 + " TEXT," +
+                COL5 + " TEXT)";
 
         db.execSQL(createTable);
     }
@@ -39,13 +41,17 @@ public class DataBaseUserHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addData(String nome, String fone, String email, String senha) {
+    public boolean addData(int tipo, String nome, String email, String fone, String senha) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL1, nome);
-        contentValues.put(COL2, fone);
-        contentValues.put(COL3, email);
-        contentValues.put(COL4, senha);
+        contentValues.put(COL1, tipo);
+        contentValues.put(COL2, nome);
+        if (tipo == 1){
+            contentValues.put(COL4, email);
+        } else {
+            contentValues.put(COL3, fone);
+        }
+        contentValues.put(COL5, senha);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
 
