@@ -20,18 +20,53 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/login_type_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CadastroText"
+            android:layout_marginTop="50dp"
+            android:text="@string/login_type_intro_txt"
+            app:layout_constraintTop_toBottomOf="@id/info_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_type_text_view">
+
+            <RadioButton
+                android:id="@+id/email_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:checked="true"
+                android:text="@string/login_radio_email_text" />
+
+            <RadioButton
+                android:id="@+id/telefone_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/login_radio_telefone_text" />
+        </RadioGroup>
 
         <EditText
             android:id="@+id/nome_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="35dp"
             android:autofillHints=""
             android:inputType="text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/info_text_view"
+            app:layout_constraintTop_toBottomOf="@id/radio_group"
             tools:ignore="LabelFor"
             android:drawablePadding="10dp"
             android:drawableStart="@drawable/ic_account_circle_black_24dp"

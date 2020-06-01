@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mDataBaseUserHelper = new DataBaseUserHelper(this);
 
+
         bindAll();
 
         checkSharedPref();
@@ -39,25 +40,25 @@ public class LoginActivity extends AppCompatActivity {
 
     private void bindAll() {
         binding.emailRadioButton.setOnClickListener((View v) -> {
-            binding.mainEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-            binding.mainEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_email_black_24dp, 0, 0, 0);
-            binding.mainEditText.setHint(R.string.login_type_email);
-            binding.mainEditText.setText("");
+            binding.emailEditText.setVisibility(View.VISIBLE);
+            binding.phoneEditText.setVisibility(View.GONE);
+            binding.emailEditText.setText("");
             mEditor.putString(getString(R.string.loginTypeKey), "1");
             mEditor.commit();
         });
 
         binding.telefoneRadioButton.setOnClickListener((View v) -> {
-            binding.mainEditText.setInputType(InputType.TYPE_CLASS_PHONE);
-            binding.mainEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_phone_black_24dp, 0, 0, 0);
-            binding.mainEditText.setHint(R.string.login_type_phone);
-            binding.mainEditText.setText("");
+            binding.phoneEditText.setVisibility(View.VISIBLE);
+            binding.emailEditText.setVisibility(View.GONE);
+            binding.phoneEditText.setText("");
             mEditor.putString(getString(R.string.loginTypeKey), "2");
             mEditor.commit();
         });
 
         binding.loginButton.setOnClickListener(v -> login());
         binding.backButton.setOnClickListener(v -> finish());
+
+        binding.phoneEditText.addTextChangedListener(MaskEditUtil.mask(binding.phoneEditText, MaskEditUtil.FORMAT_FONE));
     }
 
     private void checkSharedPref() {
@@ -68,17 +69,25 @@ public class LoginActivity extends AppCompatActivity {
 
         if (loginType.equals("1")) {
             binding.emailRadioButton.performClick();
+            binding.emailEditText.setText(mainValue);
         } else {
             binding.telefoneRadioButton.performClick();
+            binding.phoneEditText.setText(mainValue);
         }
 
-        binding.mainEditText.setText(mainValue);
         binding.senhaEditText.setText(password);
         binding.rememberMeCheckbox.setChecked(checkbox.equals("True"));
     }
 
     private void login() {
-        String mainChoiceString = binding.mainEditText.getText().toString();
+        String mainChoiceString = "";
+
+        if (binding.emailRadioButton.isChecked()){
+            mainChoiceString = binding.emailEditText.getText().toString();
+        } else if (binding.telefoneRadioButton.isChecked()) {
+            mainChoiceString = binding.phoneEditText.getText().toString();
+        }
+
         String password = binding.senhaEditText.getText().toString();
 
         if (mainChoiceString.isEmpty() || password.isEmpty())
@@ -90,33 +99,35 @@ public class LoginActivity extends AppCompatActivity {
             int column = loginType.equals("1") ? 4 : 3;
 
             while (data.moveToNext()) {
-                if (data.getString(column).equals(mainChoiceString)) {
-                    if (data.getString(4).equals(password)) {
+                if (data.getString(1).equals(loginType)) {
+                    if (data.getString(column).equals(mainChoiceString)) {
+                        if (data.getString(5).equals(password)) {
 
-                        if (binding.rememberMeCheckbox.isChecked()) {
-                            mEditor.putString(getString(R.string.checkboxKey), "True");
-                            mEditor.commit();
+                            if (binding.rememberMeCheckbox.isChecked()) {
+                                mEditor.putString(getString(R.string.checkboxKey), "True");
+                                mEditor.commit();
 
-                            mEditor.putString(getString(R.string.mainValueKey), mainChoiceString);
-                            mEditor.commit();
+                                mEditor.putString(getString(R.string.mainValueKey), mainChoiceString);
+                                mEditor.commit();
 
-                            mEditor.putString(getString(R.string.passwordKey), password);
-                            mEditor.commit();
-                        } else {
-                            mEditor.putString(getString(R.string.checkboxKey), "False");
-                            mEditor.commit();
+                                mEditor.putString(getString(R.string.passwordKey), password);
+                                mEditor.commit();
+                            } else {
+                                mEditor.putString(getString(R.string.checkboxKey), "False");
+                                mEditor.commit();
 
-                            mEditor.putString(getString(R.string.mainValueKey), "");
-                            mEditor.commit();
+                                mEditor.putString(getString(R.string.mainValueKey), "");
+                                mEditor.commit();
 
-                            mEditor.putString(getString(R.string.passwordKey), "");
-                            mEditor.commit();
+                                mEditor.putString(getString(R.string.passwordKey), "");
+                                mEditor.commit();
+                            }
+
+                            Intent intent = new Intent(this, FragmentsActivity.class);
+                            startActivity(intent);
+                            finish();
+                            return;
                         }
-
-                        Intent intent = new Intent(this, FragmentsActivity.class);
-                        startActivity(intent);
-                        finish();
-                        return;
                     }
                 }
             }

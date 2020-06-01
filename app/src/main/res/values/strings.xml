@@ -83,5 +83,6 @@
     <string name="dialog_text_medicine_dosage_info">Informe a quantidade de pílulas a serem tomadas por vez</string>
     <string name="dialog_text_medicine_quantity_info">Informe a quantidade em miligramas a serem tomadas por vez</string>
     <string name="dialog_text_medicine_box_quantity_info">Informe a quantidade desse medicamento presente na caixa</string>
+    <string name="login_type_intro_txt">Escolha o tipo de login</string>
 
 </resources>
