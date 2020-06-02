@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 import android.widget.Toast;
 
@@ -43,16 +42,12 @@ public class LoginActivity extends AppCompatActivity {
             binding.emailEditText.setVisibility(View.VISIBLE);
             binding.phoneEditText.setVisibility(View.GONE);
             binding.emailEditText.setText("");
-            mEditor.putString(getString(R.string.loginTypeKey), "1");
-            mEditor.commit();
         });
 
         binding.telefoneRadioButton.setOnClickListener((View v) -> {
             binding.phoneEditText.setVisibility(View.VISIBLE);
             binding.emailEditText.setVisibility(View.GONE);
             binding.phoneEditText.setText("");
-            mEditor.putString(getString(R.string.loginTypeKey), "2");
-            mEditor.commit();
         });
 
         binding.loginButton.setOnClickListener(v -> login());
@@ -81,22 +76,24 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
         String mainChoiceString = "";
+        String loginType = "1";
 
-        if (binding.emailRadioButton.isChecked()){
+        if (binding.emailRadioButton.isChecked()) {
             mainChoiceString = binding.emailEditText.getText().toString();
+            loginType = "1";
         } else if (binding.telefoneRadioButton.isChecked()) {
             mainChoiceString = binding.phoneEditText.getText().toString();
+            mainChoiceString = MaskEditUtil.unmask(mainChoiceString);
+            loginType = "2";
         }
 
+        int column = loginType.equals("1") ? 4 : 3;
         String password = binding.senhaEditText.getText().toString();
 
         if (mainChoiceString.isEmpty() || password.isEmpty())
             Toast.makeText(this, "Dados incompletos", Toast.LENGTH_SHORT).show();
         else {
             Cursor data = mDataBaseUserHelper.getData();
-
-            String loginType = mPreferences.getString(getString(R.string.loginTypeKey), "1");
-            int column = loginType.equals("1") ? 4 : 3;
 
             while (data.moveToNext()) {
                 if (data.getString(1).equals(loginType)) {
@@ -112,6 +109,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                 mEditor.putString(getString(R.string.passwordKey), password);
                                 mEditor.commit();
+
+                                mEditor.putString(getString(R.string.loginTypeKey), loginType);
+                                mEditor.commit();
                             } else {
                                 mEditor.putString(getString(R.string.checkboxKey), "False");
                                 mEditor.commit();
@@ -120,6 +120,9 @@ public class LoginActivity extends AppCompatActivity {
                                 mEditor.commit();
 
                                 mEditor.putString(getString(R.string.passwordKey), "");
+                                mEditor.commit();
+
+                                mEditor.putString(getString(R.string.loginTypeKey), "");
                                 mEditor.commit();
                             }
 
