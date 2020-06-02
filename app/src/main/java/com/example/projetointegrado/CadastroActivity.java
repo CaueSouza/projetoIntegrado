@@ -3,6 +3,7 @@ package com.example.projetointegrado;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,15 +23,25 @@ public class CadastroActivity extends AppCompatActivity {
 
         mDataBaseUserHelper = new DataBaseUserHelper(this);
 
-        binding.celularLayout.addTextChangedListener(MaskEditUtil.mask(binding.celularLayout, MaskEditUtil.FORMAT_FONE));
+        binding.telephoneLayout.addTextChangedListener(MaskEditUtil.mask(binding.telephoneLayout, MaskEditUtil.FORMAT_FONE));
 
-        binding.signInButton.setOnClickListener(v -> addDataDB());
+        binding.registerButtonConfirm.setOnClickListener(v -> addDataDB());
         binding.backButton.setOnClickListener(v -> finish());
+
+        binding.emailRadioButton.setOnClickListener(v -> {
+            binding.emailLayout.setVisibility(View.VISIBLE);
+            binding.telephoneLayout.setVisibility(View.GONE);
+        });
+
+        binding.telefoneRadioButton.setOnClickListener(v -> {
+            binding.telephoneLayout.setVisibility(View.VISIBLE);
+            binding.emailLayout.setVisibility(View.GONE);
+        });
     }
 
     private void addDataDB() {
         String nome = binding.nomeLayout.getText().toString();
-        String fone = MaskEditUtil.unmask(binding.celularLayout.getText().toString());
+        String fone = MaskEditUtil.unmask(binding.telephoneLayout.getText().toString());
         String email = binding.emailLayout.getText().toString();
         String senha = binding.senhaLayout.getText().toString();
         int tipo = 0; //1 = login por email  2 = login por telefone

@@ -17,5 +17,11 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getSupportActionBar().setTitle(R.string.action_button_interval);
+
+        binding.backButtonIntervalClock.setOnClickListener(v -> finish());
+
+        binding.nextButtonIntervalClock.setOnClickListener(v -> {
+            //TODO CRIAR ALARME INTERVALADO
+        });
     }
 }

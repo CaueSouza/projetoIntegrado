@@ -33,7 +33,8 @@
         <Button
             android:id="@+id/back_button_interval_clock"
             style="@style/MainButton"
-            android:background="@drawable/button_background"
+            android:background="@drawable/custom_button_login_register"
+            android:stateListAnimator="@null"
             android:text="@string/button_back_clock_interval"/>
     </LinearLayout>
 
@@ -45,7 +46,8 @@
             <Button
                 android:id="@+id/next_button_interval_clock"
                 style="@style/MainButton"
-                android:background="@drawable/button_background"
+                android:background="@drawable/custom_button_login_register"
+                android:stateListAnimator="@null"
                 android:text="@string/next_register_alarm"/>
         </LinearLayout>
     </LinearLayout>
@@ -62,7 +64,8 @@
         app:layout_constraintTop_toBottomOf="@id/info_text_medicine"
         android:drawableStart="@drawable/ic_time_and_date"
         android:hint="@string/start_time_clock_interval"
-        android:inputType="time" />
+        android:inputType="time"
+        style="@style/EditTextStyle"/>
 
     <EditText
         android:id="@+id/how_many_times_interval_text"
@@ -76,7 +79,8 @@
         app:layout_constraintTop_toBottomOf="@id/start_time_interval_text"
         android:drawableStart="@drawable/ic_time"
         android:hint="@string/how_many_times"
-        android:inputType="number" />
+        android:inputType="number"
+        style="@style/EditTextStyle"/>
 
     <EditText
         android:id="@+id/time_interval_text"
@@ -90,6 +94,7 @@
         app:layout_constraintTop_toBottomOf="@id/how_many_times_interval_text"
         android:drawableStart="@drawable/ic_time_and_date_time"
         android:hint="@string/time_clock_interval"
-        android:inputType="number" />
+        android:inputType="number"
+        style="@style/EditTextStyle"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
