@@ -87,4 +87,14 @@
     <string name="dialog_text_medicine_box_quantity_info">Informe a quantidade desse medicamento presente na caixa</string>
     <string name="login_type_intro_txt">Escolha o tipo de login</string>
 
+    <!-- Dias da semana-->
+    <string name="sunday">D</string>
+    <string name="monday">S</string>
+    <string name="tuesday">T</string>
+    <string name="wednesday">Q</string>
+    <string name="thursday">Q</string>
+    <string name="friday">S</string>
+    <string name="saturday">S</string>
+
+
 </resources>

@@ -62,7 +62,9 @@
             tools:ignore="LabelFor"
             android:drawablePadding="10dp"
             android:drawableStart="@drawable/ic_account_circle_black_24dp"
-            android:hint="@string/nome_cadastro_text"/>
+            android:hint="@string/nome_cadastro_text"
+            style="@style/EditTextStyle"/>
+
 
 
         <EditText
@@ -79,7 +81,8 @@
             tools:ignore="LabelFor"
             android:drawablePadding="10dp"
             android:drawableStart="@drawable/ic_lock_outline_black_24dp"
-            android:hint="@string/senha_cadastro_text"/>
+            android:hint="@string/senha_cadastro_text"
+            style="@style/EditTextStyle"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -98,7 +101,8 @@
                 android:hint="@string/email_cadastro_text"
                 android:drawablePadding="10dp"
                 android:drawableStart="@drawable/ic_email_black_24dp"
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor"
+                style="@style/EditTextStyle"/>
 
             <EditText
                 android:id="@+id/telephone_layout"
@@ -110,7 +114,8 @@
                 android:hint="@string/telefone_cadastro_text"
                 android:drawablePadding="10dp"
                 android:drawableStart="@drawable/ic_local_phone_black_24dp"
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor"
+                style="@style/EditTextStyle"/>
         </RelativeLayout>
 
         <Button

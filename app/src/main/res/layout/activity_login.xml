@@ -75,6 +75,7 @@
                     android:drawableStart="@drawable/ic_email_black_24dp"
                     android:drawablePadding="10dp"
                     android:hint="@string/login_type_email"
+                    style="@style/EditTextStyle"
                     android:inputType="textEmailAddress"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"/>
@@ -86,6 +87,7 @@
                     android:drawableStart="@drawable/ic_local_phone_black_24dp"
                     android:drawablePadding="10dp"
                     android:hint="@string/login_type_phone"
+                    style="@style/EditTextStyle"
                     android:visibility="gone"
                     android:inputType="phone"
                     android:layout_alignParentStart="true"
@@ -102,6 +104,7 @@
                 android:drawableStart="@drawable/ic_lock_outline_black_24dp"
                 android:drawablePadding="10dp"
                 android:hint="@string/login_type_senha"
+                style="@style/EditTextStyle"
                 android:inputType="textPassword"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"

@@ -140,7 +140,8 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
     }
 
     public void callIntervaloHorarioActivity(Class activity) {
-
+        Intent intent = new Intent(this, activity);
+        startActivity(intent);
     }
 
     public void imageInfoClick(ImageView imageView){
