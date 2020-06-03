@@ -16,7 +16,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
     DataBaseUserHelper mDataBaseUserHelper;
-    private int loginType = 1;
+    private String loginType = "1";
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
 
@@ -76,7 +76,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
         String mainChoiceString = "";
-        String loginType = "1";
 
         if (binding.emailRadioButton.isChecked()) {
             mainChoiceString = binding.emailEditText.getText().toString();
@@ -87,13 +86,14 @@ public class LoginActivity extends AppCompatActivity {
             loginType = "2";
         }
 
-        int column = loginType.equals("1") ? 4 : 3;
         String password = binding.senhaEditText.getText().toString();
 
-        if (mainChoiceString.isEmpty() || password.isEmpty())
+        if (mainChoiceString.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Dados incompletos", Toast.LENGTH_SHORT).show();
-        else {
+        } else {
             Cursor data = mDataBaseUserHelper.getData();
+
+            int column = loginType.equals("1") ? 4 : 3;
 
             while (data.moveToNext()) {
                 if (data.getString(1).equals(loginType)) {
@@ -126,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                                 mEditor.commit();
                             }
 
-                            Intent intent = new Intent(this, FragmentsActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, FragmentsActivity.class);
                             startActivity(intent);
                             finish();
                             return;
@@ -135,7 +135,5 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         }
-
-        Toast.makeText(this, "Dados incorretos", Toast.LENGTH_LONG).show();
     }
 }
