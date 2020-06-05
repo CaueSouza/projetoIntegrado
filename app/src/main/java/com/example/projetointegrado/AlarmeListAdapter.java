@@ -52,6 +52,15 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
         int quantidadeCaixa = item.getQuantidadeCaixa();
         int horas = item.getHora();
         int minutos = item.getMinuto();
+        int []dias = new int[7];
+        dias[0] = item.getDomingo();
+        dias[1] = item.getSegunda();
+        dias[2] = item.getTerca();
+        dias[3] = item.getQuarta();
+        dias[4] = item.getQuinta();
+        dias[5] = item.getSexta();
+        dias[6] = item.getSabado();
+
         String horaString = horas < 10 ? "0" + horas : String.valueOf(horas);
         String minutoString = minutos < 10 ? "0" + minutos : String.valueOf(minutos);
 
@@ -77,9 +86,9 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
             boolean isUpdated = false;
 
             if (item.getMedTipo() == 1){ //tipo pilula
-                isUpdated = mDataBaseAlarmsHelper.updateData(String.valueOf(position + 1), item.getStatus(), nome, quantidade, quantidadeCaixa, horas, minutos);
+                isUpdated = mDataBaseAlarmsHelper.updateData(String.valueOf(position + 1), item.getStatus(), nome, quantidade, quantidadeCaixa, horas, minutos, dias);
             } else {
-                isUpdated = mDataBaseAlarmsHelper.updateData(String.valueOf(position + 1), item.getStatus(), nome, dosagem, horas, minutos);
+                isUpdated = mDataBaseAlarmsHelper.updateData(String.valueOf(position + 1), item.getStatus(), nome, dosagem, horas, minutos, dias);
             }
 
             if (isUpdated) {
