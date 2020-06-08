@@ -28,12 +28,9 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
     private static final String COL14 = "quinta";
     private static final String COL15 = "sexta";
     private static final String COL16 = "sabado";
-
-    //  TODO FUTURE CHANGES IN DATABASE
-    //    private static final String COLx = "hora_inicio";
-    //    private static final String COLx = "vezes_dia";
-    //    private static final String COLx = "periodo";
-    //    private static final String COLx = "quantidade";
+    private static final String COL17 = "vezes_dia";
+    private static final String COL18 = "periodo_hora";
+    private static final String COL19 = "periodo_min";
 
     public DataBaseAlarmsHelper(@Nullable Context context) {
         super(context, TABLE_NAME, null, 1);
@@ -58,7 +55,10 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
                 COL13 + " INTEGER," +
                 COL14 + " INTEGER," +
                 COL15 + " INTEGER," +
-                COL16 + " INTEGER)";
+                COL16 + " INTEGER," +
+                COL17 + " INTEGER," +
+                COL18 + " INTEGER," +
+                COL19 + " INTEGER)";
 
         db.execSQL(createTable);
     }
@@ -82,6 +82,7 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
         contentValues.put(COL2, 1);
         contentValues.put(COL3, 1);
         contentValues.put(COL4, nome);
+        contentValues.put(COL5, 0);
         contentValues.put(COL6, quantidade);
         contentValues.put(COL7, quantidadeBox);
         contentValues.put(COL8, hora);
@@ -93,6 +94,9 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
         contentValues.put(COL14, dias[4]);
         contentValues.put(COL15, dias[5]);
         contentValues.put(COL16, dias[6]);
+        contentValues.put(COL17, 0);
+        contentValues.put(COL18, 0);
+        contentValues.put(COL19, 0);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
 
@@ -107,6 +111,8 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
         contentValues.put(COL3, 1);
         contentValues.put(COL4, nome);
         contentValues.put(COL5, dosagem);
+        contentValues.put(COL6, 0);
+        contentValues.put(COL7, 0);
         contentValues.put(COL8, hora);
         contentValues.put(COL9, minuto);
         contentValues.put(COL10, dias[0]);
@@ -116,13 +122,72 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
         contentValues.put(COL14, dias[4]);
         contentValues.put(COL15, dias[5]);
         contentValues.put(COL16, dias[6]);
+        contentValues.put(COL17, 0);
+        contentValues.put(COL18, 0);
+        contentValues.put(COL19, 0);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
 
         return result != -1;
     }
 
-    public boolean updateData(String id, int isActive, String nome, int quantidade, int quantidadeCaixa, int hora, int minuto, int[] dias) {
+    public boolean addDataInterval(String nome, int quantidade, int quantidadeBox, int hora, int minuto, int vezes_dia, int periodo_hora, int periodo_min){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL1, 2);
+        contentValues.put(COL2, 1);
+        contentValues.put(COL3, 1);
+        contentValues.put(COL4, nome);
+        contentValues.put(COL5, 0);
+        contentValues.put(COL6, quantidade);
+        contentValues.put(COL7, quantidadeBox);
+        contentValues.put(COL8, hora);
+        contentValues.put(COL9, minuto);
+        contentValues.put(COL10, 0);
+        contentValues.put(COL11, 0);
+        contentValues.put(COL12, 0);
+        contentValues.put(COL13, 0);
+        contentValues.put(COL14, 0);
+        contentValues.put(COL15, 0);
+        contentValues.put(COL16, 0);
+        contentValues.put(COL17, vezes_dia);
+        contentValues.put(COL18, periodo_hora);
+        contentValues.put(COL19, periodo_min);
+
+        long result = db.insert(TABLE_NAME, null, contentValues);
+
+        return result != -1;
+    }
+
+    public boolean addDataInterval(String nome, int dosagem, int hora, int minuto, int vezes_dia, int periodo_hora, int periodo_min){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL1, 2);
+        contentValues.put(COL2, 2);
+        contentValues.put(COL3, 1);
+        contentValues.put(COL4, nome);
+        contentValues.put(COL5, dosagem);
+        contentValues.put(COL6, 0);
+        contentValues.put(COL7, 0);
+        contentValues.put(COL8, hora);
+        contentValues.put(COL9, minuto);
+        contentValues.put(COL10, 0);
+        contentValues.put(COL11, 0);
+        contentValues.put(COL12, 0);
+        contentValues.put(COL13, 0);
+        contentValues.put(COL14, 0);
+        contentValues.put(COL15, 0);
+        contentValues.put(COL16, 0);
+        contentValues.put(COL17, vezes_dia);
+        contentValues.put(COL18, periodo_hora);
+        contentValues.put(COL19, periodo_min);
+
+        long result = db.insert(TABLE_NAME, null, contentValues);
+
+        return result != -1;
+    }
+
+    public boolean updateDataFix(String id, int isActive, String nome, int quantidade, int quantidadeCaixa, int hora, int minuto, int[] dias) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL0, id);
@@ -130,6 +195,7 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
         contentValues.put(COL2, 1);
         contentValues.put(COL3, isActive);
         contentValues.put(COL4, nome);
+        contentValues.put(COL5, 0);
         contentValues.put(COL6, quantidade);
         contentValues.put(COL7, quantidadeCaixa);
         contentValues.put(COL8, hora);
@@ -141,12 +207,15 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
         contentValues.put(COL14, dias[4]);
         contentValues.put(COL15, dias[5]);
         contentValues.put(COL16, dias[6]);
+        contentValues.put(COL17, 0);
+        contentValues.put(COL18, 0);
+        contentValues.put(COL19, 0);
 
         db.update(TABLE_NAME, contentValues, "ID = ?", new String[]{id});
         return true;
     }
 
-    public boolean updateData(String id, int isActive, String nome, int dosagem, int hora, int minuto, int[] dias) {
+    public boolean updateDataFix(String id, int isActive, String nome, int dosagem, int hora, int minuto, int[] dias) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL0, id);
@@ -155,6 +224,8 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
         contentValues.put(COL3, isActive);
         contentValues.put(COL4, nome);
         contentValues.put(COL5, dosagem);
+        contentValues.put(COL6, 0);
+        contentValues.put(COL7, 0);
         contentValues.put(COL8, hora);
         contentValues.put(COL9, minuto);
         contentValues.put(COL10, dias[0]);
@@ -164,6 +235,65 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
         contentValues.put(COL14, dias[4]);
         contentValues.put(COL15, dias[5]);
         contentValues.put(COL16, dias[6]);
+        contentValues.put(COL17, 0);
+        contentValues.put(COL18, 0);
+        contentValues.put(COL19, 0);
+
+        db.update(TABLE_NAME, contentValues, "ID = ?", new String[]{id});
+        return true;
+    }
+
+    public boolean updateDataInterval(String id, int isActive, String nome, int quantidade, int quantidadeCaixa, int hora, int minuto, int vezes_dia, int periodo_hora, int periodo_min) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL0, id);
+        contentValues.put(COL1, 2);
+        contentValues.put(COL2, 1);
+        contentValues.put(COL3, isActive);
+        contentValues.put(COL4, nome);
+        contentValues.put(COL5, 0);
+        contentValues.put(COL6, quantidade);
+        contentValues.put(COL7, quantidadeCaixa);
+        contentValues.put(COL8, hora);
+        contentValues.put(COL9, minuto);
+        contentValues.put(COL10, 0);
+        contentValues.put(COL11, 0);
+        contentValues.put(COL12, 0);
+        contentValues.put(COL13, 0);
+        contentValues.put(COL14, 0);
+        contentValues.put(COL15, 0);
+        contentValues.put(COL16, 0);
+        contentValues.put(COL17, vezes_dia);
+        contentValues.put(COL18, periodo_hora);
+        contentValues.put(COL19, periodo_min);
+
+        db.update(TABLE_NAME, contentValues, "ID = ?", new String[]{id});
+        return true;
+    }
+
+    public boolean updateDataInterval(String id, int isActive, String nome, int dosagem, int hora, int minuto, int vezes_dia, int periodo_hora, int periodo_min) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL0, id);
+        contentValues.put(COL1, 2);
+        contentValues.put(COL2, 2);
+        contentValues.put(COL3, isActive);
+        contentValues.put(COL4, nome);
+        contentValues.put(COL5, dosagem);
+        contentValues.put(COL6, 0);
+        contentValues.put(COL7, 0);
+        contentValues.put(COL8, hora);
+        contentValues.put(COL9, minuto);
+        contentValues.put(COL10, 0);
+        contentValues.put(COL11, 0);
+        contentValues.put(COL12, 0);
+        contentValues.put(COL13, 0);
+        contentValues.put(COL14, 0);
+        contentValues.put(COL15, 0);
+        contentValues.put(COL16, 0);
+        contentValues.put(COL17, vezes_dia);
+        contentValues.put(COL18, periodo_hora);
+        contentValues.put(COL19, periodo_min);
 
         db.update(TABLE_NAME, contentValues, "ID = ?", new String[]{id});
         return true;

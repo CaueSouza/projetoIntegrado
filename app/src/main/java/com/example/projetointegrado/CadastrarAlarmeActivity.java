@@ -74,8 +74,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
             Class activity = binding.radioButtonRegisterMedicineFixtime.isChecked() ? HorarioFixActivity.class : binding.radioButtonRegisterMedicineInterval.isChecked() ? IntervaloHorarioActivity.class : null;
 
             if (activity != null) {
-                if (activity == HorarioFixActivity.class) callHorarioFixActivity(activity);
-                else callIntervaloHorarioActivity(activity);
+                callActivity(activity);
             }
         });
 
@@ -97,7 +96,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
 
     }
 
-    private void callHorarioFixActivity(Class activity) {
+    private void callActivity(Class activity){
         String nome = binding.nameInfMedicine.getText().toString();
 
         if (binding.radioButtonMedicineTypePill.isChecked()) {
@@ -151,10 +150,73 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
         }
     }
 
-    public void callIntervaloHorarioActivity(Class activity) {
-        Intent intent = new Intent(this, activity);
-        startActivity(intent);
-    }
+//    private void callHorarioFixActivity(Class activity) {
+//        String nome = binding.nameInfMedicine.getText().toString();
+//
+//        if (binding.radioButtonMedicineTypePill.isChecked()) {
+//            String quantidade = binding.infQuantity.getText().toString();
+//            String quantidadeCaixa = binding.infBoxQuantity.getText().toString();
+//
+//            if (quantidade.length() < 10 && quantidadeCaixa.length() < 10) {
+//                if (!nome.isEmpty() && !quantidade.isEmpty() && !quantidadeCaixa.isEmpty()) {
+//                    Intent intent = new Intent(this, activity);
+//                    if (isEdit) {
+//                        intent.putExtra("IS_EDIT", true);
+//                        intent.putExtra("POSITION", alarmEditPosition);
+//                        intent.putExtra("MEDICINE_HORA", data.getInt(8));
+//                        intent.putExtra("MEDICINE_MINUTO", data.getInt(9));
+//                    }
+//
+//                    intent.putExtra("MEDICINE_TYPE", 1);
+//                    intent.putExtra("MEDICINE_QUANTITY", Integer.parseInt(quantidade));
+//                    intent.putExtra("MEDICINE_BOX_QUANTITY", Integer.parseInt(quantidadeCaixa));
+//                    intent.putExtra("MEDICINE_NAME", nome);
+//                    startActivity(intent);
+//                } else {
+//                    Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+//                }
+//            } else {
+//                Toast.makeText(this, "Número muito grande", Toast.LENGTH_SHORT).show();
+//            }
+//        } else if (binding.radioButtonMedicineTypeLiquid.isChecked()) {
+//            String dosagem = binding.infDosage.getText().toString();
+//
+//            if (dosagem.length() < 10) {
+//                if (!nome.isEmpty() && !dosagem.isEmpty()) {
+//                    Intent intent = new Intent(this, activity);
+//                    if (isEdit) {
+//                        intent.putExtra("IS_EDIT", true);
+//                        intent.putExtra("POSITION", alarmEditPosition);
+//                        intent.putExtra("MEDICINE_HORA", data.getInt(8));
+//                        intent.putExtra("MEDICINE_MINUTO", data.getInt(9));
+//                    }
+//
+//                    intent.putExtra("MEDICINE_TYPE", 2);
+//                    intent.putExtra("MEDICINE_NAME", nome);
+//                    intent.putExtra("MEDICINE_DOSAGE", Integer.parseInt(dosagem));
+//                    startActivity(intent);
+//                } else {
+//                    Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+//                }
+//            } else {
+//                Toast.makeText(this, "Número muito grande", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
+//
+//    public void callIntervaloHorarioActivity(Class activity) {
+//        String nome = binding.nameInfMedicine.getText().toString();
+//
+//        if (binding.radioButtonMedicineTypePill.isChecked()) {
+//            String quantidade = binding.infQuantity.getText().toString();
+//            String quantidadeCaixa = binding.infBoxQuantity.getText().toString();
+//
+//        } else if (binding.radioButtonMedicineTypeLiquid.isChecked()) {
+//
+//        }
+//        Intent intent = new Intent(this, activity);
+//        startActivity(intent);
+//    }
 
     public void imageInfoClick(ImageView imageView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

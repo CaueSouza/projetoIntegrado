@@ -8,7 +8,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="50dp">
+
         <ImageView
             android:id="@+id/pill_image"
             android:layout_width="wrap_content"
@@ -20,21 +22,21 @@
 
         <TextView
             android:id="@+id/main_welcome"
+            style="@style/GeralText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/GeralText"
             android:layout_marginTop="150dp"
             android:text="@string/text_welcome_main"
-            app:layout_constraintTop_toBottomOf="@id/pill_image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pill_image" />
 
         <Button
             android:id="@+id/login_button"
-            android:background="@drawable/custom_button_login_register"
             style="@style/Button_login_sign_in"
-            android:stateListAnimator="@null"
             android:layout_marginTop="300dp"
+            android:background="@drawable/custom_button_login_register"
+            android:stateListAnimator="@null"
             android:text="@string/login_enter_text"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -42,10 +44,10 @@
 
         <Button
             android:id="@+id/sign_in_button"
-            android:background="@drawable/custom_button_login_register"
             style="@style/Button_login_sign_in"
-            android:stateListAnimator="@null"
             android:layout_marginTop="10dp"
+            android:background="@drawable/custom_button_login_register"
+            android:stateListAnimator="@null"
             android:text="@string/login_sign_in_text"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
