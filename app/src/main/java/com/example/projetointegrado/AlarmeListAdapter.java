@@ -17,7 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
 
-public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
+public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
 
     private static final String TAG = "AlarmListAdapter";
 
@@ -25,7 +25,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
     private int mResource;
     private DataBaseAlarmsHelper mDataBaseAlarmsHelper;
 
-    AlarmeListAdapter(Context context, int resource, ArrayList<AlarmeFixItem> objects) {
+    AlarmeListAdapter(Context context, int resource, ArrayList<AlarmeItem> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -36,30 +36,11 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Object itemObj = getItem(position);
-        AlarmeFixItem item;
-
-        if (itemObj instanceof AlarmeFixItem) {
-            item = (AlarmeFixItem) itemObj;
-        } else {
-            item = (AlarmeFixItem) itemObj;
-        }
+        AlarmeItem item = getItem(position);
 
         String nome = item.getNome();
-        //int type = item instanceof AlarmeFixItem ? 1 : 2;
-        int dosagem = item.getDosagem();
-        int quantidade = item.getQuantidade();
-        int quantidadeCaixa = item.getQuantidadeCaixa();
         int horas = item.getHora();
         int minutos = item.getMinuto();
-        int []dias = new int[7];
-        dias[0] = item.getDomingo();
-        dias[1] = item.getSegunda();
-        dias[2] = item.getTerca();
-        dias[3] = item.getQuarta();
-        dias[4] = item.getQuinta();
-        dias[5] = item.getSexta();
-        dias[6] = item.getSabado();
 
         String horaString = horas < 10 ? "0" + horas : String.valueOf(horas);
         String minutoString = minutos < 10 ? "0" + minutos : String.valueOf(minutos);
@@ -84,11 +65,42 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeFixItem> {
             item.setStatus(item.getStatus() == 1 ? 0 : 1);
 
             boolean isUpdated = false;
+            Cursor data = mDataBaseAlarmsHelper.getData();
+            data.move(position + 1);
 
-            if (item.getMedTipo() == 1){ //tipo pilula
-                isUpdated = mDataBaseAlarmsHelper.updateData(String.valueOf(position + 1), item.getStatus(), nome, quantidade, quantidadeCaixa, horas, minutos, dias);
-            } else {
-                isUpdated = mDataBaseAlarmsHelper.updateData(String.valueOf(position + 1), item.getStatus(), nome, dosagem, horas, minutos, dias);
+            if (data.getInt(1) == 1){
+                int[] dias = new int[7];
+                dias[0] = data.getInt(10);
+                dias[1] = data.getInt(11);
+                dias[2] = data.getInt(12);
+                dias[3] = data.getInt(13);
+                dias[4] = data.getInt(14);
+                dias[5] = data.getInt(15);
+                dias[6] = data.getInt(16);
+
+                if (data.getInt(2) == 1){ //tipo pilula
+                    int quantidade = data.getInt(6);
+                    int quantidadeCaixa = data.getInt(7);
+
+                    isUpdated = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(position + 1), item.getStatus(), nome, quantidade, quantidadeCaixa, horas, minutos, dias);
+                } else if (data.getInt(2) == 2) {
+                    int dosagem = data.getInt(5);
+                    isUpdated = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(position + 1), item.getStatus(), nome, dosagem, horas, minutos, dias);
+                }
+            } else if (data.getInt(1) == 2){
+                int vezes_dia = data.getInt(17);
+                int hora_periodo = data.getInt(18);
+                int min_periodo = data.getInt(19);
+
+                if (data.getInt(2) == 1){ //tipo pilula
+                    int quantidade = data.getInt(6);
+                    int quantidadeCaixa = data.getInt(7);
+
+                    isUpdated = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(position + 1), item.getStatus(), nome, quantidade, quantidadeCaixa, horas, minutos, vezes_dia, hora_periodo, min_periodo);
+                } else if (data.getInt(2) == 2){
+                    int dosagem = data.getInt(5);
+                    isUpdated = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(position + 1), item.getStatus(), nome, dosagem, horas, minutos, vezes_dia, hora_periodo, min_periodo);
+                }
             }
 
             if (isUpdated) {

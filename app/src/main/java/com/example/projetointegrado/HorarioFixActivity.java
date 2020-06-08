@@ -49,17 +49,15 @@ public class HorarioFixActivity extends AppCompatActivity {
         binding.nextButtonRegisterMedicine.setOnClickListener(v -> {
             int medTipo = getIntent().getIntExtra("MEDICINE_TYPE", 0);
             String nome = getIntent().getStringExtra("MEDICINE_NAME");
-            int dosagem = getIntent().getIntExtra("MEDICINE_DOSAGE", 0);
-            int quantidade = getIntent().getIntExtra("MEDICINE_QUANTITY", 0);
-            int quantidadeCaixa = getIntent().getIntExtra("MEDICINE_BOX_QUANTITY", 0);
 
             if (medTipo == 1) {
+                int quantidade = getIntent().getIntExtra("MEDICINE_QUANTITY", 0);
+                int quantidadeCaixa = getIntent().getIntExtra("MEDICINE_BOX_QUANTITY", 0);
                 addDataDB(nome, quantidade, quantidadeCaixa);
             } else if (medTipo == 2){
+                int dosagem = getIntent().getIntExtra("MEDICINE_DOSAGE", 0);
                 addDataDB(nome, dosagem);
             }
-
-            finish();
         });
     }
 
@@ -81,7 +79,7 @@ public class HorarioFixActivity extends AppCompatActivity {
         if (isEdit) {
             int ativo = data.getInt(3);
 
-            confirmation = mDataBaseAlarmsHelper.updateData(String.valueOf(alarmEditPosition + 1), ativo, nome, quantidade, quantidadeCaixa, horas, minutos, dias);
+            confirmation = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(alarmEditPosition + 1), ativo, nome, quantidade, quantidadeCaixa, horas, minutos, dias);
         } else {
             confirmation = mDataBaseAlarmsHelper.addDataFix(nome, quantidade, quantidadeCaixa, horas, minutos, dias);
         }
@@ -90,6 +88,7 @@ public class HorarioFixActivity extends AppCompatActivity {
             Intent intent = new Intent(this, FragmentsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            finish();
         } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
     }
 
@@ -110,7 +109,7 @@ public class HorarioFixActivity extends AppCompatActivity {
         if (isEdit) {
             int ativo = data.getInt(3);
 
-            confirmation = mDataBaseAlarmsHelper.updateData(String.valueOf(alarmEditPosition + 1), ativo, nome, dosagem, horas, minutos, dias);
+            confirmation = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(alarmEditPosition + 1), ativo, nome, dosagem, horas, minutos, dias);
         } else {
             confirmation = mDataBaseAlarmsHelper.addDataFix(nome, dosagem, horas, minutos, dias);
         }
@@ -119,6 +118,7 @@ public class HorarioFixActivity extends AppCompatActivity {
             Intent intent = new Intent(this, FragmentsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            finish();
         } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
     }
 }
