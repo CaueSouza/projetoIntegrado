@@ -101,5 +101,11 @@
     <string name="dialog_text_how_many_times_info">Informe quantas vezes deve-se tomar o remédio por dia</string>
     <string name="dialog_text_time_interval_info">Informe o período de tempo entre cada medicação</string>
 
+    <!-- Toque do alarme-->
+    <string name="alarm">Alarme</string>
+    <string name="turn_off">Desligar</string>
+    <string name="time_alarm">00:00</string>
+    <string name="testeremedio">Ibuprofeno</string>
+
 
 </resources>
