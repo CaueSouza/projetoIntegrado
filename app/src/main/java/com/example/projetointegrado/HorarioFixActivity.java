@@ -133,6 +133,8 @@ public class HorarioFixActivity extends AppCompatActivity {
     }
 
     private void createAlarmIntent(int horas, int minutos, int[] dias, int notificationId) {
+
+        //TODO CHECK AND REQUEST TO NEXT DAY
         Calendar calendar = Calendar.getInstance();
         calendar.set(
                 calendar.get(Calendar.YEAR),
@@ -142,8 +144,6 @@ public class HorarioFixActivity extends AppCompatActivity {
                 minutos,
                 0);
 
-        //TODO CHANGE THE REQUEST CODE TO BE UNIQUE
-
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmeReceiver.class);
         intent.putExtra("NOTIFICATION_ID", notificationId);
@@ -151,6 +151,7 @@ public class HorarioFixActivity extends AppCompatActivity {
         intent.putExtra("ALARM_HOUR", horas);
         intent.putExtra("ALARM_MINUTES", minutos);
         intent.putExtra("ALARM_DAYS", dias);
+        intent.putExtra("MUST_PLAY_NOTIFICATION", true);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notificationId, intent, 0);
         alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);

@@ -185,8 +185,6 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
                 minutos,
                 0);
 
-        //TODO CHANGE THE REQUEST CODE TO BE UNIQUE
-
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmeReceiver.class);
         intent.putExtra("NOTIFICATION_ID", 1);
