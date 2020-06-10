@@ -106,6 +106,8 @@
     <string name="turn_off">Desligar</string>
     <string name="time_alarm">00:00</string>
     <string name="testeremedio">Ibuprofeno</string>
+    <string name="notification_title">Atenção</string>
+    <string name="notification_text">Está na hora de se medicar</string>
 
 
 </resources>
