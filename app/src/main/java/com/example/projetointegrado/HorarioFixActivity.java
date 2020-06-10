@@ -56,19 +56,20 @@ public class HorarioFixActivity extends AppCompatActivity {
         binding.nextButtonRegisterMedicine.setOnClickListener(v -> {
             int medTipo = getIntent().getIntExtra("MEDICINE_TYPE", 0);
             String nome = getIntent().getStringExtra("MEDICINE_NAME");
+            int notificationId = getIntent().getIntExtra("NOTIFICATION_ID", 0);
 
             if (medTipo == 1) {
                 int quantidade = getIntent().getIntExtra("MEDICINE_QUANTITY", 0);
                 int quantidadeCaixa = getIntent().getIntExtra("MEDICINE_BOX_QUANTITY", 0);
-                addDataDB(nome, quantidade, quantidadeCaixa);
+                addDataDB(nome, quantidade, quantidadeCaixa, notificationId);
             } else if (medTipo == 2) {
                 int dosagem = getIntent().getIntExtra("MEDICINE_DOSAGE", 0);
-                addDataDB(nome, dosagem);
+                addDataDB(nome, dosagem, notificationId);
             }
         });
     }
 
-    private void addDataDB(String nome, int quantidade, int quantidadeCaixa) {
+    private void addDataDB(String nome, int quantidade, int quantidadeCaixa, int notificationId) {
         int horas = binding.idClockSchedule.getHour();
         int minutos = binding.idClockSchedule.getMinute();
 
@@ -85,14 +86,13 @@ public class HorarioFixActivity extends AppCompatActivity {
 
         if (isEdit) {
             int ativo = data.getInt(3);
-
-            confirmation = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(alarmEditPosition + 1), ativo, nome, quantidade, quantidadeCaixa, horas, minutos, dias);
+            confirmation = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(alarmEditPosition + 1), ativo, nome, quantidade, quantidadeCaixa, horas, minutos, dias, notificationId);
         } else {
-            confirmation = mDataBaseAlarmsHelper.addDataFix(nome, quantidade, quantidadeCaixa, horas, minutos, dias);
+            confirmation = mDataBaseAlarmsHelper.addDataFix(nome, quantidade, quantidadeCaixa, horas, minutos, dias, notificationId);
         }
 
         if (confirmation) {
-            createAlarmIntent(horas, minutos, dias);
+            createAlarmIntent(horas, minutos, dias, notificationId);
             Intent intent = new Intent(this, FragmentsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -100,7 +100,7 @@ public class HorarioFixActivity extends AppCompatActivity {
         } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
     }
 
-    private void addDataDB(String nome, int dosagem) {
+    private void addDataDB(String nome, int dosagem, int notificationId) {
         int horas = binding.idClockSchedule.getHour();
         int minutos = binding.idClockSchedule.getMinute();
 
@@ -118,13 +118,13 @@ public class HorarioFixActivity extends AppCompatActivity {
         if (isEdit) {
             int ativo = data.getInt(3);
 
-            confirmation = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(alarmEditPosition + 1), ativo, nome, dosagem, horas, minutos, dias);
+            confirmation = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(alarmEditPosition + 1), ativo, nome, dosagem, horas, minutos, dias, notificationId);
         } else {
-            confirmation = mDataBaseAlarmsHelper.addDataFix(nome, dosagem, horas, minutos, dias);
+            confirmation = mDataBaseAlarmsHelper.addDataFix(nome, dosagem, horas, minutos, dias, notificationId);
         }
 
         if (confirmation) {
-            createAlarmIntent(horas, minutos, dias);
+            createAlarmIntent(horas, minutos, dias, notificationId);
             Intent intent = new Intent(this, FragmentsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -132,7 +132,7 @@ public class HorarioFixActivity extends AppCompatActivity {
         } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
     }
 
-    private void createAlarmIntent(int horas, int minutos, int[] dias) {
+    private void createAlarmIntent(int horas, int minutos, int[] dias, int notificationId) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(
                 calendar.get(Calendar.YEAR),
@@ -143,8 +143,6 @@ public class HorarioFixActivity extends AppCompatActivity {
                 0);
 
         //TODO CHANGE THE REQUEST CODE TO BE UNIQUE
-
-        int notificationId = 1;
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmeReceiver.class);

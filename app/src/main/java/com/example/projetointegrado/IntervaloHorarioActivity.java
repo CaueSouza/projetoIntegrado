@@ -72,19 +72,20 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
         binding.nextButtonIntervalClock.setOnClickListener(v -> {
             int medTipo = getIntent().getIntExtra("MEDICINE_TYPE", 0);
             String nome = getIntent().getStringExtra("MEDICINE_NAME");
+            int notificationId = getIntent().getIntExtra("NOTIFICATION_ID", 0);
 
             if (medTipo == 1) {
                 int quantidade = getIntent().getIntExtra("MEDICINE_QUANTITY", 0);
                 int quantidadeCaixa = getIntent().getIntExtra("MEDICINE_BOX_QUANTITY", 0);
-                addDataDB(nome, quantidade, quantidadeCaixa);
+                addDataDB(nome, quantidade, quantidadeCaixa, notificationId);
             } else if (medTipo == 2) {
                 int dosagem = getIntent().getIntExtra("MEDICINE_DOSAGE", 0);
-                addDataDB(nome, dosagem);
+                addDataDB(nome, dosagem, notificationId);
             }
         });
     }
 
-    private void addDataDB(String nome, int quantidade, int quantidadeCaixa) {
+    private void addDataDB(String nome, int quantidade, int quantidadeCaixa, int notificationId) {
 
         if (MaskEditUtil.unmask(binding.startTimeIntervalText.getText().toString()).length() == 4 && MaskEditUtil.unmask(binding.timeIntervalText.getText().toString()).length() == 4) {
             int hora_inicio = Integer.parseInt(binding.startTimeIntervalText.getText().toString().substring(0, 2));
@@ -104,9 +105,9 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
                     if (isEdit) {
                         int ativo = data.getInt(3);
 
-                        confirmation = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(alarmEditPosition + 1), ativo, nome, quantidade, quantidadeCaixa, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo);
+                        confirmation = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(alarmEditPosition + 1), ativo, nome, quantidade, quantidadeCaixa, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo, notificationId);
                     } else {
-                        confirmation = mDataBaseAlarmsHelper.addDataInterval(nome, quantidade, quantidadeCaixa, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo);
+                        confirmation = mDataBaseAlarmsHelper.addDataInterval(nome, quantidade, quantidadeCaixa, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo, notificationId);
                     }
 
                     if (confirmation) {
@@ -121,7 +122,7 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
         } else Toast.makeText(this, "Insira os dados corretamente", Toast.LENGTH_SHORT).show();
     }
 
-    private void addDataDB(String nome, int dosagem) {
+    private void addDataDB(String nome, int dosagem, int notificationId) {
         if (MaskEditUtil.unmask(binding.startTimeIntervalText.getText().toString()).length() == 4 && MaskEditUtil.unmask(binding.timeIntervalText.getText().toString()).length() == 4) {
             int hora_inicio = Integer.parseInt(binding.startTimeIntervalText.getText().toString().substring(0, 2));
             int min_inicio = Integer.parseInt(binding.startTimeIntervalText.getText().toString().substring(3, 5));
@@ -140,9 +141,9 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
                     if (isEdit) {
                         int ativo = data.getInt(3);
 
-                        confirmation = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(alarmEditPosition + 1), ativo, nome, dosagem, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo);
+                        confirmation = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(alarmEditPosition + 1), ativo, nome, dosagem, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo, notificationId);
                     } else {
-                        confirmation = mDataBaseAlarmsHelper.addDataInterval(nome, dosagem, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo);
+                        confirmation = mDataBaseAlarmsHelper.addDataInterval(nome, dosagem, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo, notificationId);
                     }
 
                     if (confirmation) {

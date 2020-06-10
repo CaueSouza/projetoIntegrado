@@ -41,6 +41,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
         String nome = item.getNome();
         int horas = item.getHora();
         int minutos = item.getMinuto();
+        int notificationId = item.getNotificationId();
 
         String horaString = horas < 10 ? "0" + horas : String.valueOf(horas);
         String minutoString = minutos < 10 ? "0" + minutos : String.valueOf(minutos);
@@ -68,7 +69,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
             Cursor data = mDataBaseAlarmsHelper.getData();
             data.move(position + 1);
 
-            if (data.getInt(1) == 1){
+            if (data.getInt(1) == 1) {
                 int[] dias = new int[7];
                 dias[0] = data.getInt(10);
                 dias[1] = data.getInt(11);
@@ -78,28 +79,28 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
                 dias[5] = data.getInt(15);
                 dias[6] = data.getInt(16);
 
-                if (data.getInt(2) == 1){ //tipo pilula
+                if (data.getInt(2) == 1) { //tipo pilula
                     int quantidade = data.getInt(6);
                     int quantidadeCaixa = data.getInt(7);
 
-                    isUpdated = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(position + 1), item.getStatus(), nome, quantidade, quantidadeCaixa, horas, minutos, dias);
+                    isUpdated = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(position + 1), item.getStatus(), nome, quantidade, quantidadeCaixa, horas, minutos, dias, notificationId);
                 } else if (data.getInt(2) == 2) {
                     int dosagem = data.getInt(5);
-                    isUpdated = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(position + 1), item.getStatus(), nome, dosagem, horas, minutos, dias);
+                    isUpdated = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(position + 1), item.getStatus(), nome, dosagem, horas, minutos, dias, notificationId);
                 }
-            } else if (data.getInt(1) == 2){
+            } else if (data.getInt(1) == 2) {
                 int vezes_dia = data.getInt(17);
                 int hora_periodo = data.getInt(18);
                 int min_periodo = data.getInt(19);
 
-                if (data.getInt(2) == 1){ //tipo pilula
+                if (data.getInt(2) == 1) { //tipo pilula
                     int quantidade = data.getInt(6);
                     int quantidadeCaixa = data.getInt(7);
 
-                    isUpdated = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(position + 1), item.getStatus(), nome, quantidade, quantidadeCaixa, horas, minutos, vezes_dia, hora_periodo, min_periodo);
-                } else if (data.getInt(2) == 2){
+                    isUpdated = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(position + 1), item.getStatus(), nome, quantidade, quantidadeCaixa, horas, minutos, vezes_dia, hora_periodo, min_periodo, notificationId);
+                } else if (data.getInt(2) == 2) {
                     int dosagem = data.getInt(5);
-                    isUpdated = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(position + 1), item.getStatus(), nome, dosagem, horas, minutos, vezes_dia, hora_periodo, min_periodo);
+                    isUpdated = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(position + 1), item.getStatus(), nome, dosagem, horas, minutos, vezes_dia, hora_periodo, min_periodo, notificationId);
                 }
             }
 
