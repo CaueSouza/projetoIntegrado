@@ -33,6 +33,13 @@ public class HorarioFixActivity extends AppCompatActivity {
             alarmEditPosition = getIntent().getIntExtra("POSITION", -1);
             data.move(alarmEditPosition + 1);
 
+            binding.sundayDay.setChecked(data.getInt(10) == 1);
+            binding.mondayDay.setChecked(data.getInt(11) == 1);
+            binding.tuesdayDay.setChecked(data.getInt(12) == 1);
+            binding.wednesdayDay.setChecked(data.getInt(13) == 1);
+            binding.thursdayDay.setChecked(data.getInt(14) == 1);
+            binding.fridayDay.setChecked(data.getInt(15) == 1);
+            binding.saturdayDay.setChecked(data.getInt(16) == 1);
             binding.idClockSchedule.setHour(data.getInt(8));
             binding.idClockSchedule.setMinute(data.getInt(9));
         }
@@ -42,37 +49,46 @@ public class HorarioFixActivity extends AppCompatActivity {
         binding.nextButtonRegisterMedicine.setOnClickListener(v -> {
             int medTipo = getIntent().getIntExtra("MEDICINE_TYPE", 0);
             String nome = getIntent().getStringExtra("MEDICINE_NAME");
-            int dosagem = getIntent().getIntExtra("MEDICINE_DOSAGE", 0);
-            int quantidade = getIntent().getIntExtra("MEDICINE_QUANTITY", 0);
-            int quantidadeCaixa = getIntent().getIntExtra("MEDICINE_BOX_QUANTITY", 0);
 
             if (medTipo == 1) {
+                int quantidade = getIntent().getIntExtra("MEDICINE_QUANTITY", 0);
+                int quantidadeCaixa = getIntent().getIntExtra("MEDICINE_BOX_QUANTITY", 0);
                 addDataDB(nome, quantidade, quantidadeCaixa);
             } else if (medTipo == 2){
+                int dosagem = getIntent().getIntExtra("MEDICINE_DOSAGE", 0);
                 addDataDB(nome, dosagem);
             }
-
-            finish();
         });
     }
 
     private void addDataDB(String nome, int quantidade, int quantidadeCaixa) {
         int horas = binding.idClockSchedule.getHour();
         int minutos = binding.idClockSchedule.getMinute();
+
+        int []dias = new int[7];
+        dias[0] = binding.sundayDay.isChecked() ? 1 : 0;
+        dias[1] = binding.mondayDay.isChecked() ? 1 : 0;
+        dias[2] = binding.tuesdayDay.isChecked() ? 1 : 0;
+        dias[3] = binding.wednesdayDay.isChecked() ? 1 : 0;
+        dias[4] = binding.thursdayDay.isChecked() ? 1 : 0;
+        dias[5] = binding.fridayDay.isChecked() ? 1 : 0;
+        dias[6] = binding.saturdayDay.isChecked() ? 1 : 0;
+
         boolean confirmation;
 
         if (isEdit) {
             int ativo = data.getInt(3);
 
-            confirmation = mDataBaseAlarmsHelper.updateData(String.valueOf(alarmEditPosition + 1), ativo, nome, quantidade, quantidadeCaixa, horas, minutos);
+            confirmation = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(alarmEditPosition + 1), ativo, nome, quantidade, quantidadeCaixa, horas, minutos, dias);
         } else {
-            confirmation = mDataBaseAlarmsHelper.addDataFix(nome, quantidade, quantidadeCaixa, horas, minutos);
+            confirmation = mDataBaseAlarmsHelper.addDataFix(nome, quantidade, quantidadeCaixa, horas, minutos, dias);
         }
 
         if (confirmation) {
             Intent intent = new Intent(this, FragmentsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            finish();
         } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
     }
 
@@ -81,18 +97,28 @@ public class HorarioFixActivity extends AppCompatActivity {
         int minutos = binding.idClockSchedule.getMinute();
         boolean confirmation;
 
+        int []dias = new int[7];
+        dias[0] = binding.sundayDay.isChecked() ? 1 : 0;
+        dias[1] = binding.mondayDay.isChecked() ? 1 : 0;
+        dias[2] = binding.tuesdayDay.isChecked() ? 1 : 0;
+        dias[3] = binding.wednesdayDay.isChecked() ? 1 : 0;
+        dias[4] = binding.thursdayDay.isChecked() ? 1 : 0;
+        dias[5] = binding.fridayDay.isChecked() ? 1 : 0;
+        dias[6] = binding.saturdayDay.isChecked() ? 1 : 0;
+
         if (isEdit) {
             int ativo = data.getInt(3);
 
-            confirmation = mDataBaseAlarmsHelper.updateData(String.valueOf(alarmEditPosition + 1), ativo, nome, dosagem, horas, minutos);
+            confirmation = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(alarmEditPosition + 1), ativo, nome, dosagem, horas, minutos, dias);
         } else {
-            confirmation = mDataBaseAlarmsHelper.addDataFix(nome, dosagem, horas, minutos);
+            confirmation = mDataBaseAlarmsHelper.addDataFix(nome, dosagem, horas, minutos, dias);
         }
 
         if (confirmation) {
             Intent intent = new Intent(this, FragmentsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            finish();
         } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
     }
 }

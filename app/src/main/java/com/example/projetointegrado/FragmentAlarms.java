@@ -28,31 +28,17 @@ public class FragmentAlarms extends Fragment {
         mDataBaseAlarmsHelper = new DataBaseAlarmsHelper(getActivity());
 
         Cursor data = mDataBaseAlarmsHelper.getData();
-        ArrayList<AlarmeFixItem> alarmes = new ArrayList<>();
+        ArrayList<AlarmeItem> alarmes = new ArrayList<>();
 
         while (data.moveToNext()) {
-            if (data.getInt(1) == 1) { //tipo fixo
-                int medTipo = data.getInt(2);
-                int status = data.getInt(3);
-                String nome = data.getString(4);
-                int horas = data.getInt(8);
-                int minutos = data.getInt(9);
+            int status = data.getInt(3);
+            String nome = data.getString(4);
+            int horas = data.getInt(8);
+            int minutos = data.getInt(9);
 
-                AlarmeFixItem alarme;
-
-                if (medTipo == 1){
-                    int quantidade = data.getInt(6);
-                    int quantidadeCaixa = data.getInt(7);
-                    alarme = new AlarmeFixItem(status, nome, quantidade, quantidadeCaixa, horas, minutos);
-                    alarmes.add(alarme);
-                } else if (medTipo == 2){
-                    int dosagem = data.getInt(5);
-                    alarme = new AlarmeFixItem(status, nome, dosagem, horas, minutos);
-                    alarmes.add(alarme);
-                }
-            } else {
-                //TODO: IMPLEMENTAR TIPO INTERVAL
-            }
+            AlarmeItem alarme;
+            alarme = new AlarmeItem(status, nome, horas, minutos);
+            alarmes.add(alarme);
         }
 
         AlarmeListAdapter adapter = new AlarmeListAdapter(getContext(), R.layout.alarmes_list_item, alarmes);

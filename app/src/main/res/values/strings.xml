@@ -95,6 +95,17 @@
     <string name="thursday">Q</string>
     <string name="friday">S</string>
     <string name="saturday">S</string>
+    <string name="zero_time_text">00:00</string>
+    <string name="days_of_week_info">Selecione os dias da semana:</string>
+    <string name="dialog_text_start_time_info">Informe o horário que o remédio deve começar a ser tomado</string>
+    <string name="dialog_text_how_many_times_info">Informe quantas vezes deve-se tomar o remédio por dia</string>
+    <string name="dialog_text_time_interval_info">Informe o período de tempo entre cada medicação</string>
+
+    <!-- Toque do alarme-->
+    <string name="alarm">Alarme</string>
+    <string name="turn_off">Desligar</string>
+    <string name="time_alarm">00:00</string>
+    <string name="testeremedio">Ibuprofeno</string>
 
 
 </resources>
