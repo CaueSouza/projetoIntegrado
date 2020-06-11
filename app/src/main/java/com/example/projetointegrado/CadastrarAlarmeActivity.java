@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetointegrado.databinding.ActivityCadastrarAlarmeBinding;
 
+import java.util.Random;
+
 public class CadastrarAlarmeActivity extends AppCompatActivity {
 
     private ActivityCadastrarAlarmeBinding binding;
@@ -19,6 +21,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
     private boolean isEdit;
     private int alarmEditPosition;
     private Cursor data;
+    private int validNotificationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
         if (isEdit) {
             alarmEditPosition = getIntent().getIntExtra("POSITION", -1);
             data.move(alarmEditPosition + 1);
+            validNotificationId = data.getInt(20);
 
             binding.nameInfMedicine.setText(data.getString(4));
             if (data.getInt(2) == 1) {
@@ -66,6 +70,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
             }
         } else {
             binding.radioButtonMedicineTypePill.setChecked(true);
+            validNotificationId = getValidNotificationId();
         }
 
         binding.backButtonRegisterMedicine.setOnClickListener(v -> finish());
@@ -96,7 +101,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
 
     }
 
-    private void callActivity(Class activity){
+    private void callActivity(Class activity) {
         String nome = binding.nameInfMedicine.getText().toString();
 
         if (binding.radioButtonMedicineTypePill.isChecked()) {
@@ -117,6 +122,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
                     intent.putExtra("MEDICINE_QUANTITY", Integer.parseInt(quantidade));
                     intent.putExtra("MEDICINE_BOX_QUANTITY", Integer.parseInt(quantidadeCaixa));
                     intent.putExtra("MEDICINE_NAME", nome);
+                    intent.putExtra("NOTIFICATION_ID", validNotificationId);
                     startActivity(intent);
                 } else {
                     Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
@@ -140,6 +146,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
                     intent.putExtra("MEDICINE_TYPE", 2);
                     intent.putExtra("MEDICINE_NAME", nome);
                     intent.putExtra("MEDICINE_DOSAGE", Integer.parseInt(dosagem));
+                    intent.putExtra("NOTIFICATION_ID", validNotificationId);
                     startActivity(intent);
                 } else {
                     Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
@@ -149,74 +156,6 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
             }
         }
     }
-
-//    private void callHorarioFixActivity(Class activity) {
-//        String nome = binding.nameInfMedicine.getText().toString();
-//
-//        if (binding.radioButtonMedicineTypePill.isChecked()) {
-//            String quantidade = binding.infQuantity.getText().toString();
-//            String quantidadeCaixa = binding.infBoxQuantity.getText().toString();
-//
-//            if (quantidade.length() < 10 && quantidadeCaixa.length() < 10) {
-//                if (!nome.isEmpty() && !quantidade.isEmpty() && !quantidadeCaixa.isEmpty()) {
-//                    Intent intent = new Intent(this, activity);
-//                    if (isEdit) {
-//                        intent.putExtra("IS_EDIT", true);
-//                        intent.putExtra("POSITION", alarmEditPosition);
-//                        intent.putExtra("MEDICINE_HORA", data.getInt(8));
-//                        intent.putExtra("MEDICINE_MINUTO", data.getInt(9));
-//                    }
-//
-//                    intent.putExtra("MEDICINE_TYPE", 1);
-//                    intent.putExtra("MEDICINE_QUANTITY", Integer.parseInt(quantidade));
-//                    intent.putExtra("MEDICINE_BOX_QUANTITY", Integer.parseInt(quantidadeCaixa));
-//                    intent.putExtra("MEDICINE_NAME", nome);
-//                    startActivity(intent);
-//                } else {
-//                    Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-//                }
-//            } else {
-//                Toast.makeText(this, "Número muito grande", Toast.LENGTH_SHORT).show();
-//            }
-//        } else if (binding.radioButtonMedicineTypeLiquid.isChecked()) {
-//            String dosagem = binding.infDosage.getText().toString();
-//
-//            if (dosagem.length() < 10) {
-//                if (!nome.isEmpty() && !dosagem.isEmpty()) {
-//                    Intent intent = new Intent(this, activity);
-//                    if (isEdit) {
-//                        intent.putExtra("IS_EDIT", true);
-//                        intent.putExtra("POSITION", alarmEditPosition);
-//                        intent.putExtra("MEDICINE_HORA", data.getInt(8));
-//                        intent.putExtra("MEDICINE_MINUTO", data.getInt(9));
-//                    }
-//
-//                    intent.putExtra("MEDICINE_TYPE", 2);
-//                    intent.putExtra("MEDICINE_NAME", nome);
-//                    intent.putExtra("MEDICINE_DOSAGE", Integer.parseInt(dosagem));
-//                    startActivity(intent);
-//                } else {
-//                    Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-//                }
-//            } else {
-//                Toast.makeText(this, "Número muito grande", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
-//
-//    public void callIntervaloHorarioActivity(Class activity) {
-//        String nome = binding.nameInfMedicine.getText().toString();
-//
-//        if (binding.radioButtonMedicineTypePill.isChecked()) {
-//            String quantidade = binding.infQuantity.getText().toString();
-//            String quantidadeCaixa = binding.infBoxQuantity.getText().toString();
-//
-//        } else if (binding.radioButtonMedicineTypeLiquid.isChecked()) {
-//
-//        }
-//        Intent intent = new Intent(this, activity);
-//        startActivity(intent);
-//    }
 
     public void imageInfoClick(ImageView imageView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -243,5 +182,29 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private int getValidNotificationId() {
+        Cursor data = mDataBaseAlarmsHelper.getData();
+
+        Random rand = new Random();
+        boolean isInvalid = true;
+        int randomNumber = 0;
+
+        while (isInvalid) {
+            randomNumber = rand.nextInt(1000);
+
+            if (data.moveToFirst()){
+                do {
+                    if (randomNumber == data.getInt(20)) {
+                        isInvalid = true;
+                    }
+
+                    if (data.isLast() && isInvalid == true) isInvalid = false;
+                } while (data.moveToNext());
+            } else isInvalid = false;
+        }
+
+        return randomNumber;
     }
 }

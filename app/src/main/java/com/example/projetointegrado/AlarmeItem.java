@@ -5,13 +5,14 @@ public class AlarmeItem {
     private int hora;
     private int minuto;
     private String nome;
+    private int notificationId;
 
-
-    public AlarmeItem(int status, String nome, int hora, int minuto) {
+    public AlarmeItem(int status, String nome, int hora, int minuto, int notificationId) {
         this.status = status;
         this.hora = hora;
         this.minuto = minuto;
         this.nome = nome;
+        this.notificationId = notificationId;
     }
 
     public int getStatus() {
@@ -34,7 +35,7 @@ public class AlarmeItem {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public int getNotificationId() {
+        return notificationId;
     }
 }

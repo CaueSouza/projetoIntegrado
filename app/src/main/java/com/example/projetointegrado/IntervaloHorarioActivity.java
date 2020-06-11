@@ -1,5 +1,8 @@
 package com.example.projetointegrado;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,6 +13,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetointegrado.databinding.ActivityIntervaloHorarioBinding;
+
+import java.util.Calendar;
+
+import static android.app.AlarmManager.RTC_WAKEUP;
 
 public class IntervaloHorarioActivity extends AppCompatActivity {
 
@@ -34,7 +41,7 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
         binding.startTimeIntervalText.addTextChangedListener(MaskEditUtil.mask(binding.startTimeIntervalText, MaskEditUtil.FORMAT_HOUR));
         binding.timeIntervalText.addTextChangedListener(MaskEditUtil.mask(binding.timeIntervalText, MaskEditUtil.FORMAT_HOUR));
 
-        if (isEdit){
+        if (isEdit) {
             alarmEditPosition = getIntent().getIntExtra("POSITION", -1);
             data.move(alarmEditPosition + 1);
 
@@ -65,30 +72,31 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
         binding.nextButtonIntervalClock.setOnClickListener(v -> {
             int medTipo = getIntent().getIntExtra("MEDICINE_TYPE", 0);
             String nome = getIntent().getStringExtra("MEDICINE_NAME");
+            int notificationId = getIntent().getIntExtra("NOTIFICATION_ID", 0);
 
             if (medTipo == 1) {
                 int quantidade = getIntent().getIntExtra("MEDICINE_QUANTITY", 0);
                 int quantidadeCaixa = getIntent().getIntExtra("MEDICINE_BOX_QUANTITY", 0);
-                addDataDB(nome, quantidade, quantidadeCaixa);
-            } else if (medTipo == 2){
+                addDataDB(nome, quantidade, quantidadeCaixa, notificationId);
+            } else if (medTipo == 2) {
                 int dosagem = getIntent().getIntExtra("MEDICINE_DOSAGE", 0);
-                addDataDB(nome, dosagem);
+                addDataDB(nome, dosagem, notificationId);
             }
         });
     }
 
-    private void addDataDB(String nome, int quantidade, int quantidadeCaixa) {
+    private void addDataDB(String nome, int quantidade, int quantidadeCaixa, int notificationId) {
 
-        if (MaskEditUtil.unmask(binding.startTimeIntervalText.getText().toString()).length() == 4 && MaskEditUtil.unmask(binding.timeIntervalText.getText().toString()).length() == 4){
-            int hora_inicio = Integer.parseInt(binding.startTimeIntervalText.getText().toString().substring(0,2));
-            int min_inicio = Integer.parseInt(binding.startTimeIntervalText.getText().toString().substring(3,5));
+        if (MaskEditUtil.unmask(binding.startTimeIntervalText.getText().toString()).length() == 4 && MaskEditUtil.unmask(binding.timeIntervalText.getText().toString()).length() == 4) {
+            int hora_inicio = Integer.parseInt(binding.startTimeIntervalText.getText().toString().substring(0, 2));
+            int min_inicio = Integer.parseInt(binding.startTimeIntervalText.getText().toString().substring(3, 5));
 
-            int hora_periodo = Integer.parseInt(binding.timeIntervalText.getText().toString().substring(0,2));
-            int min_periodo = Integer.parseInt(binding.timeIntervalText.getText().toString().substring(3,5));
+            int hora_periodo = Integer.parseInt(binding.timeIntervalText.getText().toString().substring(0, 2));
+            int min_periodo = Integer.parseInt(binding.timeIntervalText.getText().toString().substring(3, 5));
 
             String vezes_dia_str = binding.howManyTimesIntervalText.getText().toString();
 
-            if (hora_inicio < 24 && min_inicio < 60 && hora_periodo < 24 && min_periodo < 60){
+            if (hora_inicio < 24 && min_inicio < 60 && hora_periodo < 24 && min_periodo < 60) {
 
                 if (vezes_dia_str.length() < 10) {
                     int vezes_dia = Integer.parseInt(vezes_dia_str);
@@ -97,12 +105,13 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
                     if (isEdit) {
                         int ativo = data.getInt(3);
 
-                        confirmation = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(alarmEditPosition + 1), ativo, nome, quantidade, quantidadeCaixa, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo);
+                        confirmation = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(alarmEditPosition + 1), ativo, nome, quantidade, quantidadeCaixa, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo, notificationId);
                     } else {
-                        confirmation = mDataBaseAlarmsHelper.addDataInterval(nome, quantidade, quantidadeCaixa, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo);
+                        confirmation = mDataBaseAlarmsHelper.addDataInterval(nome, quantidade, quantidadeCaixa, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo, notificationId);
                     }
 
                     if (confirmation) {
+                        //createAlarmIntent(horas, minutos);
                         Intent intent = new Intent(this, FragmentsActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
@@ -113,17 +122,17 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
         } else Toast.makeText(this, "Insira os dados corretamente", Toast.LENGTH_SHORT).show();
     }
 
-    private void addDataDB(String nome, int dosagem) {
-        if (MaskEditUtil.unmask(binding.startTimeIntervalText.getText().toString()).length() == 4 && MaskEditUtil.unmask(binding.timeIntervalText.getText().toString()).length() == 4){
-            int hora_inicio = Integer.parseInt(binding.startTimeIntervalText.getText().toString().substring(0,2));
-            int min_inicio = Integer.parseInt(binding.startTimeIntervalText.getText().toString().substring(3,5));
+    private void addDataDB(String nome, int dosagem, int notificationId) {
+        if (MaskEditUtil.unmask(binding.startTimeIntervalText.getText().toString()).length() == 4 && MaskEditUtil.unmask(binding.timeIntervalText.getText().toString()).length() == 4) {
+            int hora_inicio = Integer.parseInt(binding.startTimeIntervalText.getText().toString().substring(0, 2));
+            int min_inicio = Integer.parseInt(binding.startTimeIntervalText.getText().toString().substring(3, 5));
 
-            int hora_periodo = Integer.parseInt(binding.timeIntervalText.getText().toString().substring(0,2));
-            int min_periodo = Integer.parseInt(binding.timeIntervalText.getText().toString().substring(3,5));
+            int hora_periodo = Integer.parseInt(binding.timeIntervalText.getText().toString().substring(0, 2));
+            int min_periodo = Integer.parseInt(binding.timeIntervalText.getText().toString().substring(3, 5));
 
             String vezes_dia_str = binding.howManyTimesIntervalText.getText().toString();
 
-            if (hora_inicio < 24 && min_inicio < 60 && hora_periodo < 24 && min_periodo < 60){
+            if (hora_inicio < 24 && min_inicio < 60 && hora_periodo < 24 && min_periodo < 60) {
 
                 if (vezes_dia_str.length() < 10) {
                     int vezes_dia = Integer.parseInt(vezes_dia_str);
@@ -132,12 +141,13 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
                     if (isEdit) {
                         int ativo = data.getInt(3);
 
-                        confirmation = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(alarmEditPosition + 1), ativo, nome, dosagem, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo);
+                        confirmation = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(alarmEditPosition + 1), ativo, nome, dosagem, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo, notificationId);
                     } else {
-                        confirmation = mDataBaseAlarmsHelper.addDataInterval(nome, dosagem, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo);
+                        confirmation = mDataBaseAlarmsHelper.addDataInterval(nome, dosagem, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo, notificationId);
                     }
 
                     if (confirmation) {
+                        //createAlarmIntent(horas, minutos);
                         Intent intent = new Intent(this, FragmentsActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
@@ -163,5 +173,24 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
         builder.setPositiveButton(R.string.ok, (dialog, id) -> dialog.dismiss());
 
         builder.create().show();
+    }
+
+    private void createAlarmIntent(int horas, int minutos) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH),
+                horas,
+                minutos,
+                0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmeReceiver.class);
+        intent.putExtra("NOTIFICATION_ID", 1);
+        intent.putExtra("ALARM_TYPE", 2);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        //every 20 min -> 3° param = 1000 * 60 * 20
     }
 }
