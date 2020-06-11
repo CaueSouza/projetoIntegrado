@@ -13,15 +13,7 @@ public class CaixaItem {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getIP() {
         return IP;
-    }
-
-    public void setIP(String IP) {
-        this.IP = IP;
     }
 }
