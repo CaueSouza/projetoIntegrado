@@ -8,7 +8,26 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import static com.example.projetointegrado.Constants.*;
+import static com.example.projetointegrado.Constants.ALARM_TYPE;
+import static com.example.projetointegrado.Constants.ATIVO;
+import static com.example.projetointegrado.Constants.DOMINGO;
+import static com.example.projetointegrado.Constants.DOSAGEM;
+import static com.example.projetointegrado.Constants.HORA;
+import static com.example.projetointegrado.Constants.MEDICINE_TYPE;
+import static com.example.projetointegrado.Constants.MINUTO;
+import static com.example.projetointegrado.Constants.NOME_REMEDIO;
+import static com.example.projetointegrado.Constants.NOTIFICATION_ID;
+import static com.example.projetointegrado.Constants.PERIODO_HORA;
+import static com.example.projetointegrado.Constants.PERIODO_MIN;
+import static com.example.projetointegrado.Constants.QUANTIDADE;
+import static com.example.projetointegrado.Constants.QUANTIDADE_BOX;
+import static com.example.projetointegrado.Constants.QUARTA;
+import static com.example.projetointegrado.Constants.QUINTA;
+import static com.example.projetointegrado.Constants.SABADO;
+import static com.example.projetointegrado.Constants.SEGUNDA;
+import static com.example.projetointegrado.Constants.SEXTA;
+import static com.example.projetointegrado.Constants.TERCA;
+import static com.example.projetointegrado.Constants.VEZES_DIA;
 
 public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
 

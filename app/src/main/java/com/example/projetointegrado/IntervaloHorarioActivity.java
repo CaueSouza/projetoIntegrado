@@ -255,12 +255,12 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e(TAG, "onFailure: falhou");
+                Log.e(TAG, "onFailure:" + t);
             }
         });
     }
 
-    private void createPostCreateAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId){
+    private void createPostCreateAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -294,7 +294,7 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e(TAG, "onFailure: falhou");
+                Log.e(TAG, "onFailure:" + t);
             }
         });
     }
@@ -341,7 +341,7 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
         return null;
     }
 
-    private String formatJSONnewAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId){
+    private String formatJSONnewAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
 
         final JSONObject root = new JSONObject();
 

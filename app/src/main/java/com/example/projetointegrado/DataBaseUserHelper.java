@@ -43,7 +43,7 @@ public class DataBaseUserHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL1, tipo);
-        if (tipo == 1){
+        if (tipo == 1) {
             contentValues.put(COL3, email);
         } else {
             contentValues.put(COL2, fone);

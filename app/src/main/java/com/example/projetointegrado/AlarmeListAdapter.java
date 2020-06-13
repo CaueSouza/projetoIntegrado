@@ -2,13 +2,14 @@ package com.example.projetointegrado;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +17,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.projetointegrado.Constants.BASE_URL;
+import static com.example.projetointegrado.Constants.HORA;
+import static com.example.projetointegrado.Constants.MINUTO;
+import static com.example.projetointegrado.Constants.NOME_REMEDIO;
 
 public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
 
@@ -25,11 +43,14 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
     private Context mContext;
     private int mResource;
     private DataBaseAlarmsHelper mDataBaseAlarmsHelper;
+    private String userId;
+    private ProgressBar progressBar;
 
-    AlarmeListAdapter(Context context, int resource, ArrayList<AlarmeItem> objects) {
+    AlarmeListAdapter(Context context, int resource, ArrayList<AlarmeItem> objects, String userId) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
+        this.userId = userId;
         mDataBaseAlarmsHelper = new DataBaseAlarmsHelper(context);
     }
 
@@ -58,6 +79,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
         TextView timeView = convertView.findViewById(R.id.adapter_time);
         TextView textView = convertView.findViewById(R.id.adapter_text);
         ImageView imageViewDelete = convertView.findViewById(R.id.alarm_list_image);
+        progressBar = (ProgressBar) convertView.findViewById(R.id.progress_bar_list);
 
         imageViewStatus.setImageResource(isActive == 1 ? R.drawable.ic_alarm_on_black_24dp : R.drawable.ic_alarm_off_black_24dp);
         timeView.setText(horaTotal);
@@ -181,15 +203,8 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
                     .setTitle(R.string.dialog_title);
 
             builder.setPositiveButton(R.string.ok, (dialog, id) -> {
-                Cursor data = mDataBaseAlarmsHelper.getData();
-                data.move(position + 1);
-
-                int isDeleted = mDataBaseAlarmsHelper.removeData(String.valueOf(data.getInt(0)));
-
-                if (isDeleted > 0) {
-                    AlarmeListAdapter.this.remove(getItem(position));
-                    AlarmeListAdapter.this.notifyDataSetChanged();
-                } else Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.VISIBLE);
+                createPostDeleteAlarm(position, nome, horas, minutos);
             });
 
             builder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
@@ -198,5 +213,65 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
             dialog.show();
         });
         return convertView;
+    }
+
+    private void createPostDeleteAlarm(int position, String nome, int horas, int minutos) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+        String requestStr = formatJSON(nome, horas, minutos);
+        JsonObject request = JsonParser.parseString(requestStr).getAsJsonObject();
+
+        Call<JsonObject> call = jsonPlaceHolderApi.postDeleteAlarm(request);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressBar.setVisibility(View.GONE);
+
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Cursor data = mDataBaseAlarmsHelper.getData();
+                data.move(position + 1);
+                int isDeleted = mDataBaseAlarmsHelper.removeData(String.valueOf(data.getInt(0)));
+
+                if (isDeleted > 0) {
+                    AlarmeListAdapter.this.remove(getItem(position));
+                    AlarmeListAdapter.this.notifyDataSetChanged();
+                } else Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
+
+                Log.e(TAG, "onResponse: " + response);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure:" + t);
+            }
+        });
+    }
+
+    private String formatJSON(String velhoNome, int velhaHora, int velhoMinuto) {
+        final JSONObject root = new JSONObject();
+
+        try {
+            JSONObject velhoAlarme = new JSONObject();
+            velhoAlarme.put(NOME_REMEDIO, velhoNome);
+            velhoAlarme.put(HORA, velhaHora);
+            velhoAlarme.put(MINUTO, velhoMinuto);
+
+            root.put("id", userId);
+            root.put("velhoAlarme", velhoAlarme);
+
+            return root.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

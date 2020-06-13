@@ -3,7 +3,6 @@ package com.example.projetointegrado;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.projetointegrado.databinding.FragmentAlarmesBinding;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.example.projetointegrado.Constants.BASE_URL;
 
 public class FragmentAlarms extends Fragment {
 
@@ -57,7 +46,7 @@ public class FragmentAlarms extends Fragment {
             alarmes.add(alarme);
         }
 
-        AlarmeListAdapter adapter = new AlarmeListAdapter(getContext(), R.layout.alarmes_list_item, alarmes);
+        AlarmeListAdapter adapter = new AlarmeListAdapter(getContext(), R.layout.alarmes_list_item, alarmes, userId);
         binding.alarmesListView.setAdapter(adapter);
 
         binding.alarmesListView.setOnItemClickListener((parent, view, position, id) -> {

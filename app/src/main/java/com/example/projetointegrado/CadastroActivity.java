@@ -118,7 +118,7 @@ public class CadastroActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e(TAG, "onFailure: falhou");
+                Log.e(TAG, "onFailure: " + t);
             }
         });
     }

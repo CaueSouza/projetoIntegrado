@@ -146,7 +146,7 @@ public class HorarioFixActivity extends AppCompatActivity {
                     0,
                     notificationId);
 
-            if (confirmation){
+            if (confirmation) {
                 createPostUpdateAlarm(
                         tipoRemedio,
                         ativo,
@@ -200,69 +200,6 @@ public class HorarioFixActivity extends AppCompatActivity {
         }
     }
 
-//    private void addDataDB(String nome, int dosagem, int notificationId) {
-//        int horas = binding.idClockSchedule.getHour();
-//        int minutos = binding.idClockSchedule.getMinute();
-//
-//        boolean confirmation;
-//
-//        int[] dias = new int[7];
-//        dias[0] = binding.sundayDay.isChecked() ? 1 : 0;
-//        dias[1] = binding.mondayDay.isChecked() ? 1 : 0;
-//        dias[2] = binding.tuesdayDay.isChecked() ? 1 : 0;
-//        dias[3] = binding.wednesdayDay.isChecked() ? 1 : 0;
-//        dias[4] = binding.thursdayDay.isChecked() ? 1 : 0;
-//        dias[5] = binding.fridayDay.isChecked() ? 1 : 0;
-//        dias[6] = binding.saturdayDay.isChecked() ? 1 : 0;
-//
-//        if (isEdit) {
-//            int ativo = data.getInt(3);
-//
-//            confirmation = mDataBaseAlarmsHelper.updateData(
-//                    String.valueOf(alarmEditPosition + 1),
-//                    1,
-//                    2,
-//                    ativo,
-//                    nome,
-//                    dosagem,
-//                    0,
-//                    0,
-//                    horas,
-//                    minutos,
-//                    dias,
-//                    0,
-//                    0,
-//                    0,
-//                    notificationId);
-//        } else {
-//            confirmation = mDataBaseAlarmsHelper.addData(
-//                    1,
-//                    2,
-//                    1,
-//                    nome,
-//                    dosagem,
-//                    0,
-//                    0,
-//                    horas,
-//                    minutos,
-//                    dias,
-//                    0,
-//                    0,
-//                    0,
-//                    notificationId);
-//
-//
-//        }
-//
-//        if (confirmation) {
-//            createAlarmIntent(horas, minutos, dias, notificationId);
-//            Intent intent = new Intent(this, FragmentsActivity.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(intent);
-//            finish();
-//        } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
-//    }
-
     private void createPostUpdateAlarm(int medicineType, int ativo, String velhoNome, String nome, int dosagem, int quantidade, int quantidadeBox, int oldHour, int oldMinute, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -297,11 +234,12 @@ public class HorarioFixActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e(TAG, "onFailure: falhou");
+                Log.e(TAG, "onFailure:" + t);
             }
         });
     }
-    private void createPostCreateAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId){
+
+    private void createPostCreateAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -335,7 +273,7 @@ public class HorarioFixActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e(TAG, "onFailure: falhou");
+                Log.e(TAG, "onFailure:" + t);
             }
         });
     }
@@ -382,7 +320,7 @@ public class HorarioFixActivity extends AppCompatActivity {
         return null;
     }
 
-    private String formatJSONnewAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId){
+    private String formatJSONnewAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
 
         final JSONObject root = new JSONObject();
 

@@ -203,12 +203,12 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                Log.e(TAG, "onResponse: " + postResponse);
+                Log.e(TAG, "onResponse: " + response);
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e(TAG, "onFailure: falhou");
+                Log.e(TAG, "onFailure:" + t);
             }
         });
     }
@@ -233,7 +233,7 @@ public class LoginActivity extends AppCompatActivity {
                 getBaseContext().deleteDatabase("alarms_table");
                 getBaseContext().deleteDatabase("boxes_table");
 
-                if (alarmsArray != null){
+                if (alarmsArray != null) {
                     mDataBaseAlarmsHelper = new DataBaseAlarmsHelper(getBaseContext());
 
                     for (int i = 0; i < alarmsArray.size(); i++) {
@@ -267,7 +267,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
 
-                if (boxArray != null){
+                if (boxArray != null) {
                     mDataBaseBoxHelper = new DataBaseBoxHelper(getBaseContext());
 
                     for (int i = 0; i < boxArray.size(); i++) {
@@ -291,7 +291,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e(TAG, "onFailure: falhou");
+                Log.e(TAG, "onFailure:" + t);
             }
         });
     }
