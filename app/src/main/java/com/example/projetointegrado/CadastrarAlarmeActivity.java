@@ -22,6 +22,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
     private int alarmEditPosition;
     private Cursor data;
     private int validNotificationId;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle(R.string.register_alarm_title);
+
+        userId = getIntent().getStringExtra("USER_ID");
 
         mDataBaseAlarmsHelper = new DataBaseAlarmsHelper(this);
         data = mDataBaseAlarmsHelper.getData();
@@ -118,6 +121,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
                         intent.putExtra("MEDICINE_MINUTO", data.getInt(9));
                     }
 
+                    intent.putExtra("USER_ID", userId);
                     intent.putExtra("MEDICINE_TYPE", 1);
                     intent.putExtra("MEDICINE_QUANTITY", Integer.parseInt(quantidade));
                     intent.putExtra("MEDICINE_BOX_QUANTITY", Integer.parseInt(quantidadeCaixa));
@@ -143,6 +147,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
                         intent.putExtra("MEDICINE_MINUTO", data.getInt(9));
                     }
 
+                    intent.putExtra("USER_ID", userId);
                     intent.putExtra("MEDICINE_TYPE", 2);
                     intent.putExtra("MEDICINE_NAME", nome);
                     intent.putExtra("MEDICINE_DOSAGE", Integer.parseInt(dosagem));
@@ -200,7 +205,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
                         isInvalid = true;
                     }
 
-                    if (data.isLast() && isInvalid == true) isInvalid = false;
+                    if (data.isLast() && isInvalid) isInvalid = false;
                 } while (data.moveToNext());
             } else isInvalid = false;
         }

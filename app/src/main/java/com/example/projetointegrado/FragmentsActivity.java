@@ -16,6 +16,7 @@ public class FragmentsActivity extends AppCompatActivity {
     private ActivityFragmentsBinding binding;
     private static final String TAG = "AlarmeActivity";
     private Fragment actualFragment;
+    private String userId;
 
     //TODO REMOVE AFTER CREATING ACTIVITY TO REGISTER A NEW BOX
     DataBaseBoxHelper mDataBaseBoxHelper;
@@ -25,6 +26,8 @@ public class FragmentsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityFragmentsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        userId = getIntent().getStringExtra("USER_ID");
 
         //TODO REMOVE AFTER CREATING ACTIVITY TO REGISTER A NEW BOX
         mDataBaseBoxHelper = new DataBaseBoxHelper(this);
@@ -52,6 +55,7 @@ public class FragmentsActivity extends AppCompatActivity {
         binding.fabFragment.setOnClickListener(v -> {
             if (actualFragment instanceof FragmentAlarms) {
                 Intent intent = new Intent(this, CadastrarAlarmeActivity.class);
+                intent.putExtra("USER_ID", userId);
                 startActivity(intent);
             }
 

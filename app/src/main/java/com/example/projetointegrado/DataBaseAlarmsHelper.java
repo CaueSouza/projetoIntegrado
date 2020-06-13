@@ -8,30 +8,32 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import static com.example.projetointegrado.Constants.*;
+
 public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_NAME = "alarms_table";
     private static final String COL0 = "ID";
-    private static final String COL1 = "alarm_type";//1 == fixo 2 == intervalo
-    private static final String COL2 = "medicine_type";//1 == pilula 2 == liquid
-    private static final String COL3 = "ativo";// 1 == ativo 0 == inativo
-    private static final String COL4 = "nome_remedio";
-    private static final String COL5 = "dosagem";
-    private static final String COL6 = "quantidade";
-    private static final String COL7 = "quantidade_box";
-    private static final String COL8 = "hora";
-    private static final String COL9 = "minuto";
-    private static final String COL10 = "domingo";
-    private static final String COL11 = "segunda";
-    private static final String COL12 = "terca";
-    private static final String COL13 = "quarta";
-    private static final String COL14 = "quinta";
-    private static final String COL15 = "sexta";
-    private static final String COL16 = "sabado";
-    private static final String COL17 = "vezes_dia";
-    private static final String COL18 = "periodo_hora";
-    private static final String COL19 = "periodo_min";
-    private static final String COL20 = "notification_id";
+    private static final String COL1 = ALARM_TYPE;//1 == fixo 2 == intervalo
+    private static final String COL2 = MEDICINE_TYPE;//1 == pilula 2 == liquid
+    private static final String COL3 = ATIVO;// 1 == ativo 0 == inativo
+    private static final String COL4 = NOME_REMEDIO;
+    private static final String COL5 = DOSAGEM;
+    private static final String COL6 = QUANTIDADE;
+    private static final String COL7 = QUANTIDADE_BOX;
+    private static final String COL8 = HORA;
+    private static final String COL9 = MINUTO;
+    private static final String COL10 = DOMINGO;
+    private static final String COL11 = SEGUNDA;
+    private static final String COL12 = TERCA;
+    private static final String COL13 = QUARTA;
+    private static final String COL14 = QUINTA;
+    private static final String COL15 = SEXTA;
+    private static final String COL16 = SABADO;
+    private static final String COL17 = VEZES_DIA;
+    private static final String COL18 = PERIODO_HORA;
+    private static final String COL19 = PERIODO_MIN;
+    private static final String COL20 = NOTIFICATION_ID;
 
     public DataBaseAlarmsHelper(@Nullable Context context) {
         super(context, TABLE_NAME, null, 1);

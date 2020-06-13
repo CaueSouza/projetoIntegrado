@@ -40,6 +40,8 @@ public class FragmentAlarms extends Fragment {
         binding = FragmentAlarmesBinding.inflate(getLayoutInflater());
         mDataBaseAlarmsHelper = new DataBaseAlarmsHelper(getActivity());
 
+        String userId = getActivity().getIntent().getStringExtra("USER_ID");
+
         Cursor data = mDataBaseAlarmsHelper.getData();
         ArrayList<AlarmeItem> alarmes = new ArrayList<>();
 
@@ -62,6 +64,7 @@ public class FragmentAlarms extends Fragment {
             Intent intent = new Intent(getContext(), CadastrarAlarmeActivity.class);
             intent.putExtra("IS_EDIT", true);
             intent.putExtra("POSITION", position);
+            intent.putExtra("USER_ID", userId);
             startActivity(intent);
         });
 

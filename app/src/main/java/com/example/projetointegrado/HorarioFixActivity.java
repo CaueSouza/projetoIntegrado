@@ -6,23 +6,59 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetointegrado.databinding.ActivityHorarioFixBinding;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 import static android.app.AlarmManager.RTC_WAKEUP;
+import static com.example.projetointegrado.Constants.ALARM_TYPE;
+import static com.example.projetointegrado.Constants.ATIVO;
+import static com.example.projetointegrado.Constants.BASE_URL;
+import static com.example.projetointegrado.Constants.DOMINGO;
+import static com.example.projetointegrado.Constants.DOSAGEM;
+import static com.example.projetointegrado.Constants.HORA;
+import static com.example.projetointegrado.Constants.MEDICINE_TYPE;
+import static com.example.projetointegrado.Constants.MINUTO;
+import static com.example.projetointegrado.Constants.NOME_REMEDIO;
+import static com.example.projetointegrado.Constants.NOTIFICATION_ID;
+import static com.example.projetointegrado.Constants.PERIODO_HORA;
+import static com.example.projetointegrado.Constants.PERIODO_MIN;
+import static com.example.projetointegrado.Constants.QUANTIDADE;
+import static com.example.projetointegrado.Constants.QUANTIDADE_BOX;
+import static com.example.projetointegrado.Constants.QUARTA;
+import static com.example.projetointegrado.Constants.QUINTA;
+import static com.example.projetointegrado.Constants.SABADO;
+import static com.example.projetointegrado.Constants.SEGUNDA;
+import static com.example.projetointegrado.Constants.SEXTA;
+import static com.example.projetointegrado.Constants.TERCA;
+import static com.example.projetointegrado.Constants.VEZES_DIA;
 
 public class HorarioFixActivity extends AppCompatActivity {
 
+    private static final String TAG = "HorarioFixActivity";
     private ActivityHorarioFixBinding binding;
     private DataBaseAlarmsHelper mDataBaseAlarmsHelper;
     private boolean isEdit;
     private int alarmEditPosition;
     private Cursor data;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +68,7 @@ public class HorarioFixActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(R.string.action_button_fix_time);
 
+        userId = getIntent().getStringExtra("USER_ID");
         isEdit = getIntent().getBooleanExtra("IS_EDIT", false);
         mDataBaseAlarmsHelper = new DataBaseAlarmsHelper(this);
         data = mDataBaseAlarmsHelper.getData();
@@ -54,6 +91,8 @@ public class HorarioFixActivity extends AppCompatActivity {
         binding.backButtonRegisterMedicine.setOnClickListener(v -> finish());
 
         binding.nextButtonRegisterMedicine.setOnClickListener(v -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+
             int medTipo = getIntent().getIntExtra("MEDICINE_TYPE", 0);
             String nome = getIntent().getStringExtra("MEDICINE_NAME");
             int notificationId = getIntent().getIntExtra("NOTIFICATION_ID", 0);
@@ -61,15 +100,15 @@ public class HorarioFixActivity extends AppCompatActivity {
             if (medTipo == 1) {
                 int quantidade = getIntent().getIntExtra("MEDICINE_QUANTITY", 0);
                 int quantidadeCaixa = getIntent().getIntExtra("MEDICINE_BOX_QUANTITY", 0);
-                addDataDB(nome, quantidade, quantidadeCaixa, notificationId);
+                addDataDB(medTipo, nome, 0, quantidade, quantidadeCaixa, notificationId);
             } else if (medTipo == 2) {
                 int dosagem = getIntent().getIntExtra("MEDICINE_DOSAGE", 0);
-                addDataDB(nome, dosagem, notificationId);
+                addDataDB(medTipo, nome, dosagem, 0, 0, notificationId);
             }
         });
     }
 
-    private void addDataDB(String nome, int quantidade, int quantidadeCaixa, int notificationId) {
+    private void addDataDB(int tipoRemedio, String nome, int dosagem, int quantidade, int quantidadeCaixa, int notificationId) {
         int horas = binding.idClockSchedule.getHour();
         int minutos = binding.idClockSchedule.getMinute();
 
@@ -86,13 +125,17 @@ public class HorarioFixActivity extends AppCompatActivity {
 
         if (isEdit) {
             int ativo = data.getInt(3);
+            int velhaHora = data.getInt(8);
+            int velhoMinuto = data.getInt(9);
+            String velhoNome = data.getString(4);
+
             confirmation = mDataBaseAlarmsHelper.updateData(
                     String.valueOf(alarmEditPosition + 1),
                     1,
-                    1,
+                    tipoRemedio,
                     ativo,
                     nome,
-                    0,
+                    dosagem,
                     quantidade,
                     quantidadeCaixa,
                     horas,
@@ -102,13 +145,33 @@ public class HorarioFixActivity extends AppCompatActivity {
                     0,
                     0,
                     notificationId);
+
+            if (confirmation){
+                createPostUpdateAlarm(
+                        tipoRemedio,
+                        ativo,
+                        velhoNome,
+                        nome,
+                        dosagem,
+                        quantidade,
+                        quantidadeCaixa,
+                        velhaHora,
+                        velhoMinuto,
+                        horas,
+                        minutos,
+                        dias,
+                        0,
+                        0,
+                        0,
+                        notificationId);
+            } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
         } else {
             confirmation = mDataBaseAlarmsHelper.addData(
                     1,
-                    2,
+                    tipoRemedio,
                     1,
                     nome,
-                    0,
+                    dosagem,
                     quantidade,
                     quantidadeCaixa,
                     horas,
@@ -118,76 +181,243 @@ public class HorarioFixActivity extends AppCompatActivity {
                     0,
                     0,
                     notificationId);
-        }
 
-        if (confirmation) {
-            createAlarmIntent(horas, minutos, dias, notificationId);
-            Intent intent = new Intent(this, FragmentsActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
+            if (confirmation) {
+                createPostCreateAlarm(
+                        tipoRemedio,
+                        nome,
+                        dosagem,
+                        quantidade,
+                        quantidadeCaixa,
+                        horas,
+                        minutos,
+                        dias,
+                        0,
+                        0,
+                        0,
+                        notificationId);
+            } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
+        }
     }
 
-    private void addDataDB(String nome, int dosagem, int notificationId) {
-        int horas = binding.idClockSchedule.getHour();
-        int minutos = binding.idClockSchedule.getMinute();
+//    private void addDataDB(String nome, int dosagem, int notificationId) {
+//        int horas = binding.idClockSchedule.getHour();
+//        int minutos = binding.idClockSchedule.getMinute();
+//
+//        boolean confirmation;
+//
+//        int[] dias = new int[7];
+//        dias[0] = binding.sundayDay.isChecked() ? 1 : 0;
+//        dias[1] = binding.mondayDay.isChecked() ? 1 : 0;
+//        dias[2] = binding.tuesdayDay.isChecked() ? 1 : 0;
+//        dias[3] = binding.wednesdayDay.isChecked() ? 1 : 0;
+//        dias[4] = binding.thursdayDay.isChecked() ? 1 : 0;
+//        dias[5] = binding.fridayDay.isChecked() ? 1 : 0;
+//        dias[6] = binding.saturdayDay.isChecked() ? 1 : 0;
+//
+//        if (isEdit) {
+//            int ativo = data.getInt(3);
+//
+//            confirmation = mDataBaseAlarmsHelper.updateData(
+//                    String.valueOf(alarmEditPosition + 1),
+//                    1,
+//                    2,
+//                    ativo,
+//                    nome,
+//                    dosagem,
+//                    0,
+//                    0,
+//                    horas,
+//                    minutos,
+//                    dias,
+//                    0,
+//                    0,
+//                    0,
+//                    notificationId);
+//        } else {
+//            confirmation = mDataBaseAlarmsHelper.addData(
+//                    1,
+//                    2,
+//                    1,
+//                    nome,
+//                    dosagem,
+//                    0,
+//                    0,
+//                    horas,
+//                    minutos,
+//                    dias,
+//                    0,
+//                    0,
+//                    0,
+//                    notificationId);
+//
+//
+//        }
+//
+//        if (confirmation) {
+//            createAlarmIntent(horas, minutos, dias, notificationId);
+//            Intent intent = new Intent(this, FragmentsActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+//            finish();
+//        } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
+//    }
 
-        boolean confirmation;
+    private void createPostUpdateAlarm(int medicineType, int ativo, String velhoNome, String nome, int dosagem, int quantidade, int quantidadeBox, int oldHour, int oldMinute, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        int[] dias = new int[7];
-        dias[0] = binding.sundayDay.isChecked() ? 1 : 0;
-        dias[1] = binding.mondayDay.isChecked() ? 1 : 0;
-        dias[2] = binding.tuesdayDay.isChecked() ? 1 : 0;
-        dias[3] = binding.wednesdayDay.isChecked() ? 1 : 0;
-        dias[4] = binding.thursdayDay.isChecked() ? 1 : 0;
-        dias[5] = binding.fridayDay.isChecked() ? 1 : 0;
-        dias[6] = binding.saturdayDay.isChecked() ? 1 : 0;
+        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        if (isEdit) {
-            int ativo = data.getInt(3);
+        String requestStr = formatJSONupdateAlarm(medicineType, ativo, velhoNome, nome, dosagem, quantidade, quantidadeBox, oldHour, oldMinute, hora, minuto, dias, vezes_dia, periodo_hora, periodo_minuto, notificationId);
+        JsonObject request = JsonParser.parseString(requestStr).getAsJsonObject();
 
-            confirmation = mDataBaseAlarmsHelper.updateData(
-                    String.valueOf(alarmEditPosition + 1),
-                    1,
-                    2,
-                    ativo,
-                    nome,
-                    dosagem,
-                    0,
-                    0,
-                    horas,
-                    minutos,
-                    dias,
-                    0,
-                    0,
-                    0,
-                    notificationId);
-        } else {
-            confirmation = mDataBaseAlarmsHelper.addData(
-                    1,
-                    2,
-                    1,
-                    nome,
-                    dosagem,
-                    0,
-                    0,
-                    horas,
-                    minutos,
-                    dias,
-                    0,
-                    0,
-                    0,
-                    notificationId);
+        Call<JsonObject> call = jsonPlaceHolderApi.postModifyAlarm(request);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                binding.progressBar.setVisibility(View.GONE);
+
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getBaseContext(), "Um erro ocorreu", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //TODO CANCEL THE OLD ALARMINTENT AND CREATE A NEW
+                Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+
+                Log.e(TAG, "onResponse: " + response);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure: falhou");
+            }
+        });
+    }
+    private void createPostCreateAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+        String requestStr = formatJSONnewAlarm(medicineType, nome, dosagem, quantidade, quantidadeBox, hora, minuto, dias, vezes_dia, periodo_hora, periodo_minuto, notificationId);
+        JsonObject request = JsonParser.parseString(requestStr).getAsJsonObject();
+
+        Call<JsonObject> call = jsonPlaceHolderApi.postCreateAlarm(request);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                binding.progressBar.setVisibility(View.GONE);
+
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getBaseContext(), "Um erro ocorreu", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //createAlarmIntent(hora, minuto, dias, notificationId);
+                Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+
+                Log.e(TAG, "onResponse: " + response);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure: falhou");
+            }
+        });
+    }
+
+    private String formatJSONupdateAlarm(int medicineType, int ativo, String velhoNome, String nome, int dosagem, int quantidade, int quantidadeBox, int velhaHora, int velhoMinuto, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
+        final JSONObject root = new JSONObject();
+
+        try {
+            JSONObject velhoAlarme = new JSONObject();
+            velhoAlarme.put(NOME_REMEDIO, velhoNome);
+            velhoAlarme.put(HORA, velhaHora);
+            velhoAlarme.put(MINUTO, velhoMinuto);
+
+            JSONObject novoAlarme = new JSONObject();
+            novoAlarme.put(ALARM_TYPE, 1);
+            novoAlarme.put(MEDICINE_TYPE, medicineType);
+            novoAlarme.put(ATIVO, ativo);
+            novoAlarme.put(NOME_REMEDIO, nome);
+            novoAlarme.put(DOSAGEM, dosagem);
+            novoAlarme.put(QUANTIDADE, quantidade);
+            novoAlarme.put(QUANTIDADE_BOX, quantidadeBox);
+            novoAlarme.put(HORA, hora);
+            novoAlarme.put(MINUTO, minuto);
+            novoAlarme.put(DOMINGO, dias[0]);
+            novoAlarme.put(SEGUNDA, dias[1]);
+            novoAlarme.put(TERCA, dias[2]);
+            novoAlarme.put(QUARTA, dias[3]);
+            novoAlarme.put(QUINTA, dias[4]);
+            novoAlarme.put(SEXTA, dias[5]);
+            novoAlarme.put(SABADO, dias[6]);
+            novoAlarme.put(VEZES_DIA, vezes_dia);
+            novoAlarme.put(PERIODO_HORA, periodo_hora);
+            novoAlarme.put(PERIODO_MIN, periodo_minuto);
+            novoAlarme.put(NOTIFICATION_ID, notificationId);
+
+            root.put("id", userId);
+            root.put("velhoAlarme", velhoAlarme);
+            root.put("novoAlarme", novoAlarme);
+
+            return root.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        return null;
+    }
 
-        if (confirmation) {
-            createAlarmIntent(horas, minutos, dias, notificationId);
-            Intent intent = new Intent(this, FragmentsActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
+    private String formatJSONnewAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId){
+
+        final JSONObject root = new JSONObject();
+
+        try {
+            JSONObject novoAlarme = new JSONObject();
+
+            novoAlarme.put(ALARM_TYPE, 1);
+            novoAlarme.put(MEDICINE_TYPE, medicineType);
+            novoAlarme.put(ATIVO, 1);
+            novoAlarme.put(NOME_REMEDIO, nome);
+            novoAlarme.put(DOSAGEM, dosagem);
+            novoAlarme.put(QUANTIDADE, quantidade);
+            novoAlarme.put(QUANTIDADE_BOX, quantidadeBox);
+            novoAlarme.put(HORA, hora);
+            novoAlarme.put(MINUTO, minuto);
+            novoAlarme.put(DOMINGO, dias[0]);
+            novoAlarme.put(SEGUNDA, dias[1]);
+            novoAlarme.put(TERCA, dias[2]);
+            novoAlarme.put(QUARTA, dias[3]);
+            novoAlarme.put(QUINTA, dias[4]);
+            novoAlarme.put(SEXTA, dias[5]);
+            novoAlarme.put(SABADO, dias[6]);
+            novoAlarme.put(VEZES_DIA, vezes_dia);
+            novoAlarme.put(PERIODO_HORA, periodo_hora);
+            novoAlarme.put(PERIODO_MIN, periodo_minuto);
+            novoAlarme.put(NOTIFICATION_ID, notificationId);
+
+            root.put("id", userId);
+            root.put("novoAlarme", novoAlarme);
+
+            return root.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void createAlarmIntent(int horas, int minutos, int[] dias, int notificationId) {

@@ -14,13 +14,22 @@ import retrofit2.http.POST;
 public interface JsonPlaceHolderApi {
 
     @POST(Constants.CREATE_USER)
-    Call<JsonObject> createPostCreateUser(@Body JsonObject body);
+    Call<JsonObject> postCreateUser(@Body JsonObject body);
 
     @FormUrlEncoded
     @POST(Constants.LOGIN_USER)
-    Call<JsonObject> createPostLogin(@FieldMap Map<String, String> fields);
+    Call<JsonObject> postLogin(@FieldMap Map<String, String> fields);
 
     @FormUrlEncoded
     @POST(Constants.USER_DATA)
-    Call<JsonObject> createPostUserData(@Field("id") String id);
+    Call<JsonObject> postUserData(@Field("id") String id);
+
+    @POST(Constants.CREATE_ALARM)
+    Call<JsonObject> postCreateAlarm(@Body JsonObject body);
+
+    @POST(Constants.MODIFY_ALARM)
+    Call<JsonObject> postModifyAlarm(@Body JsonObject body);
+
+    @POST(Constants.DELETE_ALARM)
+    Call<JsonObject> postDeleteAlarm(@Body JsonObject body);
 }

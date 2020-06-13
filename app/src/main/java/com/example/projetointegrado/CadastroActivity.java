@@ -98,7 +98,7 @@ public class CadastroActivity extends AppCompatActivity {
         String requestStr = formatJSON(email, senha, celular);
         JsonObject request = JsonParser.parseString(requestStr).getAsJsonObject();
 
-        Call<JsonObject> call = jsonPlaceHolderApi.createPostCreateUser(request);
+        Call<JsonObject> call = jsonPlaceHolderApi.postCreateUser(request);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override

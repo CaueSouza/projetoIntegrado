@@ -3,7 +3,6 @@ package com.example.projetointegrado;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +15,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +24,27 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.example.projetointegrado.Constants.ALARM_TYPE;
+import static com.example.projetointegrado.Constants.ATIVO;
 import static com.example.projetointegrado.Constants.BASE_URL;
+import static com.example.projetointegrado.Constants.DOMINGO;
+import static com.example.projetointegrado.Constants.DOSAGEM;
+import static com.example.projetointegrado.Constants.HORA;
+import static com.example.projetointegrado.Constants.MEDICINE_TYPE;
+import static com.example.projetointegrado.Constants.MINUTO;
+import static com.example.projetointegrado.Constants.NOME_REMEDIO;
+import static com.example.projetointegrado.Constants.NOTIFICATION_ID;
+import static com.example.projetointegrado.Constants.PERIODO_HORA;
+import static com.example.projetointegrado.Constants.PERIODO_MIN;
+import static com.example.projetointegrado.Constants.QUANTIDADE;
+import static com.example.projetointegrado.Constants.QUANTIDADE_BOX;
+import static com.example.projetointegrado.Constants.QUARTA;
+import static com.example.projetointegrado.Constants.QUINTA;
+import static com.example.projetointegrado.Constants.SABADO;
+import static com.example.projetointegrado.Constants.SEGUNDA;
+import static com.example.projetointegrado.Constants.SEXTA;
+import static com.example.projetointegrado.Constants.TERCA;
+import static com.example.projetointegrado.Constants.VEZES_DIA;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -139,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
         fields.put("celular", celular);
         fields.put("senha", senha);
 
-        Call<JsonObject> call = jsonPlaceHolderApi.createPostLogin(fields);
+        Call<JsonObject> call = jsonPlaceHolderApi.postLogin(fields);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -202,7 +220,7 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-        Call<JsonObject> call = jsonPlaceHolderApi.createPostUserData(userId);
+        Call<JsonObject> call = jsonPlaceHolderApi.postUserData(userId);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -223,29 +241,29 @@ public class LoginActivity extends AppCompatActivity {
                         JsonObject jsonAlarm = jsonElement.getAsJsonObject();
 
                         int[] dias = new int[7];
-                        dias[0] = jsonAlarm.get("domingo").getAsInt();
-                        dias[1] = jsonAlarm.get("segunda").getAsInt();
-                        dias[2] = jsonAlarm.get("terca").getAsInt();
-                        dias[3] = jsonAlarm.get("quarta").getAsInt();
-                        dias[4] = jsonAlarm.get("quinta").getAsInt();
-                        dias[5] = jsonAlarm.get("sexta").getAsInt();
-                        dias[6] = jsonAlarm.get("sabado").getAsInt();
+                        dias[0] = jsonAlarm.get(DOMINGO).getAsInt();
+                        dias[1] = jsonAlarm.get(SEGUNDA).getAsInt();
+                        dias[2] = jsonAlarm.get(TERCA).getAsInt();
+                        dias[3] = jsonAlarm.get(QUARTA).getAsInt();
+                        dias[4] = jsonAlarm.get(QUINTA).getAsInt();
+                        dias[5] = jsonAlarm.get(SEXTA).getAsInt();
+                        dias[6] = jsonAlarm.get(SABADO).getAsInt();
 
                         mDataBaseAlarmsHelper.addData(
-                                jsonAlarm.get("alarm_type").getAsInt(),
-                                jsonAlarm.get("medicine_type").getAsInt(),
-                                jsonAlarm.get("ativo").getAsInt(),
-                                jsonAlarm.get("nome_remedio").getAsString(),
-                                jsonAlarm.get("dosagem").getAsInt(),
-                                jsonAlarm.get("quantidade").getAsInt(),
-                                jsonAlarm.get("quantidade_box").getAsInt(),
-                                jsonAlarm.get("hora").getAsInt(),
-                                jsonAlarm.get("minuto").getAsInt(),
+                                jsonAlarm.get(ALARM_TYPE).getAsInt(),
+                                jsonAlarm.get(MEDICINE_TYPE).getAsInt(),
+                                jsonAlarm.get(ATIVO).getAsInt(),
+                                jsonAlarm.get(NOME_REMEDIO).getAsString(),
+                                jsonAlarm.get(DOSAGEM).getAsInt(),
+                                jsonAlarm.get(QUANTIDADE).getAsInt(),
+                                jsonAlarm.get(QUANTIDADE_BOX).getAsInt(),
+                                jsonAlarm.get(HORA).getAsInt(),
+                                jsonAlarm.get(MINUTO).getAsInt(),
                                 dias,
-                                jsonAlarm.get("vezes_dia").getAsInt(),
-                                jsonAlarm.get("periodo_hora").getAsInt(),
-                                jsonAlarm.get("periodo_min").getAsInt(),
-                                jsonAlarm.get("notification_id").getAsInt());
+                                jsonAlarm.get(VEZES_DIA).getAsInt(),
+                                jsonAlarm.get(PERIODO_HORA).getAsInt(),
+                                jsonAlarm.get(PERIODO_MIN).getAsInt(),
+                                jsonAlarm.get(NOTIFICATION_ID).getAsInt());
                     }
                 }
 
