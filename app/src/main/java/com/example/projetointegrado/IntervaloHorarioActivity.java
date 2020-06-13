@@ -141,22 +141,22 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
                 if (vezes_dia_str.length() < 10) {
                     int vezes_dia = Integer.parseInt(vezes_dia_str);
 
-                    boolean confirmation;
                     if (isEdit) {
                         int ativo = data.getInt(3);
                         int velhaHora = data.getInt(8);
                         int velhoMinuto = data.getInt(9);
                         String velhoNome = data.getString(4);
 
-                        confirmation = mDataBaseAlarmsHelper.updateData(
-                                String.valueOf(alarmEditPosition + 1),
-                                2,
+                        createPostUpdateAlarm(
                                 tipoRemedio,
                                 ativo,
+                                velhoNome,
                                 nome,
-                                0,
+                                dosagem,
                                 quantidade,
                                 quantidadeCaixa,
+                                velhaHora,
+                                velhoMinuto,
                                 hora_inicio,
                                 min_inicio,
                                 new int[7],
@@ -164,58 +164,20 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
                                 hora_periodo,
                                 min_periodo,
                                 notificationId);
-
-                        if (confirmation) {
-                            createPostUpdateAlarm(
-                                    tipoRemedio,
-                                    ativo,
-                                    velhoNome,
-                                    nome,
-                                    dosagem,
-                                    quantidade,
-                                    quantidadeCaixa,
-                                    velhaHora,
-                                    velhoMinuto,
-                                    hora_inicio,
-                                    min_inicio,
-                                    new int[7],
-                                    vezes_dia,
-                                    hora_periodo,
-                                    min_periodo,
-                                    notificationId);
-                        } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
                     } else {
-                        confirmation = mDataBaseAlarmsHelper.addData(
-                                2,
+                        createPostCreateAlarm(
                                 tipoRemedio,
-                                1,
                                 nome,
                                 dosagem,
                                 quantidade,
                                 quantidadeCaixa,
                                 hora_inicio,
-                                min_inicio,
+                                min_periodo,
                                 new int[7],
                                 vezes_dia,
                                 hora_periodo,
                                 min_periodo,
                                 notificationId);
-
-                        if (confirmation) {
-                            createPostCreateAlarm(
-                                    tipoRemedio,
-                                    nome,
-                                    dosagem,
-                                    quantidade,
-                                    quantidadeCaixa,
-                                    hora_inicio,
-                                    min_periodo,
-                                    new int[7],
-                                    vezes_dia,
-                                    hora_periodo,
-                                    min_periodo,
-                                    notificationId);
-                        } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
                     }
                 } else Toast.makeText(this, "Número muito grande", Toast.LENGTH_SHORT).show();
             } else Toast.makeText(this, "Insira os dados corretamente", Toast.LENGTH_SHORT).show();
@@ -241,14 +203,35 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
 
                 if (!response.isSuccessful()) {
                     Toast.makeText(getBaseContext(), "Um erro ocorreu", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onResponse: " + response);
                     return;
                 }
 
-                //TODO CANCEL THE OLD ALARMINTENT AND CREATE A NEW
-                Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                boolean confirmation = mDataBaseAlarmsHelper.updateData(
+                        String.valueOf(alarmEditPosition + 1),
+                        2,
+                        medicineType,
+                        ativo,
+                        nome,
+                        0,
+                        quantidade,
+                        quantidadeBox,
+                        hora,
+                        minuto,
+                        new int[7],
+                        vezes_dia,
+                        periodo_hora,
+                        periodo_minuto,
+                        notificationId);
+
+                if (confirmation) {
+                    //TODO CANCEL THE OLD ALARMINTENT AND CREATE A NEW
+                    Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                } else
+                    Toast.makeText(getBaseContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
 
                 Log.e(TAG, "onResponse: " + response);
             }
@@ -280,14 +263,34 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
 
                 if (!response.isSuccessful()) {
                     Toast.makeText(getBaseContext(), "Um erro ocorreu", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onResponse: " + response);
                     return;
                 }
 
-                //createAlarmIntent(hora, minuto, dias, notificationId);
-                Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                boolean confirmation = mDataBaseAlarmsHelper.addData(
+                        2,
+                        medicineType,
+                        1,
+                        nome,
+                        dosagem,
+                        quantidade,
+                        quantidade,
+                        hora,
+                        minuto,
+                        new int[7],
+                        vezes_dia,
+                        periodo_hora,
+                        periodo_minuto,
+                        notificationId);
+
+                if (confirmation) {
+                    //createAlarmIntent(hora, minuto, dias, notificationId);
+                    Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                } else
+                    Toast.makeText(getBaseContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
 
                 Log.e(TAG, "onResponse: " + response);
             }
@@ -378,71 +381,6 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
         }
         return null;
     }
-
-//    private void addDataDB(String nome, int dosagem, int notificationId) {
-//        if (MaskEditUtil.unmask(binding.startTimeIntervalText.getText().toString()).length() == 4 && MaskEditUtil.unmask(binding.timeIntervalText.getText().toString()).length() == 4) {
-//            int hora_inicio = Integer.parseInt(binding.startTimeIntervalText.getText().toString().substring(0, 2));
-//            int min_inicio = Integer.parseInt(binding.startTimeIntervalText.getText().toString().substring(3, 5));
-//
-//            int hora_periodo = Integer.parseInt(binding.timeIntervalText.getText().toString().substring(0, 2));
-//            int min_periodo = Integer.parseInt(binding.timeIntervalText.getText().toString().substring(3, 5));
-//
-//            String vezes_dia_str = binding.howManyTimesIntervalText.getText().toString();
-//
-//            if (hora_inicio < 24 && min_inicio < 60 && hora_periodo < 24 && min_periodo < 60) {
-//
-//                if (vezes_dia_str.length() < 10) {
-//                    int vezes_dia = Integer.parseInt(vezes_dia_str);
-//
-//                    boolean confirmation;
-//                    if (isEdit) {
-//                        int ativo = data.getInt(3);
-//
-//                        confirmation = mDataBaseAlarmsHelper.updateData(
-//                                String.valueOf(alarmEditPosition + 1),
-//                                1,
-//                                2,
-//                                ativo,
-//                                nome,
-//                                dosagem,
-//                                0,
-//                                0,
-//                                hora_inicio,
-//                                min_inicio,
-//                                new int[7],
-//                                vezes_dia,
-//                                hora_periodo,
-//                                min_periodo,
-//                                notificationId);
-//                    } else {
-//                        confirmation = mDataBaseAlarmsHelper.addData(
-//                                1,
-//                                2,
-//                                1,
-//                                nome,
-//                                dosagem,
-//                                0,
-//                                0,
-//                                hora_inicio,
-//                                min_inicio,
-//                                new int[7],
-//                                vezes_dia,
-//                                hora_periodo,
-//                                min_periodo,
-//                                notificationId);
-//                    }
-//
-//                    if (confirmation) {
-//                        //createAlarmIntent(horas, minutos);
-//                        Intent intent = new Intent(this, FragmentsActivity.class);
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        startActivity(intent);
-//                        finish();
-//                    } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
-//                } else Toast.makeText(this, "Número muito grande", Toast.LENGTH_SHORT).show();
-//            } else Toast.makeText(this, "Insira os dados corretamente", Toast.LENGTH_SHORT).show();
-//        } else Toast.makeText(this, "Insira os dados corretamente", Toast.LENGTH_SHORT).show();
-//    }
 
     public void imageInfoClick(ImageView imageView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

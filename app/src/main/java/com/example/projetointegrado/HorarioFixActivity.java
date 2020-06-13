@@ -121,23 +121,22 @@ public class HorarioFixActivity extends AppCompatActivity {
         dias[5] = binding.fridayDay.isChecked() ? 1 : 0;
         dias[6] = binding.saturdayDay.isChecked() ? 1 : 0;
 
-        boolean confirmation;
-
         if (isEdit) {
             int ativo = data.getInt(3);
             int velhaHora = data.getInt(8);
             int velhoMinuto = data.getInt(9);
             String velhoNome = data.getString(4);
 
-            confirmation = mDataBaseAlarmsHelper.updateData(
-                    String.valueOf(alarmEditPosition + 1),
-                    1,
+            createPostUpdateAlarm(
                     tipoRemedio,
                     ativo,
+                    velhoNome,
                     nome,
                     dosagem,
                     quantidade,
                     quantidadeCaixa,
+                    velhaHora,
+                    velhoMinuto,
                     horas,
                     minutos,
                     dias,
@@ -145,31 +144,9 @@ public class HorarioFixActivity extends AppCompatActivity {
                     0,
                     0,
                     notificationId);
-
-            if (confirmation) {
-                createPostUpdateAlarm(
-                        tipoRemedio,
-                        ativo,
-                        velhoNome,
-                        nome,
-                        dosagem,
-                        quantidade,
-                        quantidadeCaixa,
-                        velhaHora,
-                        velhoMinuto,
-                        horas,
-                        minutos,
-                        dias,
-                        0,
-                        0,
-                        0,
-                        notificationId);
-            } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
         } else {
-            confirmation = mDataBaseAlarmsHelper.addData(
-                    1,
+            createPostCreateAlarm(
                     tipoRemedio,
-                    1,
                     nome,
                     dosagem,
                     quantidade,
@@ -181,22 +158,6 @@ public class HorarioFixActivity extends AppCompatActivity {
                     0,
                     0,
                     notificationId);
-
-            if (confirmation) {
-                createPostCreateAlarm(
-                        tipoRemedio,
-                        nome,
-                        dosagem,
-                        quantidade,
-                        quantidadeCaixa,
-                        horas,
-                        minutos,
-                        dias,
-                        0,
-                        0,
-                        0,
-                        notificationId);
-            } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -220,14 +181,35 @@ public class HorarioFixActivity extends AppCompatActivity {
 
                 if (!response.isSuccessful()) {
                     Toast.makeText(getBaseContext(), "Um erro ocorreu", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onResponse: " + response);
                     return;
                 }
 
-                //TODO CANCEL THE OLD ALARMINTENT AND CREATE A NEW
-                Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                boolean confirmation = mDataBaseAlarmsHelper.updateData(
+                        String.valueOf(alarmEditPosition + 1),
+                        1,
+                        medicineType,
+                        ativo,
+                        nome,
+                        dosagem,
+                        quantidade,
+                        quantidadeBox,
+                        hora,
+                        minuto,
+                        dias,
+                        0,
+                        0,
+                        0,
+                        notificationId);
+
+                if (confirmation) {
+                    //TODO CANCEL THE OLD ALARMINTENT AND CREATE A NEW
+                    Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                } else
+                    Toast.makeText(getBaseContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
 
                 Log.e(TAG, "onResponse: " + response);
             }
@@ -259,14 +241,35 @@ public class HorarioFixActivity extends AppCompatActivity {
 
                 if (!response.isSuccessful()) {
                     Toast.makeText(getBaseContext(), "Um erro ocorreu", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onResponse: " + response);
                     return;
                 }
 
-                //createAlarmIntent(hora, minuto, dias, notificationId);
-                Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                boolean confirmation = mDataBaseAlarmsHelper.addData(
+                        1,
+                        medicineType,
+                        1,
+                        nome,
+                        dosagem,
+                        quantidade,
+                        quantidadeBox,
+                        hora,
+                        minuto,
+                        dias,
+                        0,
+                        0,
+                        0,
+                        notificationId);
+
+
+                if (confirmation) {
+                    //createAlarmIntent(hora, minuto, dias, notificationId);
+                    Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                } else
+                    Toast.makeText(getBaseContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
 
                 Log.e(TAG, "onResponse: " + response);
             }
