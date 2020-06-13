@@ -3,6 +3,7 @@ package com.example.projetointegrado;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,25 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.projetointegrado.databinding.FragmentAlarmesBinding;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.projetointegrado.Constants.BASE_URL;
+
 public class FragmentAlarms extends Fragment {
 
+    private static final String TAG = "FragmentAlarms";
     private FragmentAlarmesBinding binding;
     private DataBaseAlarmsHelper mDataBaseAlarmsHelper;
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
 
     @Nullable
     @Override

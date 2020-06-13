@@ -83,10 +83,41 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
                     int quantidade = data.getInt(6);
                     int quantidadeCaixa = data.getInt(7);
 
-                    isUpdated = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(position + 1), item.getStatus(), nome, quantidade, quantidadeCaixa, horas, minutos, dias, notificationId);
+                    isUpdated = mDataBaseAlarmsHelper.updateData(
+                            String.valueOf(position + 1),
+                            1,
+                            1,
+                            item.getStatus(),
+                            nome,
+                            0,
+                            quantidade,
+                            quantidadeCaixa,
+                            horas,
+                            minutos,
+                            dias,
+                            0,
+                            0,
+                            0,
+                            notificationId);
                 } else if (data.getInt(2) == 2) {
                     int dosagem = data.getInt(5);
-                    isUpdated = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(position + 1), item.getStatus(), nome, dosagem, horas, minutos, dias, notificationId);
+
+                    isUpdated = mDataBaseAlarmsHelper.updateData(
+                            String.valueOf(position + 1),
+                            1,
+                            2,
+                            item.getStatus(),
+                            nome,
+                            dosagem,
+                            0,
+                            0,
+                            horas,
+                            minutos,
+                            dias,
+                            0,
+                            0,
+                            0,
+                            notificationId);
                 }
             } else if (data.getInt(1) == 2) {
                 int vezes_dia = data.getInt(17);
@@ -97,10 +128,41 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
                     int quantidade = data.getInt(6);
                     int quantidadeCaixa = data.getInt(7);
 
-                    isUpdated = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(position + 1), item.getStatus(), nome, quantidade, quantidadeCaixa, horas, minutos, vezes_dia, hora_periodo, min_periodo, notificationId);
+                    isUpdated = mDataBaseAlarmsHelper.updateData(
+                            String.valueOf(position + 1),
+                            1,
+                            1,
+                            item.getStatus(),
+                            nome,
+                            0,
+                            quantidade,
+                            quantidadeCaixa,
+                            horas,
+                            minutos,
+                            new int[7],
+                            vezes_dia,
+                            hora_periodo,
+                            min_periodo,
+                            notificationId);
                 } else if (data.getInt(2) == 2) {
                     int dosagem = data.getInt(5);
-                    isUpdated = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(position + 1), item.getStatus(), nome, dosagem, horas, minutos, vezes_dia, hora_periodo, min_periodo, notificationId);
+
+                    isUpdated = mDataBaseAlarmsHelper.updateData(
+                            String.valueOf(position + 1),
+                            1,
+                            2,
+                            item.getStatus(),
+                            nome,
+                            dosagem,
+                            0,
+                            0,
+                            horas,
+                            minutos,
+                            new int[7],
+                            vezes_dia,
+                            hora_periodo,
+                            min_periodo,
+                            notificationId);
                 }
             }
 

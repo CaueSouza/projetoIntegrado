@@ -1,19 +1,36 @@
 package com.example.projetointegrado;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetointegrado.databinding.ActivityCadastroBinding;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.projetointegrado.Constants.BASE_URL;
 
 public class CadastroActivity extends AppCompatActivity {
 
+    private static final String TAG = "CadastroActivity";
+
     private ActivityCadastroBinding binding;
     DataBaseUserHelper mDataBaseUserHelper;
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,69 +48,102 @@ public class CadastroActivity extends AppCompatActivity {
         binding.emailRadioButton.setOnClickListener(v -> {
             binding.emailLayout.setVisibility(View.VISIBLE);
             binding.telephoneLayout.setVisibility(View.GONE);
+            binding.telephoneLayout.setText("");
         });
 
         binding.telefoneRadioButton.setOnClickListener(v -> {
             binding.telephoneLayout.setVisibility(View.VISIBLE);
             binding.emailLayout.setVisibility(View.GONE);
+            binding.emailLayout.setText("");
         });
     }
 
     private void addDataDB() {
-        String nome = binding.nomeLayout.getText().toString();
         String fone = MaskEditUtil.unmask(binding.telephoneLayout.getText().toString());
         String email = binding.emailLayout.getText().toString();
         String senha = binding.senhaLayout.getText().toString();
         int tipo = 0; //1 = login por email  2 = login por telefone
 
         if (binding.emailRadioButton.isChecked()) {
-            if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
+            if (email.isEmpty() || senha.isEmpty()) {
                 Toast.makeText(this, "Dados incompletos", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             tipo = 1;
         } else if (binding.telefoneRadioButton.isChecked()) {
-            if (nome.isEmpty() || fone.isEmpty() || senha.isEmpty()) {
+            if (fone.isEmpty() || senha.isEmpty()) {
                 Toast.makeText(this, "Dados incompletos", Toast.LENGTH_SHORT).show();
                 return;
             }
             //verifica se a string do telefone possui somente numeros
-            if (!fone.matches("\\d+") || fone.length() != 12) return;
+            if (!fone.matches("\\d+") || fone.length() != 11) return;
 
             tipo = 2;
         }
 
-        Cursor data = mDataBaseUserHelper.getData();
-
-        while (data.moveToNext()) {
-            if (data.getString(1).equals(String.valueOf(tipo))) {
-                if (tipo == 1) {
-                    if (data.getString(4).equals(email)) {
-                        Toast.makeText(this, "E-mail ja utilizado", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                } else if (tipo == 2) {
-                    if (data.getString(3).equals(fone)) {
-                        Toast.makeText(this, "Telefone ja utilizado", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                }
-            }
-        }
-
-        boolean insertData = false;
-        if (tipo == 1) {
-            insertData = mDataBaseUserHelper.addData(tipo, nome, email, null, senha);
-        } else if (tipo == 2) {
-            insertData = mDataBaseUserHelper.addData(tipo, nome, null, fone, senha);
-        }
-
-        if (insertData) {
-            Intent intent = new Intent(this, FragmentsActivity.class);
-            startActivity(intent);
-            finish();
-        } else Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
+        createPost(email, senha, fone);
     }
 
+    private void createPost(String email, String senha, String celular) {
+        binding.progressBar.setVisibility(View.VISIBLE);
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+        String requestStr = formatJSON(email, senha, celular);
+        JsonObject request = JsonParser.parseString(requestStr).getAsJsonObject();
+
+        Call<JsonObject> call = jsonPlaceHolderApi.createPostCreateUser(request);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                binding.progressBar.setVisibility(View.GONE);
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getBaseContext(), "Dados já utilizados", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+
+                Log.e(TAG, "onResponse: " + response);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure: falhou");
+            }
+        });
+    }
+
+    private String formatJSON(String email, String senha, String celular) {
+        final JSONObject root = new JSONObject();
+
+        try {
+            JSONArray alarmes = new JSONArray();
+            JSONArray caixas = new JSONArray();
+            JSONObject login = new JSONObject();
+
+            login.put("email", email);
+            login.put("celular", celular);
+            login.put("senha", senha);
+
+            root.put("alarmes", alarmes);
+            root.put("caixas", caixas);
+            root.put("login", login);
+
+            return root.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

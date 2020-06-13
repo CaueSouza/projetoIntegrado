@@ -105,9 +105,39 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
                     if (isEdit) {
                         int ativo = data.getInt(3);
 
-                        confirmation = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(alarmEditPosition + 1), ativo, nome, quantidade, quantidadeCaixa, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo, notificationId);
+                        confirmation = mDataBaseAlarmsHelper.updateData(
+                                String.valueOf(alarmEditPosition + 1),
+                                1,
+                                1,
+                                ativo,
+                                nome,
+                                0,
+                                quantidade,
+                                quantidadeCaixa,
+                                hora_inicio,
+                                min_inicio,
+                                new int[7],
+                                vezes_dia,
+                                hora_periodo,
+                                min_periodo,
+                                notificationId);
                     } else {
-                        confirmation = mDataBaseAlarmsHelper.addDataInterval(nome, quantidade, quantidadeCaixa, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo, notificationId);
+                        confirmation = mDataBaseAlarmsHelper.updateData(
+                                String.valueOf(alarmEditPosition + 1),
+                                1,
+                                1,
+                                1,
+                                nome,
+                                0,
+                                quantidade,
+                                quantidadeCaixa,
+                                hora_inicio,
+                                min_inicio,
+                                new int[7],
+                                vezes_dia,
+                                hora_periodo,
+                                min_periodo,
+                                notificationId);
                     }
 
                     if (confirmation) {
@@ -141,9 +171,38 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
                     if (isEdit) {
                         int ativo = data.getInt(3);
 
-                        confirmation = mDataBaseAlarmsHelper.updateDataInterval(String.valueOf(alarmEditPosition + 1), ativo, nome, dosagem, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo, notificationId);
+                        confirmation = mDataBaseAlarmsHelper.updateData(
+                                String.valueOf(alarmEditPosition + 1),
+                                1,
+                                2,
+                                ativo,
+                                nome,
+                                dosagem,
+                                0,
+                                0,
+                                hora_inicio,
+                                min_inicio,
+                                new int[7],
+                                vezes_dia,
+                                hora_periodo,
+                                min_periodo,
+                                notificationId);
                     } else {
-                        confirmation = mDataBaseAlarmsHelper.addDataInterval(nome, dosagem, hora_inicio, min_inicio, vezes_dia, hora_periodo, min_periodo, notificationId);
+                        confirmation = mDataBaseAlarmsHelper.addData(
+                                1,
+                                2,
+                                1,
+                                nome,
+                                dosagem,
+                                0,
+                                0,
+                                hora_inicio,
+                                min_inicio,
+                                new int[7],
+                                vezes_dia,
+                                hora_periodo,
+                                min_periodo,
+                                notificationId);
                     }
 
                     if (confirmation) {

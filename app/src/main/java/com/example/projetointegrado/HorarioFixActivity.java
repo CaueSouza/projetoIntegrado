@@ -86,9 +86,38 @@ public class HorarioFixActivity extends AppCompatActivity {
 
         if (isEdit) {
             int ativo = data.getInt(3);
-            confirmation = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(alarmEditPosition + 1), ativo, nome, quantidade, quantidadeCaixa, horas, minutos, dias, notificationId);
+            confirmation = mDataBaseAlarmsHelper.updateData(
+                    String.valueOf(alarmEditPosition + 1),
+                    1,
+                    1,
+                    ativo,
+                    nome,
+                    0,
+                    quantidade,
+                    quantidadeCaixa,
+                    horas,
+                    minutos,
+                    dias,
+                    0,
+                    0,
+                    0,
+                    notificationId);
         } else {
-            confirmation = mDataBaseAlarmsHelper.addDataFix(nome, quantidade, quantidadeCaixa, horas, minutos, dias, notificationId);
+            confirmation = mDataBaseAlarmsHelper.addData(
+                    1,
+                    2,
+                    1,
+                    nome,
+                    0,
+                    quantidade,
+                    quantidadeCaixa,
+                    horas,
+                    minutos,
+                    dias,
+                    0,
+                    0,
+                    0,
+                    notificationId);
         }
 
         if (confirmation) {
@@ -118,9 +147,38 @@ public class HorarioFixActivity extends AppCompatActivity {
         if (isEdit) {
             int ativo = data.getInt(3);
 
-            confirmation = mDataBaseAlarmsHelper.updateDataFix(String.valueOf(alarmEditPosition + 1), ativo, nome, dosagem, horas, minutos, dias, notificationId);
+            confirmation = mDataBaseAlarmsHelper.updateData(
+                    String.valueOf(alarmEditPosition + 1),
+                    1,
+                    2,
+                    ativo,
+                    nome,
+                    dosagem,
+                    0,
+                    0,
+                    horas,
+                    minutos,
+                    dias,
+                    0,
+                    0,
+                    0,
+                    notificationId);
         } else {
-            confirmation = mDataBaseAlarmsHelper.addDataFix(nome, dosagem, horas, minutos, dias, notificationId);
+            confirmation = mDataBaseAlarmsHelper.addData(
+                    1,
+                    2,
+                    1,
+                    nome,
+                    dosagem,
+                    0,
+                    0,
+                    horas,
+                    minutos,
+                    dias,
+                    0,
+                    0,
+                    0,
+                    notificationId);
         }
 
         if (confirmation) {

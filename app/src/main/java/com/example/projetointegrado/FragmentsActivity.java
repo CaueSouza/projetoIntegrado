@@ -57,16 +57,16 @@ public class FragmentsActivity extends AppCompatActivity {
 
             if (actualFragment instanceof FragmentCaixas) {
                 //TODO CALL ACTIVITY TO REGISTER A NEW BOX
-//                Intent intent = new Intent(this, CadastrarAlarmeActivity.class);
+//                Intent intent = new Intent(this, CadastrarCaixaActivity.class);
 //                startActivity(intent);
-                boolean insertData = mDataBaseBoxHelper.addData("Caixa x", "192.168.1.x");
-
-                if (insertData) {
-                    Toast.makeText(this, "Caixa Registrada com Sucesso", Toast.LENGTH_LONG).show();
-                    reloadFragment(actualFragment);
-                } else {
-                    Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
-                }
+//                boolean insertData = mDataBaseBoxHelper.addData("Caixa x", "192.168.1.x");
+//
+//                if (insertData) {
+//                    Toast.makeText(this, "Caixa Registrada com Sucesso", Toast.LENGTH_LONG).show();
+//                    reloadFragment(actualFragment);
+//                } else {
+//                    Toast.makeText(this, "Algo deu errado", Toast.LENGTH_LONG).show();
+//                }
             }
         });
 

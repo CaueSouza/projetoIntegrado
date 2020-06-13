@@ -5,20 +5,39 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetointegrado.databinding.ActivityLoginBinding;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.projetointegrado.Constants.BASE_URL;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "LoginActivity";
     private ActivityLoginBinding binding;
     DataBaseUserHelper mDataBaseUserHelper;
     private String loginType = "1";
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
+    DataBaseAlarmsHelper mDataBaseAlarmsHelper;
+    DataBaseBoxHelper mDataBaseBoxHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
         mEditor = mPreferences.edit();
 
         mDataBaseUserHelper = new DataBaseUserHelper(this);
-
 
         bindAll();
 
@@ -75,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
+
         String mainChoiceString = "";
 
         if (binding.emailRadioButton.isChecked()) {
@@ -91,49 +110,171 @@ public class LoginActivity extends AppCompatActivity {
         if (mainChoiceString.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Dados incompletos", Toast.LENGTH_SHORT).show();
         } else {
-            Cursor data = mDataBaseUserHelper.getData();
+            createPost(mainChoiceString, password, loginType);
+        }
+    }
 
-            int column = loginType.equals("1") ? 4 : 3;
+    private void createPost(String mainString, String senha, String tipo) {
 
-            while (data.moveToNext()) {
-                if (data.getString(1).equals(loginType)) {
-                    if (data.getString(column).equals(mainChoiceString)) {
-                        if (data.getString(5).equals(password)) {
+        binding.progressBar.setVisibility(View.VISIBLE);
 
-                            if (binding.rememberMeCheckbox.isChecked()) {
-                                mEditor.putString(getString(R.string.checkboxKey), "True");
-                                mEditor.commit();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-                                mEditor.putString(getString(R.string.mainValueKey), mainChoiceString);
-                                mEditor.commit();
+        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-                                mEditor.putString(getString(R.string.passwordKey), password);
-                                mEditor.commit();
+        String email = "";
+        String celular = "";
 
-                                mEditor.putString(getString(R.string.loginTypeKey), loginType);
-                                mEditor.commit();
-                            } else {
-                                mEditor.putString(getString(R.string.checkboxKey), "False");
-                                mEditor.commit();
+        if (tipo.equals("1")) {
+            email = mainString;
+        } else if (tipo.equals("2")) {
+            celular = mainString;
+        }
 
-                                mEditor.putString(getString(R.string.mainValueKey), "");
-                                mEditor.commit();
+        Map<String, String> fields = new HashMap<>();
+        fields.put("email", email);
+        fields.put("celular", celular);
+        fields.put("senha", senha);
 
-                                mEditor.putString(getString(R.string.passwordKey), "");
-                                mEditor.commit();
+        Call<JsonObject> call = jsonPlaceHolderApi.createPostLogin(fields);
 
-                                mEditor.putString(getString(R.string.loginTypeKey), "");
-                                mEditor.commit();
-                            }
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
-                            Intent intent = new Intent(LoginActivity.this, FragmentsActivity.class);
-                            startActivity(intent);
-                            finish();
-                            return;
-                        }
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getBaseContext(), "Login incorreto", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                JsonObject postResponse = response.body();
+
+                if (postResponse.get("response").getAsBoolean()) {
+                    String userId = postResponse.get("msg").getAsString();
+
+                    if (binding.rememberMeCheckbox.isChecked()) {
+                        mEditor.putString(getString(R.string.checkboxKey), "True");
+                        mEditor.commit();
+
+                        mEditor.putString(getString(R.string.mainValueKey), mainString);
+                        mEditor.commit();
+
+                        mEditor.putString(getString(R.string.passwordKey), senha);
+                        mEditor.commit();
+
+                        mEditor.putString(getString(R.string.loginTypeKey), loginType);
+                        mEditor.commit();
+                    } else {
+                        mEditor.putString(getString(R.string.checkboxKey), "False");
+                        mEditor.commit();
+
+                        mEditor.putString(getString(R.string.mainValueKey), "");
+                        mEditor.commit();
+
+                        mEditor.putString(getString(R.string.passwordKey), "");
+                        mEditor.commit();
+
+                        mEditor.putString(getString(R.string.loginTypeKey), "");
+                        mEditor.commit();
+                    }
+
+                    loadDataBase(userId);
+                    return;
+                }
+
+                Log.e(TAG, "onResponse: " + postResponse);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure: falhou");
+            }
+        });
+    }
+
+    private void loadDataBase(String userId) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+        Call<JsonObject> call = jsonPlaceHolderApi.createPostUserData(userId);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                JsonObject jsonObject = response.body();
+                JsonArray alarmsArray = jsonObject.getAsJsonObject("msg").getAsJsonArray("alarmes");
+                JsonArray boxArray = jsonObject.getAsJsonObject("msg").getAsJsonArray("caixas");
+
+                getBaseContext().deleteDatabase("alarms_table");
+                getBaseContext().deleteDatabase("boxes_table");
+
+                if (alarmsArray != null){
+                    mDataBaseAlarmsHelper = new DataBaseAlarmsHelper(getBaseContext());
+
+                    for (int i = 0; i < alarmsArray.size(); i++) {
+                        JsonElement jsonElement = alarmsArray.get(i);
+                        JsonObject jsonAlarm = jsonElement.getAsJsonObject();
+
+                        int[] dias = new int[7];
+                        dias[0] = jsonAlarm.get("domingo").getAsInt();
+                        dias[1] = jsonAlarm.get("segunda").getAsInt();
+                        dias[2] = jsonAlarm.get("terca").getAsInt();
+                        dias[3] = jsonAlarm.get("quarta").getAsInt();
+                        dias[4] = jsonAlarm.get("quinta").getAsInt();
+                        dias[5] = jsonAlarm.get("sexta").getAsInt();
+                        dias[6] = jsonAlarm.get("sabado").getAsInt();
+
+                        mDataBaseAlarmsHelper.addData(
+                                jsonAlarm.get("alarm_type").getAsInt(),
+                                jsonAlarm.get("medicine_type").getAsInt(),
+                                jsonAlarm.get("ativo").getAsInt(),
+                                jsonAlarm.get("nome_remedio").getAsString(),
+                                jsonAlarm.get("dosagem").getAsInt(),
+                                jsonAlarm.get("quantidade").getAsInt(),
+                                jsonAlarm.get("quantidade_box").getAsInt(),
+                                jsonAlarm.get("hora").getAsInt(),
+                                jsonAlarm.get("minuto").getAsInt(),
+                                dias,
+                                jsonAlarm.get("vezes_dia").getAsInt(),
+                                jsonAlarm.get("periodo_hora").getAsInt(),
+                                jsonAlarm.get("periodo_min").getAsInt(),
+                                jsonAlarm.get("notification_id").getAsInt());
                     }
                 }
+
+                if (boxArray != null){
+                    mDataBaseBoxHelper = new DataBaseBoxHelper(getBaseContext());
+
+                    for (int i = 0; i < boxArray.size(); i++) {
+                        JsonElement jsonElement = boxArray.get(i);
+                        JsonObject jsonBox = jsonElement.getAsJsonObject();
+
+                        mDataBaseBoxHelper.addData(
+                                jsonBox.get("nomeCaixa").getAsString(),
+                                jsonBox.get("id").getAsString());
+                    }
+                }
+
+                Intent intent = new Intent(LoginActivity.this, FragmentsActivity.class);
+                intent.putExtra("USER_ID", userId);
+                startActivity(intent);
+                finish();
+
+                binding.progressBar.setVisibility(View.GONE);
+                Log.e(TAG, "onResponse: " + response);
             }
-        }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure: falhou");
+            }
+        });
     }
 }
