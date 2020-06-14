@@ -58,7 +58,6 @@ public class HorarioFixActivity extends AppCompatActivity {
     private boolean isEdit;
     private int alarmEditPosition;
     private Cursor data;
-    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +67,6 @@ public class HorarioFixActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(R.string.action_button_fix_time);
 
-        userId = getIntent().getStringExtra("USER_ID");
         isEdit = getIntent().getBooleanExtra("IS_EDIT", false);
         mDataBaseAlarmsHelper = new DataBaseAlarmsHelper(this);
         data = mDataBaseAlarmsHelper.getData();
@@ -203,7 +201,11 @@ public class HorarioFixActivity extends AppCompatActivity {
                         notificationId);
 
                 if (confirmation) {
-                    //TODO CANCEL THE OLD ALARMINTENT AND CREATE A NEW
+                    if (ativo == 1) {
+                        cancelAlarmIntent(notificationId);
+                        createAlarmIntent(hora, minuto, dias, notificationId);
+                    }
+
                     Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -263,7 +265,7 @@ public class HorarioFixActivity extends AppCompatActivity {
 
 
                 if (confirmation) {
-                    //createAlarmIntent(hora, minuto, dias, notificationId);
+                    createAlarmIntent(hora, minuto, dias, notificationId);
                     Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -312,7 +314,7 @@ public class HorarioFixActivity extends AppCompatActivity {
             novoAlarme.put(PERIODO_MIN, periodo_minuto);
             novoAlarme.put(NOTIFICATION_ID, notificationId);
 
-            root.put("id", userId);
+            root.put("id", UserIdSingleton.getInstance().getUserId());
             root.put("velhoAlarme", velhoAlarme);
             root.put("novoAlarme", novoAlarme);
 
@@ -351,7 +353,7 @@ public class HorarioFixActivity extends AppCompatActivity {
             novoAlarme.put(PERIODO_MIN, periodo_minuto);
             novoAlarme.put(NOTIFICATION_ID, notificationId);
 
-            root.put("id", userId);
+            root.put("id", UserIdSingleton.getInstance().getUserId());
             root.put("novoAlarme", novoAlarme);
 
             return root.toString();
@@ -364,7 +366,6 @@ public class HorarioFixActivity extends AppCompatActivity {
     private void createAlarmIntent(int horas, int minutos, int[] dias, int notificationId) {
 
         Calendar calendar = Calendar.getInstance();
-
 
         int horaAtual = calendar.get(Calendar.HOUR_OF_DAY);
         int minutoAtual = calendar.get(Calendar.MINUTE);
@@ -420,4 +421,9 @@ public class HorarioFixActivity extends AppCompatActivity {
         alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
+    private void cancelAlarmIntent(int notificationId){
+        Intent intent = new Intent(getApplicationContext(), AlarmeReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent.cancel();
+    }
 }

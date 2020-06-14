@@ -164,7 +164,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getBaseContext(), "Login incorreto", Toast.LENGTH_SHORT).show();
+                    binding.progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getBaseContext(), "Um erro ocorreu", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onResponse: " + response);
                     return;
                 }
 
@@ -172,6 +174,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (postResponse.get("response").getAsBoolean()) {
                     String userId = postResponse.get("msg").getAsString();
+                    UserIdSingleton.getInstance().setUserId(userId);
 
                     if (binding.rememberMeCheckbox.isChecked()) {
                         mEditor.putString(getString(R.string.checkboxKey), "True");
@@ -199,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
                         mEditor.commit();
                     }
 
-                    loadDataBase(userId);
+                    loadDataBase();
                     return;
                 }
 
@@ -213,18 +216,25 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void loadDataBase(String userId) {
+    private void loadDataBase() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-        Call<JsonObject> call = jsonPlaceHolderApi.postUserData(userId);
+        Call<JsonObject> call = jsonPlaceHolderApi.postUserData(UserIdSingleton.getInstance().getUserId());
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                if (!response.isSuccessful()){
+                    binding.progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getBaseContext(), "Um erro ocorreu", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onResponse: " + response);
+                    return;
+                }
 
                 JsonObject jsonObject = response.body();
                 JsonArray alarmsArray = jsonObject.getAsJsonObject("msg").getAsJsonArray("alarmes");
@@ -281,7 +291,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 Intent intent = new Intent(LoginActivity.this, FragmentsActivity.class);
-                intent.putExtra("USER_ID", userId);
                 startActivity(intent);
                 finish();
 

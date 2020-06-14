@@ -20,7 +20,6 @@ public class FragmentAlarms extends Fragment {
     private static final String TAG = "FragmentAlarms";
     private FragmentAlarmesBinding binding;
     private DataBaseAlarmsHelper mDataBaseAlarmsHelper;
-    private JsonPlaceHolderApi jsonPlaceHolderApi;
 
     @Nullable
     @Override
@@ -28,8 +27,6 @@ public class FragmentAlarms extends Fragment {
 
         binding = FragmentAlarmesBinding.inflate(getLayoutInflater());
         mDataBaseAlarmsHelper = new DataBaseAlarmsHelper(getActivity());
-
-        String userId = getActivity().getIntent().getStringExtra("USER_ID");
 
         Cursor data = mDataBaseAlarmsHelper.getData();
         ArrayList<AlarmeItem> alarmes = new ArrayList<>();
@@ -46,14 +43,13 @@ public class FragmentAlarms extends Fragment {
             alarmes.add(alarme);
         }
 
-        AlarmeListAdapter adapter = new AlarmeListAdapter(getContext(), R.layout.alarmes_list_item, alarmes, userId);
+        AlarmeListAdapter adapter = new AlarmeListAdapter(getContext(), R.layout.alarmes_list_item, alarmes);
         binding.alarmesListView.setAdapter(adapter);
 
         binding.alarmesListView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(getContext(), CadastrarAlarmeActivity.class);
             intent.putExtra("IS_EDIT", true);
             intent.putExtra("POSITION", position);
-            intent.putExtra("USER_ID", userId);
             startActivity(intent);
         });
 
