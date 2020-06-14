@@ -134,15 +134,49 @@ public class HorarioFixActivity extends AppCompatActivity {
 
     private void createAlarmIntent(int horas, int minutos, int[] dias, int notificationId) {
 
-        //TODO CHECK AND REQUEST TO NEXT DAY
         Calendar calendar = Calendar.getInstance();
-        calendar.set(
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH),
-                horas,
-                minutos,
-                0);
+
+
+        int horaAtual = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutoAtual = calendar.get(Calendar.MINUTE);
+        int diaAtual = calendar.get(Calendar.DAY_OF_MONTH);
+        int mesAtual = calendar.get(Calendar.MONTH);
+        int anoAtual = calendar.get(Calendar.YEAR);
+
+        Calendar nextNotifTime = Calendar.getInstance();
+        nextNotifTime.add(Calendar.MONTH, 1);
+        nextNotifTime.set(Calendar.DATE, 1);
+        nextNotifTime.add(Calendar.DATE, -1);
+
+        if (horas < horaAtual) {
+            if (diaAtual == nextNotifTime.get(Calendar.DAY_OF_MONTH)) {
+                if (mesAtual == 11) {
+                    anoAtual = anoAtual + 1;
+                    mesAtual = 0;
+                } else {
+                    diaAtual = 1;
+                    mesAtual = mesAtual + 1;
+                }
+            } else {
+                diaAtual = diaAtual + 1;
+            }
+        } else if (horas == horaAtual) {
+            if (minutos <= minutoAtual) {
+                if (diaAtual == nextNotifTime.get(Calendar.DAY_OF_MONTH)) {
+                    if (mesAtual == 11) {
+                        anoAtual = anoAtual + 1;
+                        mesAtual = 0;
+                    } else {
+                        diaAtual = 1;
+                        mesAtual = mesAtual + 1;
+                    }
+                } else {
+                    diaAtual = diaAtual + 1;
+                }
+            }
+        }
+
+        calendar.set(anoAtual, mesAtual, diaAtual, horas, minutos, 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmeReceiver.class);
@@ -153,7 +187,8 @@ public class HorarioFixActivity extends AppCompatActivity {
         intent.putExtra("ALARM_DAYS", dias);
         intent.putExtra("MUST_PLAY_NOTIFICATION", true);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notificationId, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), notificationId, intent, 0);
         alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
+
 }

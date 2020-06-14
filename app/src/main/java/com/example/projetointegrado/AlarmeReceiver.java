@@ -34,7 +34,7 @@ public class AlarmeReceiver extends BroadcastReceiver {
                 Calendar calendar = Calendar.getInstance();
 
                 int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
-                int tomorrow = weekDay == 7 ? 0 : weekDay;
+                int tomorrow = weekDay == 7 ? 0 : weekDay + 1;
 
                 boolean isDiasEmpty = true;
 
@@ -46,18 +46,37 @@ public class AlarmeReceiver extends BroadcastReceiver {
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+
+                Calendar nextNotifTime = Calendar.getInstance();
+                nextNotifTime.add(Calendar.MONTH, 1);
+                nextNotifTime.set(Calendar.DATE, 1);
+                nextNotifTime.add(Calendar.DATE, -1);
+
+                if(day == nextNotifTime.get(Calendar.DAY_OF_MONTH)){
+                    if(month == 11){
+                        year = year + 1;
+                        month = 0;
+                    }
+                    else{
+                        day = 1;
+                        month = month + 1;
+                    }
+                } else {
+                    day = day + 1;
+                }
+
                 calendar.set(year, month, day, horas, minutos, 0);
 
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 Intent newIntent = new Intent(context, AlarmeReceiver.class);
-                intent.putExtra("NOTIFICATION_ID", notificationId);
-                intent.putExtra("ALARM_TYPE", 1);
-                intent.putExtra("ALARM_HOUR", horas);
-                intent.putExtra("ALARM_MINUTES", minutos);
-                intent.putExtra("ALARM_DAYS", dias);
+                newIntent.putExtra("NOTIFICATION_ID", notificationId);
+                newIntent.putExtra("ALARM_TYPE", 1);
+                newIntent.putExtra("ALARM_HOUR", horas);
+                newIntent.putExtra("ALARM_MINUTES", minutos);
+                newIntent.putExtra("ALARM_DAYS", dias);
 
                 if (dias[tomorrow] == 1 || isDiasEmpty) {
-                    intent.putExtra("MUST_PLAY_NOTIFICATION", true);
+                    newIntent.putExtra("MUST_PLAY_NOTIFICATION", true);
                 }
 
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, newIntent, 0);

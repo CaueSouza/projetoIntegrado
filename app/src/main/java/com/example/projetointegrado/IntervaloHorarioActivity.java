@@ -175,14 +175,14 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    private void createAlarmIntent(int horas, int minutos) {
+    private void createAlarmIntent(int hora_inicio, int min_inicio) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH),
-                horas,
-                minutos,
+                hora_inicio,
+                min_inicio,
                 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
