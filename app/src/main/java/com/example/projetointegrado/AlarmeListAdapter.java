@@ -2,6 +2,7 @@ package com.example.projetointegrado;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.PendingIntent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +39,8 @@ import static com.example.projetointegrado.Constants.MINUTO;
 import static com.example.projetointegrado.Constants.NOME_REMEDIO;
 
 public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
+
+
 
     private static final String TAG = "AlarmListAdapter";
 
@@ -242,6 +246,9 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
                 int isDeleted = mDataBaseAlarmsHelper.removeData(String.valueOf(data.getInt(0)));
 
                 if (isDeleted > 0) {
+                    Intent intent = new Intent(getContext().getApplicationContext(), AlarmeReceiver.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext().getApplicationContext(), notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    pendingIntent.cancel();
                     AlarmeListAdapter.this.remove(getItem(position));
                     AlarmeListAdapter.this.notifyDataSetChanged();
                 } else Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
