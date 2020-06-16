@@ -2,6 +2,7 @@ package com.example.projetointegrado;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,10 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.app.PendingIntent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,12 +68,19 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
     private int horas;
     private int minutos;
     private int notificationId;
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
 
     AlarmeListAdapter(Context context, int resource, ArrayList<AlarmeItem> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
         mDataBaseAlarmsHelper = new DataBaseAlarmsHelper(context);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
     }
 
     @SuppressLint("ViewHolder")
@@ -150,7 +156,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
                     .setTitle(R.string.dialog_title);
 
             builder.setPositiveButton(R.string.ok, (dialog, id) -> {
-                createPostDeleteAlarm(position);
+                createPostDeleteAlarm(position, nome, horas, minutos);
             });
 
             builder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
@@ -162,12 +168,6 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
     }
 
     private void createPostUpdateAlarm(View convertView, int position, int alarmType, int medicineType, int ativo, String velhoNome, String nome, int dosagem, int quantidade, int quantidadeBox, int oldHour, int oldMinute, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
         String requestStr = formatJSONupdateAlarm(alarmType, medicineType, ativo, velhoNome, nome, dosagem, quantidade, quantidadeBox, oldHour, oldMinute, hora, minuto, dias, vezes_dia, periodo_hora, periodo_minuto, notificationId);
         JsonObject request = JsonParser.parseString(requestStr).getAsJsonObject();
@@ -207,7 +207,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
                 item.setStatus(item.getStatus() == 1 ? 0 : 1);
                 notifyDataSetChanged();
 
-                if (ativo == 1){
+                if (ativo == 1) {
                     createAlarmIntent(alarmType, hora, minuto, dias, notificationId);
                 } else {
                     cancelAlarmIntent();
@@ -280,14 +280,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
         alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
-    private void createPostDeleteAlarm(int position) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-
+    private void createPostDeleteAlarm(int position, String nome, int horas, int minutos) {
         String requestStr = formatJSON(nome, horas, minutos);
         JsonObject request = JsonParser.parseString(requestStr).getAsJsonObject();
 
@@ -382,7 +375,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
         return null;
     }
 
-    private void cancelAlarmIntent(){
+    private void cancelAlarmIntent() {
         Intent intent = new Intent(getContext().getApplicationContext(), AlarmeReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext().getApplicationContext(), notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         pendingIntent.cancel();

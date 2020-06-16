@@ -170,7 +170,7 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
                                 quantidade,
                                 quantidadeCaixa,
                                 hora_inicio,
-                                min_periodo,
+                                min_inicio,
                                 new int[7],
                                 vezes_dia,
                                 hora_periodo,
@@ -224,9 +224,9 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
                         notificationId);
 
                 if (confirmation) {
-                    if (ativo == 1){
+                    if (ativo == 1) {
                         cancelAlarmIntent(notificationId);
-                        createAlarmIntent(hora, minuto, notificationId);
+                        createAlarmIntent(hora, minuto, notificationId, vezes_dia, periodo_hora, periodo_minuto);
                     }
 
                     Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
@@ -287,7 +287,7 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
                         notificationId);
 
                 if (confirmation) {
-                    createAlarmIntent(hora, minuto, notificationId);
+                    createAlarmIntent(hora, minuto, notificationId, vezes_dia, periodo_hora, periodo_minuto);
                     Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -402,22 +402,92 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    private void createAlarmIntent(int hora_inicio, int min_inicio, int notificationId) {
+//    private void createAlarmIntent(int hora_inicio, int min_inicio, int notificationId) {
+//
+//            Calendar calendar = Calendar.getInstance();
+//
+//            int horaAtual = calendar.get(Calendar.HOUR_OF_DAY);
+//            int minutoAtual = calendar.get(Calendar.MINUTE);
+//            int diaAtual = calendar.get(Calendar.DAY_OF_MONTH);
+//            int mesAtual = calendar.get(Calendar.MONTH);
+//            int anoAtual = calendar.get(Calendar.YEAR);
+//
+//            Calendar nextNotifTime = Calendar.getInstance();
+//            nextNotifTime.add(Calendar.MONTH, 1);
+//            nextNotifTime.set(Calendar.DATE, 1);
+//            nextNotifTime.add(Calendar.DATE, -1);
+//
+//            if (hora_inicio < horaAtual) {
+//                if (diaAtual == nextNotifTime.get(Calendar.DAY_OF_MONTH)) {
+//                    if (mesAtual == 11) {
+//                        anoAtual = anoAtual + 1;
+//                        mesAtual = 0;
+//                    } else {
+//                        diaAtual = 1;
+//                        mesAtual = mesAtual + 1;
+//                    }
+//                } else {
+//                    diaAtual = diaAtual + 1;
+//                }
+//            } else if (hora_inicio == horaAtual) {
+//                if (min_inicio <= minutoAtual) {
+//                    if (diaAtual == nextNotifTime.get(Calendar.DAY_OF_MONTH)) {
+//                        if (mesAtual == 11) {
+//                            anoAtual = anoAtual + 1;
+//                            mesAtual = 0;
+//                        } else {
+//                            diaAtual = 1;
+//                            mesAtual = mesAtual + 1;
+//                        }
+//                    } else {
+//                        diaAtual = diaAtual + 1;
+//                    }
+//                }
+//            }
+//
+//            calendar.set(anoAtual, mesAtual, diaAtual, hora_inicio, min_inicio, 0);
+//
+//            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//            Intent intent = new Intent(this, AlarmeReceiver.class);
+//            intent.putExtra("NOTIFICATION_ID", notificationId);
+//            intent.putExtra("ALARM_TYPE", 2);
+//            intent.putExtra("ALARM_HOUR", hora_inicio);
+//            intent.putExtra("ALARM_MINUTES", min_inicio);
+//            intent.putExtra("MUST_PLAY_NOTIFICATION", true);
+//
+//            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), notificationId, intent, 0);
+//            alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+//    }
 
-            Calendar calendar = Calendar.getInstance();
+    private void createAlarmIntent(int hora_inicio, int min_inicio, int notificationId, int vezes_dia, int periodo_hora, int periodo_minuto) {
 
-            int horaAtual = calendar.get(Calendar.HOUR_OF_DAY);
-            int minutoAtual = calendar.get(Calendar.MINUTE);
-            int diaAtual = calendar.get(Calendar.DAY_OF_MONTH);
-            int mesAtual = calendar.get(Calendar.MONTH);
-            int anoAtual = calendar.get(Calendar.YEAR);
+        Calendar calendar = Calendar.getInstance();
 
-            Calendar nextNotifTime = Calendar.getInstance();
-            nextNotifTime.add(Calendar.MONTH, 1);
-            nextNotifTime.set(Calendar.DATE, 1);
-            nextNotifTime.add(Calendar.DATE, -1);
+        int horaAtual = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutoAtual = calendar.get(Calendar.MINUTE);
+        int diaAtual = calendar.get(Calendar.DAY_OF_MONTH);
+        int mesAtual = calendar.get(Calendar.MONTH);
+        int anoAtual = calendar.get(Calendar.YEAR);
 
-            if (hora_inicio < horaAtual) {
+        Calendar nextNotifTime = Calendar.getInstance();
+        nextNotifTime.add(Calendar.MONTH, 1);
+        nextNotifTime.set(Calendar.DATE, 1);
+        nextNotifTime.add(Calendar.DATE, -1);
+
+        if (hora_inicio < horaAtual) {
+            if (diaAtual == nextNotifTime.get(Calendar.DAY_OF_MONTH)) {
+                if (mesAtual == 11) {
+                    anoAtual = anoAtual + 1;
+                    mesAtual = 0;
+                } else {
+                    diaAtual = 1;
+                    mesAtual = mesAtual + 1;
+                }
+            } else {
+                diaAtual = diaAtual + 1;
+            }
+        } else if (hora_inicio == horaAtual) {
+            if (min_inicio <= minutoAtual) {
                 if (diaAtual == nextNotifTime.get(Calendar.DAY_OF_MONTH)) {
                     if (mesAtual == 11) {
                         anoAtual = anoAtual + 1;
@@ -429,37 +499,28 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
                 } else {
                     diaAtual = diaAtual + 1;
                 }
-            } else if (hora_inicio == horaAtual) {
-                if (min_inicio <= minutoAtual) {
-                    if (diaAtual == nextNotifTime.get(Calendar.DAY_OF_MONTH)) {
-                        if (mesAtual == 11) {
-                            anoAtual = anoAtual + 1;
-                            mesAtual = 0;
-                        } else {
-                            diaAtual = 1;
-                            mesAtual = mesAtual + 1;
-                        }
-                    } else {
-                        diaAtual = diaAtual + 1;
-                    }
-                }
             }
+        }
 
-            calendar.set(anoAtual, mesAtual, diaAtual, hora_inicio, min_inicio, 0);
+        calendar.set(anoAtual, mesAtual, diaAtual, hora_inicio, min_inicio, 0);
 
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(this, AlarmeReceiver.class);
-            intent.putExtra("NOTIFICATION_ID", notificationId);
-            intent.putExtra("ALARM_TYPE", 2);
-            intent.putExtra("ALARM_HOUR", hora_inicio);
-            intent.putExtra("ALARM_MINUTES", min_inicio);
-            intent.putExtra("MUST_PLAY_NOTIFICATION", true);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmeReceiver.class);
+        intent.putExtra("NOTIFICATION_ID", notificationId);
+        intent.putExtra("ALARM_TYPE", 2);
+        intent.putExtra("ALARM_HOUR", hora_inicio);
+        intent.putExtra("ALARM_MINUTES", min_inicio);
+        intent.putExtra("ALARM_TIMES_DAY", vezes_dia);
+        intent.putExtra("ALARM_TIMES_DAY_MISSING", vezes_dia);
+        intent.putExtra("ALARM_PERIOD_HOUR", periodo_hora);
+        intent.putExtra("ALARM_PERIOD_MINUTE", periodo_minuto);
+        intent.putExtra("ALARM_INTERVAL_FIRST_CALL", true);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), notificationId, intent, 0);
-            alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), notificationId, intent, 0);
+        alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
-    private void cancelAlarmIntent(int notificationId){
+    private void cancelAlarmIntent(int notificationId) {
         Intent intent = new Intent(getApplicationContext(), AlarmeReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         pendingIntent.cancel();
