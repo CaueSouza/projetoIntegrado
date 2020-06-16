@@ -194,13 +194,13 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
         while (isInvalid) {
             randomNumber = rand.nextInt(1000);
 
-            if (data.moveToFirst()){
+            if (data.moveToFirst()) {
                 do {
                     if (randomNumber == data.getInt(20)) {
                         isInvalid = true;
                     }
 
-                    if (data.isLast() && isInvalid == true) isInvalid = false;
+                    if (data.isLast() && isInvalid) isInvalid = false;
                 } while (data.moveToNext());
             } else isInvalid = false;
         }

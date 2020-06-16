@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class FragmentAlarms extends Fragment {
 
+    private static final String TAG = "FragmentAlarms";
     private FragmentAlarmesBinding binding;
     private DataBaseAlarmsHelper mDataBaseAlarmsHelper;
 

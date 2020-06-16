@@ -57,8 +57,9 @@ public class FragmentsActivity extends AppCompatActivity {
 
             if (actualFragment instanceof FragmentCaixas) {
                 //TODO CALL ACTIVITY TO REGISTER A NEW BOX
-//                Intent intent = new Intent(this, CadastrarAlarmeActivity.class);
+//                Intent intent = new Intent(this, CadastrarCaixaActivity.class);
 //                startActivity(intent);
+
                 boolean insertData = mDataBaseBoxHelper.addData("Caixa x", "192.168.1.x");
 
                 if (insertData) {

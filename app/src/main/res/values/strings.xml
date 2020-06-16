@@ -2,7 +2,6 @@
     <string name="app_name">Pill Helper</string>
 
     <!--Main activity-->
-    <string name="login_title_text">Pill Helper</string>
     <string name="login_enter_text">Entrar</string>
     <string name="login_sign_in_text">Criar Cadastro</string>
     <string name="text_welcome_main">Seja bem-vindo</string>
@@ -14,18 +13,11 @@
     <string name="loginTypeKey">com.example.projetointegrado.loginType</string>
 
     <!--Cadastro activity-->
-    <string name="info_cadatro_text">Informe os seus dados</string>
-    <string name="nome_cadastro_text">Nome</string>
     <string name="email_cadastro_text">E-mail</string>
     <string name="telefone_cadastro_text">Telefone</string>
     <string name="senha_cadastro_text">Senha</string>
-    <string name="opcoes_cadastro_text">Quem é você?</string>
-    <string name="radio_button_idoso_text">Idoso</string>
-    <string name="radio_button_cuidador_text">Cuidador</string>
     <string name="back_button_text">Voltar</string>
     <string name="sign_in_button_text">Cadastrar</string>
-    <string name="login_button_text">Login</string>
-    <string name="login_screen_title">Informe o tipo de login</string>
     <string name="login_type_email">E-mail</string>
     <string name="login_type_phone">Celular</string>
     <string name="login_type_senha">Senha</string>
@@ -44,35 +36,26 @@
     <string name="quantity">Quantidade</string>
     <string name="box_quantity">Quantidade na caixa</string>
     <string name="time">Perioticidade:</string>
-    <string name="back_register_alarm">Voltar</string>
     <string name="next_register_alarm">Próximo</string>
     <string name="register_alarm_title">Cadastrar Alarme</string>
     <string name="informar_dados_remedio">Informações do remédio</string>
     <string name="action_button_interval">Intervalo</string>
     <string name="action_button_fix_time">Horário fixo</string>
 
-
+    <!-- Login Activity-->
     <string name="login_radio_email_text">Email</string>
     <string name="login_radio_telefone_text">Celular</string>
     <string name="remember_me_message">Lembrar de mim</string>
     <string name="forgot_password_text">Esqueceu sua senha?</string>
 
 
-    <!-- Relógio Colocar hoários-->
-
-    <string name="button_back_schedule">Voltar</string>
-    <string name="button_confirm_schedule">Confirmar</string>
-
-    <string name="start_time_clock_interval">Hora início</string>
+    <!-- Relógio Colocar horários-->
     <string name="how_many_times">Quantas vezes ao dia</string>
-    <string name="time_clock_interval">Período</string>
     <string name="button_back_clock_interval">Voltar</string>
-    <string name="button_confirm_clock_interval">Confirmar</string>
     <string name="inf_interval_clock">Digite as informações</string>
     <string name="box_list_item_image_description">Deletar Caixa</string>
 
     <!-- Mensagens gerais para ambos os relógios-->
-
     <string name="dialog_message">Quer mesmo deletar?</string>
     <string name="dialog_title">Deletar</string>
     <string name="ok">OK</string>
@@ -85,7 +68,6 @@
     <string name="dialog_text_medicine_dosage_info">Informe a quantidade de pílulas a serem tomadas por vez</string>
     <string name="dialog_text_medicine_quantity_info">Informe a quantidade em miligramas a serem tomadas por vez</string>
     <string name="dialog_text_medicine_box_quantity_info">Informe a quantidade desse medicamento presente na caixa</string>
-    <string name="login_type_intro_txt">Escolha o tipo de login</string>
 
     <!-- Dias da semana-->
     <string name="sunday">D</string>
@@ -105,10 +87,7 @@
     <string name="alarm">Hora de tomar remédio</string>
     <string name="turn_off">Desligar</string>
     <string name="time_alarm">00:00</string>
-    <string name="testeremedio">Ibuprofeno</string>
     <string name="notification_title">Atenção</string>
     <string name="notification_text">Está na hora de se medicar</string>
     <string name="alarm_description">Verifique o aplicativo para consultar os remédios a serem tomados</string>
-
-
 </resources>
