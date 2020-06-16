@@ -311,30 +311,30 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
         try {
             JSONObject velhoAlarme = new JSONObject();
             velhoAlarme.put(NOME_REMEDIO, velhoNome);
-            velhoAlarme.put(HORA, velhaHora);
-            velhoAlarme.put(MINUTO, velhoMinuto);
+            velhoAlarme.put(HORA, String.valueOf(velhaHora));
+            velhoAlarme.put(MINUTO, String.valueOf(velhoMinuto));
 
             JSONObject novoAlarme = new JSONObject();
-            novoAlarme.put(ALARM_TYPE, 2);
-            novoAlarme.put(MEDICINE_TYPE, medicineType);
-            novoAlarme.put(ATIVO, ativo);
-            novoAlarme.put(NOME_REMEDIO, nome);
-            novoAlarme.put(DOSAGEM, dosagem);
-            novoAlarme.put(QUANTIDADE, quantidade);
-            novoAlarme.put(QUANTIDADE_BOX, quantidadeBox);
-            novoAlarme.put(HORA, hora);
-            novoAlarme.put(MINUTO, minuto);
-            novoAlarme.put(DOMINGO, dias[0]);
-            novoAlarme.put(SEGUNDA, dias[1]);
-            novoAlarme.put(TERCA, dias[2]);
-            novoAlarme.put(QUARTA, dias[3]);
-            novoAlarme.put(QUINTA, dias[4]);
-            novoAlarme.put(SEXTA, dias[5]);
-            novoAlarme.put(SABADO, dias[6]);
-            novoAlarme.put(VEZES_DIA, vezes_dia);
-            novoAlarme.put(PERIODO_HORA, periodo_hora);
-            novoAlarme.put(PERIODO_MIN, periodo_minuto);
-            novoAlarme.put(NOTIFICATION_ID, notificationId);
+            novoAlarme.put(ALARM_TYPE, String.valueOf(2));
+            novoAlarme.put(MEDICINE_TYPE, String.valueOf(medicineType));
+            novoAlarme.put(ATIVO, String.valueOf(ativo));
+            novoAlarme.put(NOME_REMEDIO, String.valueOf(nome));
+            novoAlarme.put(DOSAGEM, String.valueOf(dosagem));
+            novoAlarme.put(QUANTIDADE, String.valueOf(quantidade));
+            novoAlarme.put(QUANTIDADE_BOX, String.valueOf(quantidadeBox));
+            novoAlarme.put(HORA, String.valueOf(hora));
+            novoAlarme.put(MINUTO, String.valueOf(minuto));
+            novoAlarme.put(DOMINGO, String.valueOf(dias[0]));
+            novoAlarme.put(SEGUNDA, String.valueOf(dias[1]));
+            novoAlarme.put(TERCA, String.valueOf(dias[2]));
+            novoAlarme.put(QUARTA, String.valueOf(dias[3]));
+            novoAlarme.put(QUINTA, String.valueOf(dias[4]));
+            novoAlarme.put(SEXTA, String.valueOf(dias[5]));
+            novoAlarme.put(SABADO, String.valueOf(dias[6]));
+            novoAlarme.put(VEZES_DIA, String.valueOf(vezes_dia));
+            novoAlarme.put(PERIODO_HORA, String.valueOf(periodo_hora));
+            novoAlarme.put(PERIODO_MIN, String.valueOf(periodo_minuto));
+            novoAlarme.put(NOTIFICATION_ID, String.valueOf(notificationId));
 
             root.put("id", UserIdSingleton.getInstance().getUserId());
             root.put("velhoAlarme", velhoAlarme);
@@ -354,26 +354,26 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
         try {
             JSONObject novoAlarme = new JSONObject();
 
-            novoAlarme.put(ALARM_TYPE, 2);
-            novoAlarme.put(MEDICINE_TYPE, medicineType);
-            novoAlarme.put(ATIVO, 1);
-            novoAlarme.put(NOME_REMEDIO, nome);
-            novoAlarme.put(DOSAGEM, dosagem);
-            novoAlarme.put(QUANTIDADE, quantidade);
-            novoAlarme.put(QUANTIDADE_BOX, quantidadeBox);
-            novoAlarme.put(HORA, hora);
-            novoAlarme.put(MINUTO, minuto);
-            novoAlarme.put(DOMINGO, dias[0]);
-            novoAlarme.put(SEGUNDA, dias[1]);
-            novoAlarme.put(TERCA, dias[2]);
-            novoAlarme.put(QUARTA, dias[3]);
-            novoAlarme.put(QUINTA, dias[4]);
-            novoAlarme.put(SEXTA, dias[5]);
-            novoAlarme.put(SABADO, dias[6]);
-            novoAlarme.put(VEZES_DIA, vezes_dia);
-            novoAlarme.put(PERIODO_HORA, periodo_hora);
-            novoAlarme.put(PERIODO_MIN, periodo_minuto);
-            novoAlarme.put(NOTIFICATION_ID, notificationId);
+            novoAlarme.put(ALARM_TYPE, String.valueOf(2));
+            novoAlarme.put(MEDICINE_TYPE, String.valueOf(medicineType));
+            novoAlarme.put(ATIVO, String.valueOf(1));
+            novoAlarme.put(NOME_REMEDIO, String.valueOf(nome));
+            novoAlarme.put(DOSAGEM, String.valueOf(dosagem));
+            novoAlarme.put(QUANTIDADE, String.valueOf(quantidade));
+            novoAlarme.put(QUANTIDADE_BOX, String.valueOf(quantidadeBox));
+            novoAlarme.put(HORA, String.valueOf(hora));
+            novoAlarme.put(MINUTO, String.valueOf(minuto));
+            novoAlarme.put(DOMINGO, String.valueOf(dias[0]));
+            novoAlarme.put(SEGUNDA, String.valueOf(dias[1]));
+            novoAlarme.put(TERCA, String.valueOf(dias[2]));
+            novoAlarme.put(QUARTA, String.valueOf(dias[3]));
+            novoAlarme.put(QUINTA, String.valueOf(dias[4]));
+            novoAlarme.put(SEXTA, String.valueOf(dias[5]));
+            novoAlarme.put(SABADO, String.valueOf(dias[6]));
+            novoAlarme.put(VEZES_DIA, String.valueOf(vezes_dia));
+            novoAlarme.put(PERIODO_HORA, String.valueOf(periodo_hora));
+            novoAlarme.put(PERIODO_MIN, String.valueOf(periodo_minuto));
+            novoAlarme.put(NOTIFICATION_ID, String.valueOf(notificationId));
 
             root.put("id", UserIdSingleton.getInstance().getUserId());
             root.put("novoAlarme", novoAlarme);
@@ -401,63 +401,6 @@ public class IntervaloHorarioActivity extends AppCompatActivity {
 
         builder.create().show();
     }
-
-//    private void createAlarmIntent(int hora_inicio, int min_inicio, int notificationId) {
-//
-//            Calendar calendar = Calendar.getInstance();
-//
-//            int horaAtual = calendar.get(Calendar.HOUR_OF_DAY);
-//            int minutoAtual = calendar.get(Calendar.MINUTE);
-//            int diaAtual = calendar.get(Calendar.DAY_OF_MONTH);
-//            int mesAtual = calendar.get(Calendar.MONTH);
-//            int anoAtual = calendar.get(Calendar.YEAR);
-//
-//            Calendar nextNotifTime = Calendar.getInstance();
-//            nextNotifTime.add(Calendar.MONTH, 1);
-//            nextNotifTime.set(Calendar.DATE, 1);
-//            nextNotifTime.add(Calendar.DATE, -1);
-//
-//            if (hora_inicio < horaAtual) {
-//                if (diaAtual == nextNotifTime.get(Calendar.DAY_OF_MONTH)) {
-//                    if (mesAtual == 11) {
-//                        anoAtual = anoAtual + 1;
-//                        mesAtual = 0;
-//                    } else {
-//                        diaAtual = 1;
-//                        mesAtual = mesAtual + 1;
-//                    }
-//                } else {
-//                    diaAtual = diaAtual + 1;
-//                }
-//            } else if (hora_inicio == horaAtual) {
-//                if (min_inicio <= minutoAtual) {
-//                    if (diaAtual == nextNotifTime.get(Calendar.DAY_OF_MONTH)) {
-//                        if (mesAtual == 11) {
-//                            anoAtual = anoAtual + 1;
-//                            mesAtual = 0;
-//                        } else {
-//                            diaAtual = 1;
-//                            mesAtual = mesAtual + 1;
-//                        }
-//                    } else {
-//                        diaAtual = diaAtual + 1;
-//                    }
-//                }
-//            }
-//
-//            calendar.set(anoAtual, mesAtual, diaAtual, hora_inicio, min_inicio, 0);
-//
-//            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//            Intent intent = new Intent(this, AlarmeReceiver.class);
-//            intent.putExtra("NOTIFICATION_ID", notificationId);
-//            intent.putExtra("ALARM_TYPE", 2);
-//            intent.putExtra("ALARM_HOUR", hora_inicio);
-//            intent.putExtra("ALARM_MINUTES", min_inicio);
-//            intent.putExtra("MUST_PLAY_NOTIFICATION", true);
-//
-//            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), notificationId, intent, 0);
-//            alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-//    }
 
     private void createAlarmIntent(int hora_inicio, int min_inicio, int notificationId, int vezes_dia, int periodo_hora, int periodo_minuto) {
 
