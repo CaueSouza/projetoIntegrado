@@ -415,7 +415,6 @@ public class HorarioFixActivity extends AppCompatActivity {
         intent.putExtra("ALARM_HOUR", horas);
         intent.putExtra("ALARM_MINUTES", minutos);
         intent.putExtra("ALARM_DAYS", dias);
-        intent.putExtra("MUST_PLAY_NOTIFICATION", true);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), notificationId, intent, 0);
         alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);

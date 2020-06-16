@@ -34,7 +34,7 @@ public class AlarmeReceiver extends BroadcastReceiver {
                 Calendar calendar = Calendar.getInstance();
 
                 int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
-                int tomorrow = weekDay == 7 ? 0 : weekDay + 1;
+                int daysIndex = weekDay - 1;
 
                 boolean isDiasEmpty = true;
 
@@ -74,16 +74,12 @@ public class AlarmeReceiver extends BroadcastReceiver {
                 newIntent.putExtra("ALARM_MINUTES", minutos);
                 newIntent.putExtra("ALARM_DAYS", dias);
 
-                if (dias[tomorrow] == 1 || isDiasEmpty) {
-                    newIntent.putExtra("MUST_PLAY_NOTIFICATION", true);
+                if (dias[daysIndex] == 1 || isDiasEmpty) {
+                    createNotification(context, fullScreenIntent, notificationManagerCompat, notificationId);
                 }
 
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, newIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
-                if (intent.getBooleanExtra("MUST_PLAY_NOTIFICATION", false)) {
-                    createNotification(context, fullScreenIntent, notificationManagerCompat, notificationId);
-                }
 
             } else if (alarmType == 2) {
 
