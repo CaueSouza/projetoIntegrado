@@ -38,7 +38,7 @@
     <string name="time">Perioticidade:</string>
     <string name="next_register_alarm">Próximo</string>
     <string name="register_alarm_title">Cadastrar Alarme</string>
-    <string name="informar_dados_remedio">Informações do remédio</string>
+    <string name="informar_dados_remedio">Informações do medicamento</string>
     <string name="action_button_interval">Intervalo</string>
     <string name="action_button_fix_time">Horário fixo</string>
 
@@ -60,7 +60,7 @@
     <string name="dialog_title">Deletar</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
-    <string name="select_medicine_type_text">Informe o tipo do remédio:</string>
+    <string name="select_medicine_type_text">Informe o tipo do medicamento:</string>
     <string name="medicine_type_pill_text">Pílula</string>
     <string name="medicine_type_liquid_text">Líquido</string>
     <string name="info_dialog_title_text">Informativo</string>
@@ -79,15 +79,17 @@
     <string name="saturday">S</string>
     <string name="zero_time_text">00:00</string>
     <string name="days_of_week_info">Selecione os dias da semana:</string>
-    <string name="dialog_text_start_time_info">Informe o horário que o remédio deve começar a ser tomado</string>
-    <string name="dialog_text_how_many_times_info">Informe quantas vezes deve-se tomar o remédio por dia</string>
+    <string name="dialog_text_start_time_info">Informe o horário que o medicamento deve começar a ser tomado</string>
+    <string name="dialog_text_how_many_times_info">Informe quantas vezes deve-se tomar o medicamento por dia</string>
     <string name="dialog_text_time_interval_info">Informe o período de tempo entre cada medicação</string>
 
     <!-- Toque do alarme-->
-    <string name="alarm">Hora de tomar remédio</string>
+    <string name="alarm">Hora de tomar o medicamento</string>
     <string name="turn_off">Desligar</string>
     <string name="time_alarm">00:00</string>
     <string name="notification_title">Atenção</string>
     <string name="notification_text">Está na hora de se medicar</string>
     <string name="alarm_description">Verifique o aplicativo para consultar os remédios a serem tomados</string>
+
+    <string name="all_medicines_main_text">Lista de todos os medicamentos</string>
 </resources>
