@@ -23,9 +23,7 @@
             android:layout_margin="16dp"
             android:backgroundTint="@color/main_button_background_color"
             android:src="@drawable/ic_alarm_add_white_24dp"
-            app:borderWidth="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:borderWidth="0dp" />
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
