@@ -55,13 +55,13 @@ public class FragmentAlarms extends Fragment {
 
         binding.fabFragment.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), AllMedicinesActivity.class);
-            ArrayList<String> listaMedicamentos = new ArrayList<>();
+            ArrayList<String> listaNomeMedicamentos = new ArrayList<>();
 
-            for (int i = 0; i < alarmes.size(); i++) {
-                listaMedicamentos.add(alarmes.get(i).getNome());
+            for (AlarmeItem alarme : alarmes) {
+                listaNomeMedicamentos.add(alarme.getNome());
             }
 
-            intent.putStringArrayListExtra("MEDICINE_LIST", listaMedicamentos);
+            intent.putStringArrayListExtra("MEDICINE_NAME_LIST", listaNomeMedicamentos);
             startActivity(intent);
         });
 
