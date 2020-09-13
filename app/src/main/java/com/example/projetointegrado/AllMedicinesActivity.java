@@ -1,7 +1,6 @@
 package com.example.projetointegrado;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,15 +20,9 @@ public class AllMedicinesActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ArrayList<String> allMedicines = getIntent().getStringArrayListExtra("MEDICINE_LIST");
-        String[] allMedicineStrings = new String[allMedicines.size()];
+        ArrayList<String> allMedicinesNames = getIntent().getStringArrayListExtra("MEDICINE_NAME_LIST");
 
-        for (int i = 0; i < allMedicines.size(); i++) {
-            allMedicineStrings[i] = allMedicines.get(i);
-        }
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allMedicines);
-
+        AlarmeListedAdapter arrayAdapter = new AlarmeListedAdapter(this, R.layout.list_item, allMedicinesNames);
         binding.allMedListView.setAdapter(arrayAdapter);
     }
 }
