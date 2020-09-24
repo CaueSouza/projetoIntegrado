@@ -30,4 +30,7 @@ public class Constants {
     public static final String PERIODO_HORA = "periodo_hora";
     public static final String PERIODO_MIN = "periodo_min";
     public static final String NOTIFICATION_ID = "notification_id";
+    public static final String LUMINOSO = "luminoso";
+    public static final String SONORO = "sonoro";
+    public static final String BOX_POSITION = "posCaixa";
 }

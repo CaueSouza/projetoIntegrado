@@ -10,9 +10,11 @@ import androidx.annotation.Nullable;
 
 import static com.example.projetointegrado.Constants.ALARM_TYPE;
 import static com.example.projetointegrado.Constants.ATIVO;
+import static com.example.projetointegrado.Constants.BOX_POSITION;
 import static com.example.projetointegrado.Constants.DOMINGO;
 import static com.example.projetointegrado.Constants.DOSAGEM;
 import static com.example.projetointegrado.Constants.HORA;
+import static com.example.projetointegrado.Constants.LUMINOSO;
 import static com.example.projetointegrado.Constants.MEDICINE_TYPE;
 import static com.example.projetointegrado.Constants.MINUTO;
 import static com.example.projetointegrado.Constants.NOME_REMEDIO;
@@ -26,6 +28,7 @@ import static com.example.projetointegrado.Constants.QUINTA;
 import static com.example.projetointegrado.Constants.SABADO;
 import static com.example.projetointegrado.Constants.SEGUNDA;
 import static com.example.projetointegrado.Constants.SEXTA;
+import static com.example.projetointegrado.Constants.SONORO;
 import static com.example.projetointegrado.Constants.TERCA;
 import static com.example.projetointegrado.Constants.VEZES_DIA;
 
@@ -53,6 +56,9 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
     private static final String COL18 = PERIODO_HORA;
     private static final String COL19 = PERIODO_MIN;
     private static final String COL20 = NOTIFICATION_ID;
+    private static final String COL21 = LUMINOSO;
+    private static final String COL22 = SONORO;
+    private static final String COL23 = BOX_POSITION;
 
     public DataBaseAlarmsHelper(@Nullable Context context) {
         super(context, TABLE_NAME, null, 1);
@@ -81,7 +87,10 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
                 COL17 + " INTEGER," +
                 COL18 + " INTEGER," +
                 COL19 + " INTEGER," +
-                COL20 + " INTEGER)";
+                COL20 + " INTEGER," +
+                COL21 + " INTEGER," +
+                COL22 + " INTEGER," +
+                COL23 + " INTEGER)";
 
         db.execSQL(createTable);
     }
@@ -98,7 +107,12 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, null);
     }
 
-    public boolean addData(int alarmType, int medicineType, int ativo, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
+    public boolean addData(int alarmType, int medicineType,
+                           int ativo, String nome, int dosagem,
+                           int quantidade, int quantidadeBox,
+                           int hora, int minuto, int[] dias, int vezes_dia,
+                           int periodo_hora, int periodo_minuto, int notificationId,
+                           int luminoso, int sonoro, int pos_caixa) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL1, alarmType);
@@ -121,13 +135,21 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
         contentValues.put(COL18, periodo_hora);
         contentValues.put(COL19, periodo_minuto);
         contentValues.put(COL20, notificationId);
+        contentValues.put(COL21, luminoso);
+        contentValues.put(COL22, sonoro);
+        contentValues.put(COL23, pos_caixa);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
 
         return result != -1;
     }
 
-    public boolean updateData(String id, int alarmType, int medicineType, int ativo, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
+    public boolean updateData(String id, int alarmType,
+                              int medicineType, int ativo,
+                              String nome, int dosagem, int quantidade,
+                              int quantidadeBox, int hora, int minuto, int[] dias,
+                              int vezes_dia, int periodo_hora, int periodo_minuto,
+                              int notificationId, int luminoso, int sonoro, int pos_caixa) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL0, id);
@@ -151,6 +173,9 @@ public class DataBaseAlarmsHelper extends SQLiteOpenHelper {
         contentValues.put(COL18, periodo_hora);
         contentValues.put(COL19, periodo_minuto);
         contentValues.put(COL20, notificationId);
+        contentValues.put(COL21, luminoso);
+        contentValues.put(COL22, sonoro);
+        contentValues.put(COL23, pos_caixa);
 
         db.update(TABLE_NAME, contentValues, "ID = ?", new String[]{id});
         return true;

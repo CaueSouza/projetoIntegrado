@@ -31,9 +31,11 @@ import static android.app.AlarmManager.RTC_WAKEUP;
 import static com.example.projetointegrado.Constants.ALARM_TYPE;
 import static com.example.projetointegrado.Constants.ATIVO;
 import static com.example.projetointegrado.Constants.BASE_URL;
+import static com.example.projetointegrado.Constants.BOX_POSITION;
 import static com.example.projetointegrado.Constants.DOMINGO;
 import static com.example.projetointegrado.Constants.DOSAGEM;
 import static com.example.projetointegrado.Constants.HORA;
+import static com.example.projetointegrado.Constants.LUMINOSO;
 import static com.example.projetointegrado.Constants.MEDICINE_TYPE;
 import static com.example.projetointegrado.Constants.MINUTO;
 import static com.example.projetointegrado.Constants.NOME_REMEDIO;
@@ -47,6 +49,7 @@ import static com.example.projetointegrado.Constants.QUINTA;
 import static com.example.projetointegrado.Constants.SABADO;
 import static com.example.projetointegrado.Constants.SEGUNDA;
 import static com.example.projetointegrado.Constants.SEXTA;
+import static com.example.projetointegrado.Constants.SONORO;
 import static com.example.projetointegrado.Constants.TERCA;
 import static com.example.projetointegrado.Constants.VEZES_DIA;
 
@@ -94,19 +97,22 @@ public class HorarioFixActivity extends AppCompatActivity {
             int medTipo = getIntent().getIntExtra("MEDICINE_TYPE", 0);
             String nome = getIntent().getStringExtra("MEDICINE_NAME");
             int notificationId = getIntent().getIntExtra("NOTIFICATION_ID", 0);
+            int luminoso = getIntent().getIntExtra("LUMINOSO", 0);
+            int sonoro = getIntent().getIntExtra("SONORO", 0);
 
             if (medTipo == 1) {
                 int quantidade = getIntent().getIntExtra("MEDICINE_QUANTITY", 0);
                 int quantidadeCaixa = getIntent().getIntExtra("MEDICINE_BOX_QUANTITY", 0);
-                addDataDB(medTipo, nome, 0, quantidade, quantidadeCaixa, notificationId);
+                int posCaixa = getIntent().getIntExtra("BOX_POSITION", 0);
+                addDataDB(medTipo, nome, 0, quantidade, quantidadeCaixa, notificationId, luminoso, sonoro, posCaixa);
             } else if (medTipo == 2) {
                 int dosagem = getIntent().getIntExtra("MEDICINE_DOSAGE", 0);
-                addDataDB(medTipo, nome, dosagem, 0, 0, notificationId);
+                addDataDB(medTipo, nome, dosagem, 0, 0, notificationId, luminoso, sonoro, 0);
             }
         });
     }
 
-    private void addDataDB(int tipoRemedio, String nome, int dosagem, int quantidade, int quantidadeCaixa, int notificationId) {
+    private void addDataDB(int tipoRemedio, String nome, int dosagem, int quantidade, int quantidadeCaixa, int notificationId, int luminoso, int sonoro, int posCaixa) {
         int horas = binding.idClockSchedule.getHour();
         int minutos = binding.idClockSchedule.getMinute();
 
@@ -141,7 +147,10 @@ public class HorarioFixActivity extends AppCompatActivity {
                     0,
                     0,
                     0,
-                    notificationId);
+                    notificationId,
+                    luminoso,
+                    sonoro,
+                    posCaixa);
         } else {
             createPostCreateAlarm(
                     tipoRemedio,
@@ -155,11 +164,14 @@ public class HorarioFixActivity extends AppCompatActivity {
                     0,
                     0,
                     0,
-                    notificationId);
+                    notificationId,
+                    luminoso,
+                    sonoro,
+                    posCaixa);
         }
     }
 
-    private void createPostUpdateAlarm(int medicineType, int ativo, String velhoNome, String nome, int dosagem, int quantidade, int quantidadeBox, int oldHour, int oldMinute, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
+    private void createPostUpdateAlarm(int medicineType, int ativo, String velhoNome, String nome, int dosagem, int quantidade, int quantidadeBox, int oldHour, int oldMinute, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId, int luminoso, int sonoro, int posCaixa) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -167,7 +179,7 @@ public class HorarioFixActivity extends AppCompatActivity {
 
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        String requestStr = formatJSONupdateAlarm(medicineType, ativo, velhoNome, nome, dosagem, quantidade, quantidadeBox, oldHour, oldMinute, hora, minuto, dias, vezes_dia, periodo_hora, periodo_minuto, notificationId);
+        String requestStr = formatJSONupdateAlarm(medicineType, ativo, velhoNome, nome, dosagem, quantidade, quantidadeBox, oldHour, oldMinute, hora, minuto, dias, vezes_dia, periodo_hora, periodo_minuto, notificationId, luminoso, sonoro, posCaixa);
         JsonObject request = JsonParser.parseString(requestStr).getAsJsonObject();
 
         Call<JsonObject> call = jsonPlaceHolderApi.postModifyAlarm(request);
@@ -198,7 +210,10 @@ public class HorarioFixActivity extends AppCompatActivity {
                         0,
                         0,
                         0,
-                        notificationId);
+                        notificationId,
+                        luminoso,
+                        sonoro,
+                        posCaixa);
 
                 if (confirmation) {
                     if (ativo == 1) {
@@ -223,7 +238,7 @@ public class HorarioFixActivity extends AppCompatActivity {
         });
     }
 
-    private void createPostCreateAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
+    private void createPostCreateAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId, int luminoso, int sonoro, int posCaixa) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -231,7 +246,7 @@ public class HorarioFixActivity extends AppCompatActivity {
 
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        String requestStr = formatJSONnewAlarm(medicineType, nome, dosagem, quantidade, quantidadeBox, hora, minuto, dias, vezes_dia, periodo_hora, periodo_minuto, notificationId);
+        String requestStr = formatJSONnewAlarm(medicineType, nome, dosagem, quantidade, quantidadeBox, hora, minuto, dias, vezes_dia, periodo_hora, periodo_minuto, notificationId, luminoso, sonoro, posCaixa);
         JsonObject request = JsonParser.parseString(requestStr).getAsJsonObject();
 
         Call<JsonObject> call = jsonPlaceHolderApi.postCreateAlarm(request);
@@ -261,7 +276,10 @@ public class HorarioFixActivity extends AppCompatActivity {
                         0,
                         0,
                         0,
-                        notificationId);
+                        notificationId,
+                        luminoso,
+                        sonoro,
+                        posCaixa);
 
 
                 if (confirmation) {
@@ -283,7 +301,7 @@ public class HorarioFixActivity extends AppCompatActivity {
         });
     }
 
-    private String formatJSONupdateAlarm(int medicineType, int ativo, String velhoNome, String nome, int dosagem, int quantidade, int quantidadeBox, int velhaHora, int velhoMinuto, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
+    private String formatJSONupdateAlarm(int medicineType, int ativo, String velhoNome, String nome, int dosagem, int quantidade, int quantidadeBox, int velhaHora, int velhoMinuto, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId, int luminoso, int sonoro, int posCaixa) {
         final JSONObject root = new JSONObject();
 
         try {
@@ -313,6 +331,9 @@ public class HorarioFixActivity extends AppCompatActivity {
             novoAlarme.put(PERIODO_HORA, String.valueOf(periodo_hora));
             novoAlarme.put(PERIODO_MIN, String.valueOf(periodo_minuto));
             novoAlarme.put(NOTIFICATION_ID, String.valueOf(notificationId));
+            novoAlarme.put(LUMINOSO, String.valueOf(luminoso));
+            novoAlarme.put(SONORO, String.valueOf(sonoro));
+            novoAlarme.put(BOX_POSITION, String.valueOf(posCaixa));
 
             root.put("id", UserIdSingleton.getInstance().getUserId());
             root.put("velhoAlarme", velhoAlarme);
@@ -325,7 +346,7 @@ public class HorarioFixActivity extends AppCompatActivity {
         return null;
     }
 
-    private String formatJSONnewAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
+    private String formatJSONnewAlarm(int medicineType, String nome, int dosagem, int quantidade, int quantidadeBox, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId, int luminoso, int sonoro, int posCaixa) {
 
         final JSONObject root = new JSONObject();
 
@@ -352,6 +373,9 @@ public class HorarioFixActivity extends AppCompatActivity {
             novoAlarme.put(PERIODO_HORA, String.valueOf(periodo_hora));
             novoAlarme.put(PERIODO_MIN, String.valueOf(periodo_minuto));
             novoAlarme.put(NOTIFICATION_ID, String.valueOf(notificationId));
+            novoAlarme.put(LUMINOSO, String.valueOf(luminoso));
+            novoAlarme.put(SONORO, String.valueOf(sonoro));
+            novoAlarme.put(BOX_POSITION, String.valueOf(posCaixa));
 
             root.put("id", UserIdSingleton.getInstance().getUserId());
             root.put("novoAlarme", novoAlarme);
@@ -420,7 +444,7 @@ public class HorarioFixActivity extends AppCompatActivity {
         alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
-    private void cancelAlarmIntent(int notificationId){
+    private void cancelAlarmIntent(int notificationId) {
         Intent intent = new Intent(getApplicationContext(), AlarmeReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         pendingIntent.cancel();

@@ -38,9 +38,11 @@ import static android.app.AlarmManager.RTC_WAKEUP;
 import static com.example.projetointegrado.Constants.ALARM_TYPE;
 import static com.example.projetointegrado.Constants.ATIVO;
 import static com.example.projetointegrado.Constants.BASE_URL;
+import static com.example.projetointegrado.Constants.BOX_POSITION;
 import static com.example.projetointegrado.Constants.DOMINGO;
 import static com.example.projetointegrado.Constants.DOSAGEM;
 import static com.example.projetointegrado.Constants.HORA;
+import static com.example.projetointegrado.Constants.LUMINOSO;
 import static com.example.projetointegrado.Constants.MEDICINE_TYPE;
 import static com.example.projetointegrado.Constants.MINUTO;
 import static com.example.projetointegrado.Constants.NOME_REMEDIO;
@@ -54,6 +56,7 @@ import static com.example.projetointegrado.Constants.QUINTA;
 import static com.example.projetointegrado.Constants.SABADO;
 import static com.example.projetointegrado.Constants.SEGUNDA;
 import static com.example.projetointegrado.Constants.SEXTA;
+import static com.example.projetointegrado.Constants.SONORO;
 import static com.example.projetointegrado.Constants.TERCA;
 import static com.example.projetointegrado.Constants.VEZES_DIA;
 
@@ -128,7 +131,26 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
             dias[5] = data.getInt(15);
             dias[6] = data.getInt(16);
 
-            createPostUpdateAlarm(finalConvertView, position, data.getInt(1), data.getInt(2), data.getInt(3) == 1 ? 0 : 1, data.getString(4), data.getString(4), data.getInt(5), data.getInt(6), data.getInt(7), data.getInt(8), data.getInt(9), data.getInt(8), data.getInt(9), dias, data.getInt(17), data.getInt(18), data.getInt(19), data.getInt(20));
+            createPostUpdateAlarm(finalConvertView, position,
+                    data.getInt(1),
+                    data.getInt(2),
+                    data.getInt(3) == 1 ? 0 : 1,
+                    data.getString(4),
+                    data.getString(4),
+                    data.getInt(5),
+                    data.getInt(6),
+                    data.getInt(7),
+                    data.getInt(8),
+                    data.getInt(9),
+                    data.getInt(8),
+                    data.getInt(9),
+                    dias, data.getInt(17),
+                    data.getInt(18),
+                    data.getInt(19),
+                    data.getInt(20),
+                    data.getInt(21),
+                    data.getInt(22),
+                    data.getInt(23));
         });
 
         imageViewDelete.setOnClickListener(v -> {
@@ -148,9 +170,9 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
         return convertView;
     }
 
-    private void createPostUpdateAlarm(View convertView, int position, int alarmType, int medicineType, int ativo, String velhoNome, String nome, int dosagem, int quantidade, int quantidadeBox, int oldHour, int oldMinute, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
+    private void createPostUpdateAlarm(View convertView, int position, int alarmType, int medicineType, int ativo, String velhoNome, String nome, int dosagem, int quantidade, int quantidadeBox, int oldHour, int oldMinute, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId, int luminoso, int sonoro, int posCaixa) {
 
-        String requestStr = formatJSONupdateAlarm(alarmType, medicineType, ativo, velhoNome, nome, dosagem, quantidade, quantidadeBox, oldHour, oldMinute, hora, minuto, dias, vezes_dia, periodo_hora, periodo_minuto, notificationId);
+        String requestStr = formatJSONupdateAlarm(alarmType, medicineType, ativo, velhoNome, nome, dosagem, quantidade, quantidadeBox, oldHour, oldMinute, hora, minuto, dias, vezes_dia, periodo_hora, periodo_minuto, notificationId, luminoso, sonoro, posCaixa);
         JsonObject request = JsonParser.parseString(requestStr).getAsJsonObject();
 
         Call<JsonObject> call = jsonPlaceHolderApi.postModifyAlarm(request);
@@ -180,7 +202,10 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
                         vezes_dia,
                         periodo_hora,
                         periodo_minuto,
-                        notificationId);
+                        notificationId,
+                        luminoso,
+                        sonoro,
+                        posCaixa);
 
                 ImageView imageViewStatus = convertView.findViewById(R.id.adapter_image);
                 imageViewStatus.setImageResource(ativo == 1 ? R.drawable.ic_alarm_on_black_24dp : R.drawable.ic_alarm_off_black_24dp);
@@ -189,7 +214,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
                 notifyDataSetChanged();
 
                 if (ativo == 1) {
-                    if (alarmType == 1){
+                    if (alarmType == 1) {
                         createAlarmIntent(hora, minuto, dias, notificationId);
                     } else {
                         createAlarmIntent(hora, minuto, notificationId, vezes_dia, periodo_hora, periodo_minuto);
@@ -379,7 +404,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
         return null;
     }
 
-    private String formatJSONupdateAlarm(int alarmType, int medicineType, int ativo, String velhoNome, String nome, int dosagem, int quantidade, int quantidadeBox, int velhaHora, int velhoMinuto, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId) {
+    private String formatJSONupdateAlarm(int alarmType, int medicineType, int ativo, String velhoNome, String nome, int dosagem, int quantidade, int quantidadeBox, int velhaHora, int velhoMinuto, int hora, int minuto, int[] dias, int vezes_dia, int periodo_hora, int periodo_minuto, int notificationId, int luminoso, int sonoro, int posCaixa) {
         final JSONObject root = new JSONObject();
 
         try {
@@ -409,6 +434,9 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
             novoAlarme.put(PERIODO_HORA, String.valueOf(periodo_hora));
             novoAlarme.put(PERIODO_MIN, String.valueOf(periodo_minuto));
             novoAlarme.put(NOTIFICATION_ID, String.valueOf(notificationId));
+            novoAlarme.put(LUMINOSO, String.valueOf(luminoso));
+            novoAlarme.put(SONORO, String.valueOf(sonoro));
+            novoAlarme.put(BOX_POSITION, String.valueOf(posCaixa));
 
             root.put("id", UserIdSingleton.getInstance().getUserId());
             root.put("velhoAlarme", velhoAlarme);
