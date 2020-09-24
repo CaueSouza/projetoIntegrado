@@ -41,9 +41,12 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
         if (isEdit) {
             alarmEditPosition = getIntent().getIntExtra("POSITION", -1);
             data.move(alarmEditPosition + 1);
-            validNotificationId = data.getInt(20);
-
             binding.nameInfMedicine.setText(data.getString(4));
+            validNotificationId = data.getInt(20);
+            binding.luminosoCheckbox.setChecked(data.getInt(21) == 1);
+            binding.sonoroCheckbox.setChecked(data.getInt(22) == 1);
+            binding.infBoxPosition.setText(String.valueOf(data.getInt(23)));
+
             if (data.getInt(2) == 1) {
                 binding.radioButtonMedicineTypePill.setChecked(true);
                 binding.radioButtonMedicineTypeLiquid.setChecked(false);
@@ -86,30 +89,45 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
         binding.infNameInfo.setOnClickListener(v -> imageInfoClick(binding.infNameInfo));
         binding.infBoxQuantityInfo.setOnClickListener(v -> imageInfoClick(binding.infBoxQuantityInfo));
         binding.infQuantityInfo.setOnClickListener(v -> imageInfoClick(binding.infQuantityInfo));
+        binding.infBoxPositionInfo.setOnClickListener(v -> imageInfoClick(binding.infBoxPositionInfo));
 
         binding.radioButtonMedicineTypePill.setOnClickListener(v -> {
             binding.infDosage.setVisibility(View.GONE);
             binding.infQuantity.setVisibility(View.VISIBLE);
             binding.infBoxQuantityLayout.setVisibility(View.VISIBLE);
+            binding.infBoxPositionLayout.setVisibility(View.VISIBLE);
         });
 
         binding.radioButtonMedicineTypeLiquid.setOnClickListener(v -> {
             binding.infDosage.setVisibility(View.VISIBLE);
             binding.infQuantity.setVisibility(View.GONE);
             binding.infBoxQuantityLayout.setVisibility(View.GONE);
+            binding.infBoxPositionLayout.setVisibility(View.GONE);
         });
 
+        binding.radioButtonRegisterMedicineInterval.setOnClickListener(v -> {
+            binding.radioButtonRegisterMedicineInterval.setChecked(true);
+            binding.radioButtonRegisterMedicineFixtime.setChecked(false);
+        });
+
+        binding.radioButtonRegisterMedicineFixtime.setOnClickListener(v -> {
+            binding.radioButtonRegisterMedicineFixtime.setChecked(true);
+            binding.radioButtonRegisterMedicineInterval.setChecked(false);
+        });
     }
 
     private void callActivity(Class activity) {
         String nome = binding.nameInfMedicine.getText().toString();
+        boolean isLuminosoChecked = binding.luminosoCheckbox.isChecked();
+        boolean isSonoroChecked = binding.sonoroCheckbox.isChecked();
 
         if (binding.radioButtonMedicineTypePill.isChecked()) {
             String quantidade = binding.infQuantity.getText().toString();
             String quantidadeCaixa = binding.infBoxQuantity.getText().toString();
+            String posicaoCaixa = binding.infBoxPosition.getText().toString();
 
             if (quantidade.length() < 10 && quantidadeCaixa.length() < 10) {
-                if (!nome.isEmpty() && !quantidade.isEmpty() && !quantidadeCaixa.isEmpty()) {
+                if (!nome.isEmpty() && !quantidade.isEmpty() && !quantidadeCaixa.isEmpty() && !posicaoCaixa.isEmpty()) {
                     Intent intent = new Intent(this, activity);
                     if (isEdit) {
                         intent.putExtra("IS_EDIT", true);
@@ -123,6 +141,9 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
                     intent.putExtra("MEDICINE_BOX_QUANTITY", Integer.parseInt(quantidadeCaixa));
                     intent.putExtra("MEDICINE_NAME", nome);
                     intent.putExtra("NOTIFICATION_ID", validNotificationId);
+                    intent.putExtra("LUMINOSO", isLuminosoChecked ? 1 : 0);
+                    intent.putExtra("SONORO", isSonoroChecked ? 1 : 0);
+                    intent.putExtra("BOX_POSITION", Integer.parseInt(posicaoCaixa));
                     startActivity(intent);
                 } else {
                     Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
@@ -147,6 +168,8 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
                     intent.putExtra("MEDICINE_NAME", nome);
                     intent.putExtra("MEDICINE_DOSAGE", Integer.parseInt(dosagem));
                     intent.putExtra("NOTIFICATION_ID", validNotificationId);
+                    intent.putExtra("LUMINOSO", isLuminosoChecked ? 1 : 0);
+                    intent.putExtra("SONORO", isSonoroChecked ? 1 : 0);
                     startActivity(intent);
                 } else {
                     Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
@@ -171,6 +194,8 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
             }
         } else if (binding.infBoxQuantityInfo.equals(imageView)) {
             builder.setMessage(R.string.dialog_text_medicine_box_quantity_info);
+        } else if (binding.infBoxPositionInfo.equals(imageView)) {
+            builder.setMessage(R.string.dialog_text_medicine_box_position_info);
         }
 
         builder.setPositiveButton(R.string.ok, (dialog, id) -> dialog.dismiss());

@@ -35,6 +35,7 @@
     <string name="dosage">Dosagem (mg)</string>
     <string name="quantity">Quantidade</string>
     <string name="box_quantity">Quantidade na caixa</string>
+    <string name="box_position">Posição na caixa</string>
     <string name="time">Perioticidade:</string>
     <string name="next_register_alarm">Próximo</string>
     <string name="register_alarm_title">Cadastrar Alarme</string>
@@ -68,6 +69,7 @@
     <string name="dialog_text_medicine_dosage_info">Informe a quantidade de pílulas a serem tomadas por vez</string>
     <string name="dialog_text_medicine_quantity_info">Informe a quantidade em miligramas a serem tomadas por vez</string>
     <string name="dialog_text_medicine_box_quantity_info">Informe a quantidade desse medicamento presente na caixa</string>
+    <string name="dialog_text_medicine_box_position_info">Informe o número referente a posição do medicamento na caixa</string>
 
     <!-- Dias da semana-->
     <string name="sunday">D</string>
@@ -92,4 +94,10 @@
     <string name="alarm_description">Verifique o aplicativo para consultar os remédios a serem tomados</string>
 
     <string name="all_medicines_main_text">Lista de todos os medicamentos</string>
+
+    <!-- Box Alarm Types-->
+    <string name="luminoso_text">Luminoso</string>
+    <string name="sonoro_text">Sonoro</string>
+    <string name="alarm_box_types_title">Tipos de alarme na caixa:</string>
+
 </resources>

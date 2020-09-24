@@ -30,6 +30,7 @@
             android:layout_marginTop="50dp"
             android:layout_marginEnd="35dp"
             android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/info_text_medicine">
 
@@ -40,30 +41,34 @@
                 android:gravity="center_vertical"
                 android:text="@string/select_medicine_type_text" />
 
-            <RadioGroup
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
                 <RadioButton
                     android:id="@+id/radio_button_medicine_type_pill"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="40dp"
                     android:text="@string/medicine_type_pill_text"
                     android:textColor="#466DA8"
-                    app:buttonTint="#466DA8" />
+                    app:buttonTint="#466DA8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/radio_button_medicine_type_liquid"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <RadioButton
                     android:id="@+id/radio_button_medicine_type_liquid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
                     android:text="@string/medicine_type_liquid_text"
                     android:textColor="#466DA8"
-                    app:buttonTint="#466DA8" />
-            </RadioGroup>
+                    app:buttonTint="#466DA8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/radio_button_medicine_type_pill"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
         <RelativeLayout
@@ -73,6 +78,7 @@
             android:layout_marginStart="35dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="35dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/radio_buttons_select_medicine_type">
 
@@ -105,6 +111,7 @@
             android:layout_marginStart="35dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="35dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name_inf_medicine_layout">
 
@@ -149,6 +156,7 @@
             android:layout_marginStart="35dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="35dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/inf_dosage_quantity_layout">
 
@@ -173,6 +181,38 @@
                 android:src="@drawable/ic_help" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/inf_box_position_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="35dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inf_box_quantity_layout">
+
+            <EditText
+                android:id="@+id/inf_box_position"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_map"
+                android:drawablePadding="10dp"
+                android:hint="@string/box_position"
+                android:inputType="number"
+                android:paddingEnd="40dp" />
+
+            <ImageView
+                android:id="@+id/inf_box_position_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_help" />
+        </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/radio_buttons_register_medicine"
             android:layout_width="match_parent"
@@ -181,8 +221,59 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="35dp"
             android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inf_box_quantity_layout">
+            app:layout_constraintTop_toBottomOf="@id/box_alarms_register_medicine">
+
+            <TextView
+                style="@style/CadastroText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/alarm_box_types_title" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/luminoso_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkMarkTint="#466DA8"
+                    android:clickable="true"
+                    android:text="@string/luminoso_text"
+                    android:textColor="#466DA8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/sonoro_checkbox"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/sonoro_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkMarkTint="#466DA8"
+                    android:text="@string/sonoro_text"
+                    android:textColor="#466DA8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/luminoso_checkbox"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/box_alarms_register_medicine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="35dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inf_box_position_layout">
 
             <TextView
                 style="@style/CadastroText"
@@ -191,33 +282,35 @@
                 android:gravity="center_vertical"
                 android:text="@string/time" />
 
-            <RadioGroup
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
                 <RadioButton
                     android:id="@+id/radio_button_register_medicine_interval"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="40dp"
                     android:text="@string/action_button_interval"
                     android:textColor="#466DA8"
-                    app:buttonTint="#466DA8" />
+                    app:buttonTint="#466DA8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/radio_button_register_medicine_fixtime"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <RadioButton
                     android:id="@+id/radio_button_register_medicine_fixtime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
                     android:text="@string/action_button_fix_time"
                     android:textColor="#466DA8"
-                    app:buttonTint="#466DA8" />
-            </RadioGroup>
-
+                    app:buttonTint="#466DA8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/radio_button_register_medicine_interval"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
-
 
         <Button
             android:id="@+id/back_button_register_medicine"

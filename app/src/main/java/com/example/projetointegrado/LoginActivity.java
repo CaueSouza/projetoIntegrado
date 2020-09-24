@@ -27,9 +27,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.example.projetointegrado.Constants.ALARM_TYPE;
 import static com.example.projetointegrado.Constants.ATIVO;
 import static com.example.projetointegrado.Constants.BASE_URL;
+import static com.example.projetointegrado.Constants.BOX_POSITION;
 import static com.example.projetointegrado.Constants.DOMINGO;
 import static com.example.projetointegrado.Constants.DOSAGEM;
 import static com.example.projetointegrado.Constants.HORA;
+import static com.example.projetointegrado.Constants.LUMINOSO;
 import static com.example.projetointegrado.Constants.MEDICINE_TYPE;
 import static com.example.projetointegrado.Constants.MINUTO;
 import static com.example.projetointegrado.Constants.NOME_REMEDIO;
@@ -43,6 +45,7 @@ import static com.example.projetointegrado.Constants.QUINTA;
 import static com.example.projetointegrado.Constants.SABADO;
 import static com.example.projetointegrado.Constants.SEGUNDA;
 import static com.example.projetointegrado.Constants.SEXTA;
+import static com.example.projetointegrado.Constants.SONORO;
 import static com.example.projetointegrado.Constants.TERCA;
 import static com.example.projetointegrado.Constants.VEZES_DIA;
 
@@ -229,7 +232,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
-                if (!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     binding.progressBar.setVisibility(View.GONE);
                     Toast.makeText(getBaseContext(), "Um erro ocorreu", Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "onResponse: " + response);
@@ -273,7 +276,10 @@ public class LoginActivity extends AppCompatActivity {
                                 jsonAlarm.get(VEZES_DIA).getAsInt(),
                                 jsonAlarm.get(PERIODO_HORA).getAsInt(),
                                 jsonAlarm.get(PERIODO_MIN).getAsInt(),
-                                jsonAlarm.get(NOTIFICATION_ID).getAsInt());
+                                jsonAlarm.get(NOTIFICATION_ID).getAsInt(),
+                                jsonAlarm.get(LUMINOSO).getAsInt(),
+                                jsonAlarm.get(SONORO).getAsInt(),
+                                jsonAlarm.get(BOX_POSITION).getAsInt());
                     }
                 }
 
