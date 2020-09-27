@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".App"
@@ -19,11 +20,9 @@
         <activity android:name=".HorarioFixActivity" />
         <activity android:name=".CadastrarAlarmeActivity" />
         <activity android:name=".ReconhecimentoCaixaActivity" />
-        <activity android:name=".FragmentsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity" />
-        </activity>
+        <activity
+            android:name=".FragmentsActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,6 +35,9 @@
         <activity android:name=".TimePickerActivity" />
         <activity
             android:name=".AllMedicinesActivity"
+            android:parentActivityName=".FragmentsActivity" />
+        <activity
+            android:name=".CadastrarCaixaActivity"
             android:parentActivityName=".FragmentsActivity" />
 
         <receiver

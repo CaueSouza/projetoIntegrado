@@ -26,7 +26,7 @@ import static com.example.projetointegrado.Constants.BASE_URL;
 
 public class CadastroActivity extends AppCompatActivity {
 
-    private static final String TAG = "CadastroActivity";
+    private static final String TAG = CadastroActivity.class.getSimpleName();
 
     private ActivityCadastroBinding binding;
     DataBaseUserHelper mDataBaseUserHelper;

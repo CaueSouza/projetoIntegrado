@@ -291,8 +291,7 @@ public class LoginActivity extends AppCompatActivity {
                         JsonObject jsonBox = jsonElement.getAsJsonObject();
 
                         mDataBaseBoxHelper.addData(
-                                jsonBox.get("nomeCaixa").getAsString(),
-                                jsonBox.get("id").getAsString());
+                                jsonBox.get("nomeCaixa").getAsString());
                     }
                 }
 

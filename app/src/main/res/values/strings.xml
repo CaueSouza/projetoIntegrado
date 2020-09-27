@@ -100,4 +100,5 @@
     <string name="sonoro_text">Sonoro</string>
     <string name="alarm_box_types_title">Tipos de alarme na caixa:</string>
 
+    <string name="qr_warning_text">Foque no QR Code</string>
 </resources>

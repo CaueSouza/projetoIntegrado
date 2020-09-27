@@ -37,16 +37,13 @@ public class CaixaListAdapter extends ArrayAdapter<CaixaItem> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         String nome = getItem(position).getNome();
-        String IP = getItem(position).getIP();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
         TextView nameView = convertView.findViewById(R.id.box_name);
-        TextView IpView = convertView.findViewById(R.id.box_ip);
 
         nameView.setText(nome);
-        IpView.setText(IP);
 
         ImageView imageView = convertView.findViewById(R.id.caixa_list_image);
         imageView.setOnClickListener(v -> {
