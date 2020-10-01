@@ -42,6 +42,7 @@ import static com.example.projetointegrado.Constants.BOX_POSITION;
 import static com.example.projetointegrado.Constants.DOMINGO;
 import static com.example.projetointegrado.Constants.DOSAGEM;
 import static com.example.projetointegrado.Constants.HORA;
+import static com.example.projetointegrado.Constants.ID_USUARIO;
 import static com.example.projetointegrado.Constants.LUMINOSO;
 import static com.example.projetointegrado.Constants.MEDICINE_TYPE;
 import static com.example.projetointegrado.Constants.MINUTO;
@@ -158,9 +159,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
             builder.setMessage(R.string.dialog_message)
                     .setTitle(R.string.dialog_title);
 
-            builder.setPositiveButton(R.string.ok, (dialog, id) -> {
-                createPostDeleteAlarm(position, nome, horas, minutos);
-            });
+            builder.setPositiveButton(R.string.ok, (dialog, id) -> createPostDeleteAlarm(position, nome, horas, minutos));
 
             builder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
 
@@ -394,7 +393,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
             velhoAlarme.put(HORA, String.valueOf(velhaHora));
             velhoAlarme.put(MINUTO, String.valueOf(velhoMinuto));
 
-            root.put("id", UserIdSingleton.getInstance().getUserId());
+            root.put(ID_USUARIO, UserIdSingleton.getInstance().getUserId());
             root.put("velhoAlarme", velhoAlarme);
 
             return root.toString();
@@ -438,7 +437,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
             novoAlarme.put(SONORO, String.valueOf(sonoro));
             novoAlarme.put(BOX_POSITION, String.valueOf(posCaixa));
 
-            root.put("id", UserIdSingleton.getInstance().getUserId());
+            root.put(ID_USUARIO, UserIdSingleton.getInstance().getUserId());
             root.put("velhoAlarme", velhoAlarme);
             root.put("novoAlarme", novoAlarme);
 

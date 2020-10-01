@@ -290,12 +290,15 @@ public class LoginActivity extends AppCompatActivity {
                         JsonElement jsonElement = boxArray.get(i);
                         JsonObject jsonBox = jsonElement.getAsJsonObject();
 
+                        //TODO FIX CONSTANTS
                         mDataBaseBoxHelper.addData(
-                                jsonBox.get("nomeCaixa").getAsString());
+                                jsonBox.get("id").getAsString(),//ID_CAIXA
+                                jsonBox.get("nome").getAsString());//NOME_CAIXA
                     }
                 }
 
                 Intent intent = new Intent(LoginActivity.this, FragmentsActivity.class);
+                intent.putExtra("OPEN_ALARM_FRAG", true);
                 startActivity(intent);
                 finish();
 

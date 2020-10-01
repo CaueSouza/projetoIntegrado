@@ -71,6 +71,8 @@
     <string name="dialog_text_medicine_box_quantity_info">Informe a quantidade desse medicamento presente na caixa</string>
     <string name="dialog_text_medicine_box_position_info">Informe o número referente a posição do medicamento na caixa</string>
 
+    <string name="dialog_change_name_title">Altere o Nome da Caixa</string>
+    <string name="dialog_change_name_hint">Nome da Caixa</string>
     <!-- Dias da semana-->
     <string name="sunday">D</string>
     <string name="monday">S</string>

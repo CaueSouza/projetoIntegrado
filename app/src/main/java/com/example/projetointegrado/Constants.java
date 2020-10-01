@@ -9,6 +9,7 @@ public class Constants {
     public static final String CREATE_ALARM = "Usuario/alarme";//POST PARA CRIAR ALARME
     public static final String MODIFY_ALARM = "Usuario/alarme/atualizar";//POST PARA ALTERAR UM ALARME
     public static final String DELETE_ALARM = "Usuario/alarme/excluir";//POST PARA ALTERAR UM ALARME
+    public static final String CREATE_UPDATE_BOX = "Usuario/caixa";//POST PARA CRIAR E ALTERAR UMA CAIXA
 
     public static final String ALARM_TYPE = "alarm_type";//1 == fixo 2 == intervalo
     public static final String MEDICINE_TYPE = "medicine_type";//1 == pilula 2 == liquid
@@ -33,4 +34,9 @@ public class Constants {
     public static final String LUMINOSO = "luminoso";
     public static final String SONORO = "sonoro";
     public static final String BOX_POSITION = "posCaixa";
+
+    public static final String ID_USUARIO = "id";
+    public static final String ID_CAIXA = "idCaixa";
+    public static final String NOME_CAIXA = "nomeCaixa";
+    public static final String MUDAR_USUARIO = "mudarUsuario";
 }

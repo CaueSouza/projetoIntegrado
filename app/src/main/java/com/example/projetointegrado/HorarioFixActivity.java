@@ -35,6 +35,7 @@ import static com.example.projetointegrado.Constants.BOX_POSITION;
 import static com.example.projetointegrado.Constants.DOMINGO;
 import static com.example.projetointegrado.Constants.DOSAGEM;
 import static com.example.projetointegrado.Constants.HORA;
+import static com.example.projetointegrado.Constants.ID_USUARIO;
 import static com.example.projetointegrado.Constants.LUMINOSO;
 import static com.example.projetointegrado.Constants.MEDICINE_TYPE;
 import static com.example.projetointegrado.Constants.MINUTO;
@@ -223,6 +224,7 @@ public class HorarioFixActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("OPEN_ALARM_FRAG", true);
                     startActivity(intent);
                     finish();
                 } else
@@ -286,6 +288,7 @@ public class HorarioFixActivity extends AppCompatActivity {
                     createAlarmIntent(hora, minuto, dias, notificationId);
                     Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("OPEN_ALARM_FRAG", true);
                     startActivity(intent);
                     finish();
                 } else
@@ -335,7 +338,7 @@ public class HorarioFixActivity extends AppCompatActivity {
             novoAlarme.put(SONORO, String.valueOf(sonoro));
             novoAlarme.put(BOX_POSITION, String.valueOf(posCaixa));
 
-            root.put("id", UserIdSingleton.getInstance().getUserId());
+            root.put(ID_USUARIO, UserIdSingleton.getInstance().getUserId());
             root.put("velhoAlarme", velhoAlarme);
             root.put("novoAlarme", novoAlarme);
 
@@ -377,7 +380,7 @@ public class HorarioFixActivity extends AppCompatActivity {
             novoAlarme.put(SONORO, String.valueOf(sonoro));
             novoAlarme.put(BOX_POSITION, String.valueOf(posCaixa));
 
-            root.put("id", UserIdSingleton.getInstance().getUserId());
+            root.put(ID_USUARIO, UserIdSingleton.getInstance().getUserId());
             root.put("novoAlarme", novoAlarme);
 
             return root.toString();
