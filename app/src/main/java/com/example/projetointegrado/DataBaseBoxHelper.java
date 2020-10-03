@@ -56,7 +56,7 @@ public class DataBaseBoxHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL0, id);
         contentValues.put(COL1, idCaixa);
-        contentValues.put(COL1, nome);
+        contentValues.put(COL2, nome);
 
         db.update(TABLE_NAME, contentValues, "ID = ?", new String[]{id});
         return true;

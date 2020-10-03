@@ -37,4 +37,7 @@ public interface JsonPlaceHolderApi {
 
     @POST(Constants.CREATE_UPDATE_BOX)
     Call<JsonObject> postCreateUpdateBox(@Body JsonObject body);
+
+    @POST(Constants.DELETE_BOX)
+    Call<JsonObject> postDeleteBox(@Body JsonObject body);
 }

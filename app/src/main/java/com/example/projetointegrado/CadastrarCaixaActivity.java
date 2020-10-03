@@ -184,7 +184,7 @@ public class CadastrarCaixaActivity extends AppCompatActivity {
             root.put(ID_USUARIO, UserIdSingleton.getInstance().getUserId());
             root.put(ID_CAIXA, String.valueOf(idCaixa));
             root.put(NOME_CAIXA, String.valueOf(nome));
-            root.put(MUDAR_USUARIO, String.valueOf(true));
+            root.put(MUDAR_USUARIO, String.valueOf(false));
 
             return root.toString();
         } catch (JSONException e) {

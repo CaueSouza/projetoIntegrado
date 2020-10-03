@@ -31,9 +31,10 @@ public class FragmentCaixas extends Fragment {
         ArrayList<CaixaItem> caixas = new ArrayList<>();
 
         while (data.moveToNext()) {
-            String nome = data.getString(1);
+            String idCaixa = data.getString(1);
+            String nome = data.getString(2);
 
-            CaixaItem caixa = new CaixaItem(nome);
+            CaixaItem caixa = new CaixaItem(idCaixa, nome);
             caixas.add(caixa);
         }
 

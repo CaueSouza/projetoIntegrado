@@ -31,9 +31,11 @@ import static com.example.projetointegrado.Constants.BOX_POSITION;
 import static com.example.projetointegrado.Constants.DOMINGO;
 import static com.example.projetointegrado.Constants.DOSAGEM;
 import static com.example.projetointegrado.Constants.HORA;
+import static com.example.projetointegrado.Constants.ID_CAIXA;
 import static com.example.projetointegrado.Constants.LUMINOSO;
 import static com.example.projetointegrado.Constants.MEDICINE_TYPE;
 import static com.example.projetointegrado.Constants.MINUTO;
+import static com.example.projetointegrado.Constants.NOME_CAIXA;
 import static com.example.projetointegrado.Constants.NOME_REMEDIO;
 import static com.example.projetointegrado.Constants.NOTIFICATION_ID;
 import static com.example.projetointegrado.Constants.PERIODO_HORA;
@@ -290,10 +292,9 @@ public class LoginActivity extends AppCompatActivity {
                         JsonElement jsonElement = boxArray.get(i);
                         JsonObject jsonBox = jsonElement.getAsJsonObject();
 
-                        //TODO FIX CONSTANTS
                         mDataBaseBoxHelper.addData(
-                                jsonBox.get("id").getAsString(),//ID_CAIXA
-                                jsonBox.get("nome").getAsString());//NOME_CAIXA
+                                jsonBox.get(ID_CAIXA).getAsString(),
+                                jsonBox.get(NOME_CAIXA).getAsString());
                     }
                 }
 

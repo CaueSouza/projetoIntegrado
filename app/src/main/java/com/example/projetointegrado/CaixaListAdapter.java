@@ -111,7 +111,7 @@ public class CaixaListAdapter extends ArrayAdapter<CaixaItem> {
 
             builder.setMessage(R.string.dialog_message)
                     .setTitle(R.string.dialog_title)
-                    .setPositiveButton(R.string.ok, (dialog, id) -> dialog.dismiss()/*createPostDeleteBox(position)*/)
+                    .setPositiveButton(R.string.ok, (dialog, id) -> createPostDeleteBox(position, getItem(position).getIdCaixa()))
                     .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
 
             AlertDialog dialog = builder.create();
@@ -123,7 +123,7 @@ public class CaixaListAdapter extends ArrayAdapter<CaixaItem> {
 
 
     private void createPostUpdateBox(View convertView, int position, String idCaixa, String novoNome) {
-        String requestStr = formatJSONUpdateAlarm(idCaixa, novoNome);
+        String requestStr = formatJSONUpdateBox(idCaixa, novoNome);
         JsonObject request = JsonParser.parseString(requestStr).getAsJsonObject();
 
         Call<JsonObject> call = jsonPlaceHolderApi.postCreateUpdateBox(request);
@@ -155,7 +155,7 @@ public class CaixaListAdapter extends ArrayAdapter<CaixaItem> {
         });
     }
 
-    private String formatJSONUpdateAlarm(String idCaixa, String nome) {
+    private String formatJSONUpdateBox(String idCaixa, String nome) {
         final JSONObject root = new JSONObject();
 
         try {
@@ -172,55 +172,52 @@ public class CaixaListAdapter extends ArrayAdapter<CaixaItem> {
         return null;
     }
 
-//    private void createPostDeleteBox(int position/*, nome, horas, minutos*/){
-//        String requestStr = formatJSON(/*nome, horas, minutos*/);
-//        JsonObject request = JsonParser.parseString(requestStr).getAsJsonObject();
-//
-//        Call<JsonObject> call = jsonPlaceHolderApi.postDeleteAlarm(request);
-//
-//        call.enqueue(new Callback<JsonObject>() {
-//            @Override
-//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//
-//                if (!response.isSuccessful()) {
-//                    Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                Cursor data = mDataBaseBoxHelper.getData();
-//                data.move(position + 1);
-//                int isDeleted = mDataBaseBoxHelper.removeData(String.valueOf(data.getInt(0)));
-//
-//                if (isDeleted > 0) {
-//                    CaixaListAdapter.this.remove(getItem(position));
-//                    CaixaListAdapter.this.notifyDataSetChanged();
-//                } else Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
-//
-//                Log.e(TAG, "onResponse: " + response);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<JsonObject> call, Throwable t) {
-//                Log.e(TAG, "onFailure:" + t);
-//            }
-//        });
-//    }
+    private void createPostDeleteBox(int position, String idCaixa){
+        String requestStr = formatJSONDeleteBox(idCaixa);
+        JsonObject request = JsonParser.parseString(requestStr).getAsJsonObject();
 
-//    private String formatJSON(/*String velhoNome, int velhaHora, int velhoMinuto*/) {
-//        final JSONObject root = new JSONObject();
-//
-//        try {
-//            JSONObject velhoAlarme = new JSONObject();
-//            velhoAlarme.put(NOME_REMEDIO, velhoNome);
-//            velhoAlarme.put(HORA, String.valueOf(velhaHora));
-//            velhoAlarme.put(MINUTO, String.valueOf(velhoMinuto));
-//
-//            root.put(ID_USUARIO, UserIdSingleton.getInstance().getUserId());
-//            root.put("velhoAlarme", velhoAlarme);
-//
-//            return root.toString();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+        Call<JsonObject> call = jsonPlaceHolderApi.postDeleteBox(request);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Cursor data = mDataBaseBoxHelper.getData();
+                data.move(position + 1);
+
+                int isDeleted = mDataBaseBoxHelper.removeData(String.valueOf(data.getInt(0)));
+
+                if (isDeleted > 0) {
+                    CaixaListAdapter.this.remove(getItem(position));
+                    CaixaListAdapter.this.notifyDataSetChanged();
+                } else Toast.makeText(getContext(), "Algo deu errado", Toast.LENGTH_LONG).show();
+
+                Log.e(TAG, "onResponse: " + response);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "onFailure:" + t);
+            }
+        });
+    }
+
+    private String formatJSONDeleteBox(String idCaixa) {
+        final JSONObject root = new JSONObject();
+
+        try {
+            root.put(ID_USUARIO, UserIdSingleton.getInstance().getUserId());
+            root.put(ID_CAIXA, idCaixa);
+
+            return root.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
