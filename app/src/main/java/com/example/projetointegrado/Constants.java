@@ -40,4 +40,6 @@ public class Constants {
     public static final String ID_CAIXA = "idCaixa";
     public static final String NOME_CAIXA = "nomeCaixa";
     public static final String MUDAR_USUARIO = "mudarUsuario";
+
+    public static final String OPEN_BOX_FRAG = "open_box_frag";
 }

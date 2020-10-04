@@ -47,6 +47,7 @@ public class CaixaListAdapter extends ArrayAdapter<CaixaItem> {
     private DataBaseBoxHelper mDataBaseBoxHelper;
     private JsonPlaceHolderApi jsonPlaceHolderApi;
     private EditText editTextName;
+    private Cursor data;
 
     CaixaListAdapter(Context context, int resource, ArrayList<CaixaItem> objects) {
         super(context, resource, objects);
@@ -66,16 +67,14 @@ public class CaixaListAdapter extends ArrayAdapter<CaixaItem> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        String nome = getItem(position).getNome();
-
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-        TextView nameView = convertView.findViewById(R.id.box_name);
-        nameView.setText(nome);
+        loadDataToView(convertView, position);
+
+        ConstraintLayout constraintLayout = convertView.findViewById(R.id.caixa_list_layout);
 
         View finalConvertView = convertView;
-        ConstraintLayout constraintLayout = convertView.findViewById(R.id.caixa_list_layout);
         constraintLayout.setOnClickListener(v -> {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -87,7 +86,7 @@ public class CaixaListAdapter extends ArrayAdapter<CaixaItem> {
                     .setTitle(R.string.dialog_change_name_title)
                     .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss())
                     .setPositiveButton(R.string.ok, (dialog, which) -> {
-                        Cursor data = mDataBaseBoxHelper.getData();
+                        data = mDataBaseBoxHelper.getData();
                         data.move(position + 1);
 
                         String novoNome = editTextName.getText().toString();
@@ -121,6 +120,13 @@ public class CaixaListAdapter extends ArrayAdapter<CaixaItem> {
         return convertView;
     }
 
+    private void loadDataToView(View view, int position){
+        data = mDataBaseBoxHelper.getData();
+        data.move(position + 1);
+
+        TextView nameView = view.findViewById(R.id.box_name);
+        nameView.setText(data.getString(2));
+    }
 
     private void createPostUpdateBox(View convertView, int position, String idCaixa, String novoNome) {
         String requestStr = formatJSONUpdateBox(idCaixa, novoNome);
@@ -141,8 +147,6 @@ public class CaixaListAdapter extends ArrayAdapter<CaixaItem> {
                         idCaixa,
                         novoNome);
 
-                TextView nameView = convertView.findViewById(R.id.box_name);
-                nameView.setText(novoNome);
                 notifyDataSetChanged();
 
                 Log.e(TAG, "onResponse: " + response);

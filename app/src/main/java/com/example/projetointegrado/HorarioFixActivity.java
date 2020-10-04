@@ -41,6 +41,7 @@ import static com.example.projetointegrado.Constants.MEDICINE_TYPE;
 import static com.example.projetointegrado.Constants.MINUTO;
 import static com.example.projetointegrado.Constants.NOME_REMEDIO;
 import static com.example.projetointegrado.Constants.NOTIFICATION_ID;
+import static com.example.projetointegrado.Constants.OPEN_BOX_FRAG;
 import static com.example.projetointegrado.Constants.PERIODO_HORA;
 import static com.example.projetointegrado.Constants.PERIODO_MIN;
 import static com.example.projetointegrado.Constants.QUANTIDADE;
@@ -224,7 +225,7 @@ public class HorarioFixActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("OPEN_ALARM_FRAG", true);
+                    intent.putExtra(OPEN_BOX_FRAG, false);
                     startActivity(intent);
                     finish();
                 } else
@@ -288,7 +289,7 @@ public class HorarioFixActivity extends AppCompatActivity {
                     createAlarmIntent(hora, minuto, dias, notificationId);
                     Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("OPEN_ALARM_FRAG", true);
+                    intent.putExtra(OPEN_BOX_FRAG, false);
                     startActivity(intent);
                     finish();
                 } else

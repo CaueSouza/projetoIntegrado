@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.projetointegrado.databinding.ActivityFragmentsBinding;
 
+import static com.example.projetointegrado.Constants.OPEN_BOX_FRAG;
+
 public class FragmentsActivity extends AppCompatActivity {
 
     private ActivityFragmentsBinding binding;
@@ -65,7 +67,7 @@ public class FragmentsActivity extends AppCompatActivity {
             }
         });
 
-        binding.bottomNavigation.setSelectedItemId(getIntent().getBooleanExtra("OPEN_ALARM_FRAG", false) ? R.id.nav_alarmes : R.id.nav_caixas);
+        binding.bottomNavigation.setSelectedItemId(getIntent().getBooleanExtra(OPEN_BOX_FRAG, false) ? R.id.nav_caixas : R.id.nav_alarmes);
         binding.bottomNavigation.performClick();
     }
 

@@ -38,6 +38,7 @@ import static com.example.projetointegrado.Constants.MINUTO;
 import static com.example.projetointegrado.Constants.NOME_CAIXA;
 import static com.example.projetointegrado.Constants.NOME_REMEDIO;
 import static com.example.projetointegrado.Constants.NOTIFICATION_ID;
+import static com.example.projetointegrado.Constants.OPEN_BOX_FRAG;
 import static com.example.projetointegrado.Constants.PERIODO_HORA;
 import static com.example.projetointegrado.Constants.PERIODO_MIN;
 import static com.example.projetointegrado.Constants.QUANTIDADE;
@@ -299,7 +300,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 Intent intent = new Intent(LoginActivity.this, FragmentsActivity.class);
-                intent.putExtra("OPEN_ALARM_FRAG", true);
+                intent.putExtra(OPEN_BOX_FRAG, false);
                 startActivity(intent);
                 finish();
 

@@ -41,6 +41,7 @@ import static com.example.projetointegrado.Constants.ID_CAIXA;
 import static com.example.projetointegrado.Constants.ID_USUARIO;
 import static com.example.projetointegrado.Constants.MUDAR_USUARIO;
 import static com.example.projetointegrado.Constants.NOME_CAIXA;
+import static com.example.projetointegrado.Constants.OPEN_BOX_FRAG;
 
 public class CadastrarCaixaActivity extends AppCompatActivity {
 
@@ -160,7 +161,7 @@ public class CadastrarCaixaActivity extends AppCompatActivity {
                     if (confirmation) {
                         Intent intent = new Intent(getBaseContext(), FragmentsActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("OPEN_ALARM_FRAG", false);
+                        intent.putExtra(OPEN_BOX_FRAG, true);
                         startActivity(intent);
                         finish();
                     } else

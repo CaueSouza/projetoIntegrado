@@ -19,6 +19,7 @@ public class AllMedicinesActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ArrayList<String> allMedicinesNames = getIntent().getStringArrayListExtra("MEDICINE_NAME_LIST");
 
