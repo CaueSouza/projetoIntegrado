@@ -31,11 +31,14 @@ import static com.example.projetointegrado.Constants.BOX_POSITION;
 import static com.example.projetointegrado.Constants.DOMINGO;
 import static com.example.projetointegrado.Constants.DOSAGEM;
 import static com.example.projetointegrado.Constants.HORA;
+import static com.example.projetointegrado.Constants.ID_CAIXA;
 import static com.example.projetointegrado.Constants.LUMINOSO;
 import static com.example.projetointegrado.Constants.MEDICINE_TYPE;
 import static com.example.projetointegrado.Constants.MINUTO;
+import static com.example.projetointegrado.Constants.NOME_CAIXA;
 import static com.example.projetointegrado.Constants.NOME_REMEDIO;
 import static com.example.projetointegrado.Constants.NOTIFICATION_ID;
+import static com.example.projetointegrado.Constants.OPEN_BOX_FRAG;
 import static com.example.projetointegrado.Constants.PERIODO_HORA;
 import static com.example.projetointegrado.Constants.PERIODO_MIN;
 import static com.example.projetointegrado.Constants.QUANTIDADE;
@@ -291,12 +294,13 @@ public class LoginActivity extends AppCompatActivity {
                         JsonObject jsonBox = jsonElement.getAsJsonObject();
 
                         mDataBaseBoxHelper.addData(
-                                jsonBox.get("nomeCaixa").getAsString(),
-                                jsonBox.get("id").getAsString());
+                                jsonBox.get(ID_CAIXA).getAsString(),
+                                jsonBox.get(NOME_CAIXA).getAsString());
                     }
                 }
 
                 Intent intent = new Intent(LoginActivity.this, FragmentsActivity.class);
+                intent.putExtra(OPEN_BOX_FRAG, false);
                 startActivity(intent);
                 finish();
 

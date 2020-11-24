@@ -11,6 +11,8 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
+import static com.example.projetointegrado.Constants.ID_USUARIO;
+
 public interface JsonPlaceHolderApi {
 
     @POST(Constants.CREATE_USER)
@@ -22,7 +24,7 @@ public interface JsonPlaceHolderApi {
 
     @FormUrlEncoded
     @POST(Constants.USER_DATA)
-    Call<JsonObject> postUserData(@Field("id") String id);
+    Call<JsonObject> postUserData(@Field(ID_USUARIO) String id);
 
     @POST(Constants.CREATE_ALARM)
     Call<JsonObject> postCreateAlarm(@Body JsonObject body);
@@ -32,4 +34,10 @@ public interface JsonPlaceHolderApi {
 
     @POST(Constants.DELETE_ALARM)
     Call<JsonObject> postDeleteAlarm(@Body JsonObject body);
+
+    @POST(Constants.CREATE_UPDATE_BOX)
+    Call<JsonObject> postCreateUpdateBox(@Body JsonObject body);
+
+    @POST(Constants.DELETE_BOX)
+    Call<JsonObject> postDeleteBox(@Body JsonObject body);
 }
