@@ -159,7 +159,7 @@ public class AlarmeListAdapter extends ArrayAdapter<AlarmeItem> {
             builder.setMessage(R.string.dialog_message)
                     .setTitle(R.string.dialog_title);
 
-            builder.setPositiveButton(R.string.ok, (dialog, id) -> createPostDeleteAlarm(position, nome, horas, minutos));
+            builder.setPositiveButton(R.string.ok, (dialog, id) -> createPostDeleteAlarm(position, item.getNome(), item.getHora(), item.getMinuto()));
 
             builder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
 

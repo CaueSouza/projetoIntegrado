@@ -96,6 +96,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
             binding.infQuantity.setVisibility(View.VISIBLE);
             binding.infBoxQuantityLayout.setVisibility(View.VISIBLE);
             binding.infBoxPositionLayout.setVisibility(View.VISIBLE);
+            binding.radioButtonMedicineTypeLiquid.setChecked(false);
         });
 
         binding.radioButtonMedicineTypeLiquid.setOnClickListener(v -> {
@@ -103,6 +104,7 @@ public class CadastrarAlarmeActivity extends AppCompatActivity {
             binding.infQuantity.setVisibility(View.GONE);
             binding.infBoxQuantityLayout.setVisibility(View.GONE);
             binding.infBoxPositionLayout.setVisibility(View.GONE);
+            binding.radioButtonMedicineTypePill.setChecked(false);
         });
 
         binding.radioButtonRegisterMedicineInterval.setOnClickListener(v -> {
