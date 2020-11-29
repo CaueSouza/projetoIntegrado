@@ -19,7 +19,6 @@
         <activity android:name=".IntervaloHorarioActivity" />
         <activity android:name=".HorarioFixActivity" />
         <activity android:name=".CadastrarAlarmeActivity" />
-        <activity android:name=".ReconhecimentoCaixaActivity" />
         <activity
             android:name=".FragmentsActivity"
             android:parentActivityName=".MainActivity" />
